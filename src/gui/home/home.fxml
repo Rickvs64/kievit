@@ -1,8 +1,68 @@
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.GridPane?>
+<?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<GridPane fx:controller="gui.home.Controller"
-          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
-</GridPane>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="542.0" prefWidth="896.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="332.0" layoutY="146.0" text="Home menu">
+         <font>
+            <Font name="System Bold" size="40.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="112.0" fitWidth="200.0" layoutX="348.0" layoutY="14.0">
+         <image>
+            <Image url="@../../resources/img/logo.png" />
+         </image>
+      </ImageView>
+      <ImageView id="img_join" fitHeight="300.0" fitWidth="237.0" layoutX="191.0" layoutY="228.0">
+         <image>
+            <Image url="@../../resources/img/egg-silhouette.png" />
+         </image>
+      </ImageView>
+      <ImageView id="img_create" fitHeight="300.0" fitWidth="237.0" layoutX="468.0" layoutY="228.0">
+         <image>
+            <Image url="@../../resources/img/egg-silhouette.png" />
+         </image>
+      </ImageView>
+      <ImageView id="img_shop" fitHeight="200.0" fitWidth="158.0" layoutX="14.0" layoutY="228.0">
+         <image>
+            <Image url="@../../resources/img/egg-silhouette.png" />
+         </image>
+      </ImageView>
+      <ImageView id="img_settings" fitHeight="200.0" fitWidth="158.0" layoutX="724.0" layoutY="228.0">
+         <image>
+            <Image url="@../../resources/img/egg-silhouette.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="258.0" layoutY="302.0" prefHeight="152.0" prefWidth="104.0" text="Join lobby" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="40.0" />
+         </font>
+      </Label>
+      <Label layoutX="527.0" layoutY="302.0" prefHeight="152.0" prefWidth="119.0" text="Create lobby" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="40.0" />
+         </font>
+      </Label>
+      <Label layoutX="41.0" layoutY="252.0" prefHeight="152.0" prefWidth="104.0" text="Open shop" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="26.0" />
+         </font>
+      </Label>
+      <Label layoutX="751.0" layoutY="252.0" prefHeight="152.0" prefWidth="104.0" text="Open settings" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="26.0" />
+         </font>
+      </Label>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="TRANSPARENT" height="92.0" layoutX="682.0" layoutY="14.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
+      <Label alignment="CENTER_RIGHT" layoutX="688.0" layoutY="21.0" prefHeight="21.0" prefWidth="189.0" text="Currently logged in as:" textAlignment="RIGHT" />
+      <Label id="lbl_credits" fx:id="lbl_credits" alignment="CENTER_RIGHT" layoutX="688.0" layoutY="78.0" prefHeight="21.0" prefWidth="189.0" text="★ 550" textAlignment="RIGHT" />
+      <Label id="lbl_username" fx:id="lbl_username" alignment="CENTER_RIGHT" layoutX="688.0" layoutY="50.0" prefHeight="21.0" prefWidth="189.0" text="TEMPTEXT" textAlignment="RIGHT" />
+   </children>
+</AnchorPane>

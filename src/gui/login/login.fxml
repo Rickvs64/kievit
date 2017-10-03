@@ -12,6 +12,12 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="542.0" prefWidth="896.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
+      <ImageView fitHeight="542.0" fitWidth="896.0" opacity="0.15">
+         <image>
+            <Image url="@../../resources/img/idea_from_sven.png" />
+         </image>
+      </ImageView>
+      <TextField id="txt_username" layoutX="277.0" layoutY="287.0" prefHeight="31.0" prefWidth="342.0" />
       <Label layoutX="277.0" layoutY="260.0" text="Username" />
       <Label layoutX="277.0" layoutY="342.0" text="Password" />
       <PasswordField id="txt_password" layoutX="277.0" layoutY="369.0" prefHeight="31.0" prefWidth="342.0" />
@@ -23,6 +29,5 @@
             <Image url="@../../resources/img/logo.png" />
          </image>
       </ImageView>
-      <TextField id="txt_username" layoutX="277.0" layoutY="287.0" prefHeight="31.0" prefWidth="342.0" />
    </children>
 </AnchorPane>
