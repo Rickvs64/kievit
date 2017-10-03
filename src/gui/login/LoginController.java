@@ -47,12 +47,12 @@ public class LoginController {
         // This is the JavaFX equivalent of sending data from one form to another in C#
         controller.setUser(test);
 
-        Scene scene = new Scene(root);
+        Scene homeScreen = new Scene(root);
 
         Stage stage;
         stage = (Stage) txt_username.getScene().getWindow();
 
-        stage.setScene(scene);
+        stage.setScene(homeScreen);
         stage.show();
     }
 }
