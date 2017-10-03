@@ -1,6 +1,7 @@
 package gui.login;
 
 import classes.User;
+import gui.home.HomeController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -34,18 +35,23 @@ public class LoginController {
         test.setUsername(txt_username.getText());
         test.setCredits(550);
 
+
+        // Set the next "page" (scene) to display.
+        // Note that an incorrect path will result in unexpected NullPointer exceptions!
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../home/home.fxml"));
+
+        Parent root = (Parent)fxmlLoader.load();
+        HomeController controller = fxmlLoader.<HomeController>getController();
+
+        // Run the setUser() method in HomeController.
+        // This is the JavaFX equivalent of sending data from one form to another in C#
+        controller.setUser(test);
+
+        Scene scene = new Scene(root);
+
         Stage stage;
-        Parent root;
         stage = (Stage) txt_username.getScene().getWindow();
 
-        // Make SURE the path to the fxml page is correctly set up.
-        // A NullPointer ("location is required") exception will occur otherwise.
-        root = FXMLLoader.load(getClass().getResource("../home/home.fxml"));
-
-        
-
-        // Create a new scene with root and set the stage
-        Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }

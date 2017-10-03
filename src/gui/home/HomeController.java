@@ -15,5 +15,11 @@ public class HomeController {
 
     public void setUser(User user) {
         this.user = user;
+        updateUserInfo();
+    }
+
+    private void updateUserInfo() {
+        lbl_username.setText(user.getUsername());
+        lbl_credits.setText("★ " + user.getCredits().toString());
     }
 }
