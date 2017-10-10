@@ -4,6 +4,12 @@ public class User {
     private String username;
     private Integer credits;
 
+
+    public User(String username, Integer credits) {
+        this.username = username;
+        this.credits = credits;
+    }
+
     public String getUsername() {
         return username;
     }
