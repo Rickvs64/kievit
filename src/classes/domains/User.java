@@ -1,4 +1,4 @@
-package classes;
+package classes.domains;
 
 public class User {
     private String username;
