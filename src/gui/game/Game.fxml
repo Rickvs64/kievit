@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="gridTemp" onKeyPressed="#handle" prefHeight="536.0" prefWidth="676.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.game.GameController">
+   <children>
+      <ImageView fx:id="grid" fitHeight="491.0" fitWidth="704.0" layoutX="20.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../resources/img/grid.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="Player" fitHeight="20.0" fitWidth="21.0" layoutX="54.0" layoutY="368.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../resources/img/player.png" />
+         </image>
+      </ImageView>
+
+   </children>
+</AnchorPane>
