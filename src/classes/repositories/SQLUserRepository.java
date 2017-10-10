@@ -36,7 +36,7 @@ public class SQLUserRepository implements IUserRepository {
     public Boolean checkUserExists(User user){
         try {
             Statement statement = connection.createStatement();
-            ResultSet result = statement.executeQuery("SELECT * FROM users WHERE username = '" + user.getUsername() + "' AND password='" + user.getPassword() + "';");
+            ResultSet result = statement.executeQuery("SELECT * FROM player WHERE username = '" + user.getUsername() + "' AND password='" + user.getPassword() + "';");
 
             if (!result.next()) {   // If next() returns false there are no matches
                 return false;
@@ -47,7 +47,7 @@ public class SQLUserRepository implements IUserRepository {
 
         }
         catch (Exception ex) {
-            // fuck all
+            // Fuck it.
             System.out.println("Something broke, try again later.");
             return false;
         }
