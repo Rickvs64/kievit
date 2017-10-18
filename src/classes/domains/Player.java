@@ -15,9 +15,22 @@ public class Player {
     private Image head;
     private Image tail;
 
-    public Player(int startX, int startY, Direction direction) {
-        this.head = new Image("@../../resources/img/head.png");
-        this.tail = new Image("@../../resources/img/tail.png");
+    public Player(int startX, int startY, Direction direction, int playerNumber) {
+        switch (playerNumber) {
+            case 1:
+                this.head = new Image("@../../resources/img/bird0.gif");
+                this.tail = new Image("@../../resources/img/poop0.gif");
+                break;
+            case 2:
+                this.head = new Image("@../../resources/img/bird1.gif");
+                this.tail = new Image("@../../resources/img/poop1.gif");
+                break;
+            default:
+                this.head = new Image("@../../resources/img/bird2.gif");
+                this.tail = new Image("@../../resources/img/poop2.gif");
+                break;
+        }
+
         this.currentDirection = direction;
         this.coordinates = new ArrayList<>();
         for (int i = 0; i < 12; i++) {

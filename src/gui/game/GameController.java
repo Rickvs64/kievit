@@ -28,8 +28,8 @@ public class GameController {
     private JavaFXPaintable paintable;
     private boolean first = true;
     public GameController() {
-        player1 = new Player(50,50,Direction.DOWN);
-        player2 = new Player(950,950,Direction.UP);
+        player1 = new Player(50,50,Direction.DOWN,1);
+        player2 = new Player(950,950,Direction.UP,2);
         playerTimer = new Timer();
         playerTimer.schedule(new TimerTask() {
             @Override
