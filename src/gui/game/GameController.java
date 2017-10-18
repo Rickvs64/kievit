@@ -1,81 +1,71 @@
 package gui.game;
 
-import javafx.application.Platform;
-import javafx.event.EventHandler;
+import classes.domains.Direction;
+import classes.domains.JavaFXPaintable;
+import classes.domains.Player;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 
+import javax.swing.*;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 
 public class GameController {
-    private DirectionEnum direction;
+    private Player player;
     private Timer playerTimer;
     @FXML
-    private ImageView Player;
-    @FXML
-    private ImageView grid;
+    private Canvas grid;
     @FXML
     private AnchorPane gridTemp;
-
+    private JavaFXPaintable paintable;
     private boolean first = true;
     public GameController() {
+        player = new Player();
 
-        direction = DirectionEnum.UP;
         playerTimer = new Timer();
         playerTimer.schedule(new TimerTask() {
             @Override
             public void run() {
                 UpdatePlayer();
             }
-        }, 1000 , 30);
+        }, 1000 , 50);
     }
 
         @FXML
         private void handle (KeyEvent event){
             KeyCode keyCode = event.getCode();
+            System.out.println("testing");
             switch( keyCode ) {
                 case UP:
-                    direction = DirectionEnum.UP;
+                    player.setCurrentDirection(Direction.UP);
                     break;
                 case DOWN:
-                    direction = DirectionEnum.DOWN;
+                    player.setCurrentDirection(Direction.DOWN);
                     break;
                 case LEFT:
-                    direction = DirectionEnum.LEFT;
+                    player.setCurrentDirection(Direction.LEFT);
                     break;
                 case RIGHT:
-                    direction = DirectionEnum.RIGHT;
+                    player.setCurrentDirection(Direction.RIGHT);
                     break;
             }
     }
     private void UpdatePlayer()
     {
-if (first)
-{
-    gridTemp.getScene().setOnKeyPressed(this::handle);
-    first = false;
-}
-        switch (direction){
-            case UP:
-                Player.setY(Player.getY() - 1);
-                break;
-            case DOWN:
-                Player.setY(Player.getY() + 1);
-                break;
-            case LEFT:
-                Player.setX(Player.getX() - 1);
-                break;
-            case RIGHT:
-                Player.setX(Player.getX() + 1);
-                break;
+        if (first)
+        {
+            paintable = new JavaFXPaintable(this.grid);
+            gridTemp.getScene().setOnKeyPressed(this::handle);
+            first = false;
         }
-
-
+        player.move();
+        paintable.drawPlayer(player);
     }
+
 }
