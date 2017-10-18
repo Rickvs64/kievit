@@ -96,6 +96,10 @@ public class GameController {
         player1.move();
         player2.move();
         paintable.draw(player1,player2);
+        if (player1.intersects(player2) || player2.intersects(player1))
+        {
+            playerTimer.cancel();
+        }
     }
 
 }

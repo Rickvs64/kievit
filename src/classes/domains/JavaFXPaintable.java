@@ -4,6 +4,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class JavaFXPaintable {
@@ -20,8 +21,15 @@ public class JavaFXPaintable {
     }
     public void drawPlayer(Player player)
     {
-        List<Integer> x = player.getX();
-        List<Integer> y = player.getY();
+
+        List<Integer> x = new ArrayList<>();
+        List<Integer> y = new ArrayList<>();
+        for (Coordinate c:player.getCoordinates()
+             ) {
+            x.add(c.getX());
+            y.add(c.getY());
+
+        }
         Image head = player.getHead();
         Image tail = player.getTail();
         gc.drawImage(head,x.get(0),y.get(0),20,20);
