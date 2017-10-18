@@ -43,16 +43,24 @@ public class GameController {
             System.out.println("testing");
             switch( keyCode ) {
                 case UP:
-                    player.setCurrentDirection(Direction.UP);
+                    if (player.getCurrentDirection() != Direction.DOWN) {
+                        player.setCurrentDirection(Direction.UP);
+                    }
                     break;
                 case DOWN:
-                    player.setCurrentDirection(Direction.DOWN);
+                    if (player.getCurrentDirection() != Direction.UP) {
+                        player.setCurrentDirection(Direction.DOWN);
+                    }
                     break;
                 case LEFT:
-                    player.setCurrentDirection(Direction.LEFT);
+                    if (player.getCurrentDirection() != Direction.RIGHT) {
+                        player.setCurrentDirection(Direction.LEFT);
+                    }
                     break;
                 case RIGHT:
-                    player.setCurrentDirection(Direction.RIGHT);
+                    if (player.getCurrentDirection() != Direction.LEFT) {
+                        player.setCurrentDirection(Direction.RIGHT);
+                    }
                     break;
             }
     }

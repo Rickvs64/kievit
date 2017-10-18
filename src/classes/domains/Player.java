@@ -19,14 +19,10 @@ public class Player {
         this.head = new Image("@../../resources/img/head.png");
         this.tail = new Image("@../../resources/img/tail.png");
         this.currentDirection = Direction.DOWN;
-        this.x.add(50);
-        this.x.add(50);
-        this.y.add(50);
-        this.y.add(30);
-        this.x.add(50);
-        this.y.add(10);
-        this.x.add(50);
-        this.y.add(-10);
+        for (int i = 0; i < 12; i++) {
+            x.add(50);
+            y.add(50);
+        }
     }
 
     public Direction getCurrentDirection() {
@@ -97,6 +93,7 @@ public class Player {
             this.x.add(x[i]);
             this.y.add(y[i]);
         }
+
 
     }
 }
