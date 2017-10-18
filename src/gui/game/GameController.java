@@ -92,6 +92,7 @@ public class GameController {
             paintable = new JavaFXPaintable(this.grid);
             gridTemp.getScene().setOnKeyPressed(this::handle);
             first = false;
+
         }
         player1.move();
         player2.move();

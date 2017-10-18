@@ -79,6 +79,15 @@ public class Player {
     }
 
     public boolean intersects(Player other) {
+        Coordinate head = coordinates.get(0);
+        for (Coordinate c:other.coordinates
+             ) {
+            if (c.getY() == head.getY() && c.getX() == head.getX())
+            {
+                System.out.println("NOT SURE IF IT WORKS CORRECTLY //Alex");
+                return true;
+            }
+        }
         return false;
     }
 
