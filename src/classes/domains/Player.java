@@ -15,13 +15,13 @@ public class Player {
     private StatusPlayer status;
     private Image head;
     private Image tail;
-    public Player() {
+    public Player(int startX,int startY,Direction direction) {
         this.head = new Image("@../../resources/img/head.png");
         this.tail = new Image("@../../resources/img/tail.png");
-        this.currentDirection = Direction.DOWN;
+        this.currentDirection = direction;
         for (int i = 0; i < 12; i++) {
-            x.add(50);
-            y.add(50);
+            x.add(startX);
+            y.add(startY);
         }
     }
 

@@ -8,9 +8,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="gridTemp" onKeyPressed="#handle" prefHeight="536.0" prefWidth="676.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.game.GameController">
+<AnchorPane fx:id="gridTemp" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#handle" prefHeight="1000.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.game.GameController">
    <children>
-      <Canvas fx:id="grid" height="500.0" layoutX="14.0" layoutY="14.0" width="500.0" />
+      <Canvas fx:id="grid" height="1000.0" layoutX="14.0" layoutY="14.0" width="1000.0" />
 
    </children>
 </AnchorPane>

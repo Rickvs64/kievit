@@ -12,10 +12,14 @@ public class JavaFXPaintable {
     public JavaFXPaintable(Canvas canvas) {
         gc = canvas.getGraphicsContext2D();
     }
-
+    public void draw(Player player1,Player player2)
+    {
+        gc.clearRect(0, 0, 1000, 1000);
+        drawPlayer(player1);
+        drawPlayer(player2);
+    }
     public void drawPlayer(Player player)
     {
-        gc.clearRect(0, 0, 500, 500);
         List<Integer> x = player.getX();
         List<Integer> y = player.getY();
         Image head = player.getHead();
@@ -25,5 +29,10 @@ public class JavaFXPaintable {
         {
             gc.drawImage(tail,x.get(i+1),y.get(i+1),20,20);
         }
+    }
+
+    public void drawGrid()
+    {
+        //TODO
     }
 }
