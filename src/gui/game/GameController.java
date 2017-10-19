@@ -3,6 +3,7 @@ package gui.game;
 import classes.domains.Direction;
 import classes.domains.JavaFXPaintable;
 import classes.domains.Player;
+import classes.domains.User;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -17,6 +18,7 @@ import java.util.TimerTask;
 public class GameController {
     private Player player1;
     private Player player2;
+    private User user;
     private AnimationTimer animationTimer;
     private Timer playerTimer;
     @FXML
@@ -48,6 +50,9 @@ public class GameController {
                 UpdatePlayer();
             }
         }, 0 , 50);
+    }
+    public void setUser(User user) {
+        this.user = user;
     }
 
         @FXML
