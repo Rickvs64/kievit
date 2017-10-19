@@ -19,6 +19,7 @@ public class GameController {
     private Player player1;
     private Player player2;
     private User user;
+    private User user2;
     private AnimationTimer animationTimer;
     private Timer playerTimer;
     @FXML
@@ -51,8 +52,9 @@ public class GameController {
             }
         }, 0 , 50);
     }
-    public void setUser(User user) {
+    public void setUsers(User user,User user2) {
         this.user = user;
+        this.user2 = user2;
     }
 
         @FXML
