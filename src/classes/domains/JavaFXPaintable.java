@@ -3,6 +3,7 @@ package classes.domains;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,11 +12,13 @@ public class JavaFXPaintable {
     private final GraphicsContext gc;
 
     public JavaFXPaintable(Canvas canvas) {
+        //canvas.setStyle("-fx-effect: innershadow(gaussian, #039ed3, 10, 1.0, 0, 0);");
         gc = canvas.getGraphicsContext2D();
     }
     public void draw(Player player1,Player player2)
     {
         gc.clearRect(0, 0, 1000, 1000);
+        //drawGrid();
         drawPlayer(player1);
         drawPlayer(player2);
     }
@@ -41,6 +44,7 @@ public class JavaFXPaintable {
 
     public void drawGrid()
     {
-        //TODO
+        //TODO : Maybe?
+        //gc.drawImage(new Image("@../../resources/img/testgrid.png"),0,0);
     }
 }

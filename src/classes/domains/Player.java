@@ -9,13 +9,19 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Player {
+    //user
+    private int userID;
+    //movement
     private Direction currentDirection;
     private List<Coordinate> coordinates;
     private StatusPlayer status;
+    //cosmetics
     private Image head;
     private Image tail;
 
-    public Player(int startX, int startY, Direction direction, int playerNumber) {
+    public Player(int startX, int startY, Direction direction, int playerNumber, int userID) {
+        //cosmetic based on playernumber //TODO : Cosmetic from shops
+        this.userID = userID;
         switch (playerNumber) {
             case 1:
                 this.head = new Image("@../../resources/img/bird0.gif");
@@ -33,7 +39,7 @@ public class Player {
 
         this.currentDirection = direction;
         this.coordinates = new ArrayList<>();
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < 1; i++) {
             coordinates.add(new Coordinate(startX,startY));
         }
     }
@@ -67,6 +73,7 @@ public class Player {
         return tail;
     }
 
+    //Moving the coordinates points  //TODO : move to better location (GameController etc.)
     public void move() {
         Coordinate temp = coordinates.get(0);
         switch (currentDirection) {
@@ -84,7 +91,7 @@ public class Player {
                 break;
         }
     }
-
+    //intersection with playerself or enemy //TODO intersection with grid and unittesting and possible enum for intersection
     public boolean intersects(Player other) {
         Coordinate head = coordinates.get(0);
         for (Coordinate c:other.coordinates

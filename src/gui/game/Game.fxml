@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="gridTemp" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#handle" prefHeight="1000.0" prefWidth="1000.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.game.GameController">
+<AnchorPane fx:id="gridTemp" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#handle" prefHeight="1014.0" prefWidth="1014.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.game.GameController">
    <children>
       <Canvas fx:id="grid" height="1000.0" layoutX="14.0" layoutY="14.0" width="1000.0" />
 

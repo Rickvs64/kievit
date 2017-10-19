@@ -3,16 +3,13 @@ package gui.game;
 import classes.domains.Direction;
 import classes.domains.JavaFXPaintable;
 import classes.domains.Player;
+import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 
-import javax.swing.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -20,6 +17,7 @@ import java.util.TimerTask;
 public class GameController {
     private Player player1;
     private Player player2;
+    private AnimationTimer animationTimer;
     private Timer playerTimer;
     @FXML
     private Canvas grid;
@@ -28,15 +26,28 @@ public class GameController {
     private JavaFXPaintable paintable;
     private boolean first = true;
     public GameController() {
-        player1 = new Player(50,50,Direction.DOWN,1);
-        player2 = new Player(950,950,Direction.UP,2);
+        player1 = new Player(50, 50, Direction.DOWN, 1, 0);
+        player2 = new Player(950, 950, Direction.UP, 2, 0);
+        animationTimer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                updateCanvas();
+                //TODO maybe new timer for intersection?
+                if (player1.intersects(player2) || player2.intersects(player1))
+                {
+                    animationTimer.stop();
+                    playerTimer.cancel();
+                }
+            }
+        };
+        animationTimer.start();
         playerTimer = new Timer();
         playerTimer.schedule(new TimerTask() {
             @Override
             public void run() {
                 UpdatePlayer();
             }
-        }, 1000 , 50);
+        }, 0 , 50);
     }
 
         @FXML
@@ -85,22 +96,27 @@ public class GameController {
                     break;
             }
     }
-    private void UpdatePlayer()
+    private void updateCanvas()
     {
         if (first)
         {
             paintable = new JavaFXPaintable(this.grid);
             gridTemp.getScene().setOnKeyPressed(this::handle);
             first = false;
-
         }
+        paintable.draw(player1,player2);
+    }
+    private void UpdatePlayer()
+    {
+        //if (first)
+        //{
+        //    paintable = new JavaFXPaintable(this.grid);
+        //    gridTemp.getScene().setOnKeyPressed(this::handle);
+        //    first = false;
+//
+        //}
         player1.move();
         player2.move();
-        paintable.draw(player1,player2);
-        if (player1.intersects(player2) || player2.intersects(player1))
-        {
-            playerTimer.cancel();
-        }
     }
 
 }

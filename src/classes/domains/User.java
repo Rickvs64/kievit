@@ -29,7 +29,7 @@ public class User {
         this.username = username;
     }
 
-    public String getPassword() { return password; }
+    public String getPassword() { return password; } //comment van Alex: dit is niet heel gebruikelijk, meestal wordt wachtwoord nooit lokaal opgeslagen
 
     public Integer getCredits() {
         return credits;
