@@ -139,25 +139,25 @@ public class Player {
     {
         Coordinate head = coordinates.get(0);
 
-        //Ga naar beneden
+        //Boven is geraakt, ga naar beneden.
         if((head.getX() >= 10 & head.getX() <= 970) & (head.getY() <= 18))
         {
             return "BOTTOM";
         }
 
-        //Ga naar boven
+        //Beneden is geraakt, ga naar boven.
         if((head.getX() >= 10 & head.getX() <= 970) & (head.getY() >= 743))
         {
             return "TOP";
         }
 
-        //Ga naar rechts
+        //Links is geraakt, ga naar rechts.
         if((head.getY() >= 10 & head.getY() <= 760) & (head.getX() <= 10))
         {
             return "RIGHT";
         }
 
-        //Ga naar links
+        //Rechts is geraakt, ga naar links. 
         if((head.getY() >= 10 & head.getY() <= 760) & (head.getX() >= 970))
         {
             return "LEFT";
