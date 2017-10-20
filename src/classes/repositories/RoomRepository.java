@@ -1,7 +1,11 @@
 package classes.repositories;
 
+import classes.domains.User;
+
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RoomRepository implements IRoomRepository {
     @Override
@@ -30,4 +34,22 @@ public class RoomRepository implements IRoomRepository {
         conn.close();
         return generatedKey;
     }
+    public List<User> getLobby(int roomID) throws SQLException, IOException, ClassNotFoundException {
+        List<User> users = new ArrayList<>();
+        String queryCreateRoom = "select username,credits from player p\n" +
+                "join player_room r on r.player_id=p.ID\n" +
+                "where r.room_id = ?;";
+        IConnection connection = new ConnectionManager();
+        Connection conn = connection.getConnection();
+        PreparedStatement preparedStmt = conn.prepareStatement(queryCreateRoom, Statement.RETURN_GENERATED_KEYS);
+        preparedStmt.setInt(1, roomID);
+        ResultSet rs = preparedStmt.executeQuery();
+        if (rs.next()) {
+            users.add(new User(rs.getString("username"),rs.getInt("credits")));
+        }
+        conn.close();
+        return users;
+    }
+
+
 }
