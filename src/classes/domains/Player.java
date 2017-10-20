@@ -117,22 +117,50 @@ public class Player {
     public boolean hitsGrid()
     {
         Coordinate head = coordinates.get(0);
-        System.out.println(head.getY());
 
         if(
                 //Check top
-                (head.getX() >= 10 & head.getX() <= 970) && (head.getY() <= 18) ||
+                (head.getX() >= 10 & head.getX() <= 970) & (head.getY() <= 18) ||
                 //Check bottom
-                (head.getX() >= 10 & head.getX() <= 970) && (head.getY() >= 743) ||
+                (head.getX() >= 10 & head.getX() <= 970) & (head.getY() >= 743) ||
 
                 //Check left
-                (head.getY() >= 10 & head.getY() <= 760) && (head.getX() <= 10) ||
+                (head.getY() >= 10 & head.getY() <= 760) & (head.getX() <= 10) ||
                 //Check right
-                (head.getY() >= 10 & head.getY() <= 760) && (head.getX() >= 970))
+                (head.getY() >= 10 & head.getY() <= 760) & (head.getX() >= 970))
         {
             return true;
         }
 
         return false;
+    }
+
+    public String determineDirection()
+    {
+        Coordinate head = coordinates.get(0);
+
+        //Ga naar beneden
+        if((head.getX() >= 10 & head.getX() <= 970) & (head.getY() <= 18))
+        {
+            return "BOTTOM";
+        }
+
+        //Ga naar boven
+        if((head.getX() >= 10 & head.getX() <= 970) & (head.getY() >= 743))
+        {
+            return "TOP";
+        }
+
+        //Ga naar rechts
+        if((head.getY() >= 10 & head.getY() <= 760) & (head.getX() <= 10))
+        {
+            return "RIGHT";
+        }
+
+        //Ga naar links
+        if((head.getY() >= 10 & head.getY() <= 760) & (head.getX() >= 970))
+        {
+            return "LEFT";
+        }
     }
 }
