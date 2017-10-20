@@ -15,6 +15,7 @@ import java.io.IOException;
 public class LobbyController {
     private User user;
     private User user2;
+    private int roomID;
     @FXML
     private Label lbl_username;
     @FXML
@@ -29,13 +30,16 @@ public class LobbyController {
         this.lbl_credits.setText(String.valueOf(this.user.getCredits()));
         setUser2();
     }
+    public void setRoom(int roomID){
+        this.roomID = roomID;
+    }
     public void setUser2() {
         this.user2 = user;
     }
     public void startGame() throws IOException {
         // Set the next "page" (scene) to display.
         // Note that an incorrect path will result in unexpected NullPointer exceptions!
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../game/Game.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/gui/game/Game.fxml"));
         Parent root = (Parent)fxmlLoader.load();
         GameController controller = fxmlLoader.<GameController>getController();
         // Run the setUser() method in HomeController.
