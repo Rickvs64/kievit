@@ -3,22 +3,30 @@ package classes.domains;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class JavaFXPaintable {
     private final GraphicsContext gc;
-
+    private Rectangle r;
     public JavaFXPaintable(Canvas canvas) {
-        //canvas.setStyle("-fx-effect: innershadow(gaussian, #039ed3, 10, 1.0, 0, 0);");
         gc = canvas.getGraphicsContext2D();
+
+
+        r = new Rectangle();
+        r.setX(50);
+        r.setY(50);
+        r.setWidth(200);
+        r.setHeight(100);
     }
     public void draw(Player player1,Player player2)
     {
         gc.clearRect(0, 0, 1000, 1000);
-        //drawGrid();
+        drawGrid();
         drawPlayer(player1);
         drawPlayer(player2);
     }
@@ -44,7 +52,15 @@ public class JavaFXPaintable {
 
     public void drawGrid()
     {
-        //TODO : Maybe?
-        //gc.drawImage(new Image("@../../resources/img/testgrid.png"),0,0);
+        gc.setStroke(Color.BLUE);
+        gc.setLineWidth(5);
+
+        //Boven / onder
+        gc.strokeLine(10, 10, 970, 10);
+        gc.strokeLine(10, 760, 970, 760);
+
+        //Links / rechts
+        gc.strokeLine(10, 10, 10, 760);
+        gc.strokeLine(970, 10, 970, 760);
     }
 }

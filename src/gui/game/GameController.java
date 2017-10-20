@@ -29,14 +29,14 @@ public class GameController {
     private JavaFXPaintable paintable;
     private boolean first = true;
     public GameController() {
-        player1 = new Player(50, 50, Direction.DOWN, 1, 0);
-        player2 = new Player(950, 950, Direction.UP, 2, 0);
+        player1 = new Player(50, 600, Direction.DOWN, 1, 0);
+        player2 = new Player(950, 600, Direction.UP, 2, 0);
         animationTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
                 updateCanvas();
                 //TODO maybe new timer for intersection?
-                if (player1.intersects(player2) || player2.intersects(player1))
+                if (player1.intersects(player2) || player2.intersects(player1) || player2.hitsGrid())
                 {
                     animationTimer.stop();
                     playerTimer.cancel();

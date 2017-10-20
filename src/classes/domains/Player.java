@@ -114,4 +114,25 @@ public class Player {
         return false;
     }
 
+    public boolean hitsGrid()
+    {
+        Coordinate head = coordinates.get(0);
+        System.out.println(head.getY());
+
+        if(
+                //Check top
+                (head.getX() >= 10 & head.getX() <= 970) && (head.getY() <= 18) ||
+                //Check bottom
+                (head.getX() >= 10 & head.getX() <= 970) && (head.getY() >= 743) ||
+
+                //Check left
+                (head.getY() >= 10 & head.getY() <= 760) && (head.getX() <= 10) ||
+                //Check right
+                (head.getY() >= 10 & head.getY() <= 760) && (head.getX() >= 970))
+        {
+            return true;
+        }
+
+        return false;
+    }
 }
