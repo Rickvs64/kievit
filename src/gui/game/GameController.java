@@ -10,7 +10,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -28,6 +27,7 @@ public class GameController {
     private AnchorPane gridTemp;
     private JavaFXPaintable paintable;
     private boolean first = true;
+
     public GameController() {
         player1 = new Player(50, 600, Direction.DOWN, 1, 0);
         player2 = new Player(950, 600, Direction.UP, 2, 0);
@@ -52,6 +52,7 @@ public class GameController {
             }
         }, 0 , 50);
     }
+
     public void setUsers(User user,User user2) {
         this.user = user;
         this.user2 = user2;
@@ -103,6 +104,7 @@ public class GameController {
                     break;
             }
     }
+
     private void updateCanvas()
     {
         if (first)
@@ -113,15 +115,9 @@ public class GameController {
         }
         paintable.draw(player1,player2);
     }
+
     private void UpdatePlayer()
     {
-        //if (first)
-        //{
-        //    paintable = new JavaFXPaintable(this.grid);
-        //    gridTemp.getScene().setOnKeyPressed(this::handle);
-        //    first = false;
-//
-        //}
         player1.move();
         player2.move();
     }
