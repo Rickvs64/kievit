@@ -10,6 +10,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -25,8 +27,13 @@ public class GameController {
     private Canvas grid;
     @FXML
     private AnchorPane gridTemp;
+
+    @FXML
+    private Text txtPoints;
+
     private JavaFXPaintable paintable;
     private boolean first = true;
+    private Integer points = 0;
 
     public GameController() {
         player1 = new Player(50, 600, Direction.DOWN, 1, 0);
@@ -40,7 +47,10 @@ public class GameController {
                 {
                     animationTimer.stop();
                     playerTimer.cancel();
+                    txtPoints.setText("Aantal punten: " + points / 40);
                 }
+
+                points++;
             }
         };
         animationTimer.start();

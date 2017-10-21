@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.canvas.*?>
 <?import javafx.scene.image.*?>
 <?import java.lang.*?>
@@ -11,6 +12,11 @@
 <AnchorPane fx:id="gridTemp" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#handle" prefHeight="1014.0" prefWidth="1014.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.game.GameController">
    <children>
       <Canvas fx:id="grid" height="1000.0" layoutX="14.0" layoutY="14.0" width="1000.0" />
+      <Text fx:id="txtPoints" fill="RED" layoutX="290.0" layoutY="343.0" strokeType="OUTSIDE" strokeWidth="0.0">
+         <font>
+            <Font size="65.0" />
+         </font>
+      </Text>
 
    </children>
 </AnchorPane>
