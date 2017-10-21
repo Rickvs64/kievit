@@ -1,6 +1,6 @@
 package gui.home;
 
-import classes.User;
+import classes.domains.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
