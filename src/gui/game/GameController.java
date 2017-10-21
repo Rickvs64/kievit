@@ -81,51 +81,51 @@ public class GameController {
         this.user2 = user2;
     }
 
-        @FXML
-        private void handle (KeyEvent event){
-            KeyCode keyCode = event.getCode();
-            switch( keyCode ) {
-                case UP:
-                    if (player1.getCurrentDirection() != Direction.DOWN) {
-                        player1.setCurrentDirection(Direction.UP);
-                    }
-                    break;
-                case DOWN:
-                    if (player1.getCurrentDirection() != Direction.UP) {
-                        player1.setCurrentDirection(Direction.DOWN);
-                    }
-                    break;
-                case LEFT:
-                    if (player1.getCurrentDirection() != Direction.RIGHT) {
-                        player1.setCurrentDirection(Direction.LEFT);
-                    }
-                    break;
-                case RIGHT:
-                    if (player1.getCurrentDirection() != Direction.LEFT) {
-                        player1.setCurrentDirection(Direction.RIGHT);
-                    }
-                    break;
-                case W:
-                    if (player2.getCurrentDirection() != Direction.DOWN) {
-                        player2.setCurrentDirection(Direction.UP);
-                    }
-                    break;
-                case S:
-                    if (player2.getCurrentDirection() != Direction.UP) {
-                        player2.setCurrentDirection(Direction.DOWN);
-                    }
-                    break;
-                case A:
-                    if (player2.getCurrentDirection() != Direction.RIGHT) {
-                        player2.setCurrentDirection(Direction.LEFT);
-                    }
-                    break;
-                case D:
-                    if (player2.getCurrentDirection() != Direction.LEFT) {
-                        player2.setCurrentDirection(Direction.RIGHT);
-                    }
-                    break;
-            }
+    @FXML
+    private void handle (KeyEvent event){
+        KeyCode keyCode = event.getCode();
+        switch( keyCode ) {
+            case UP:
+                if (player1.getCurrentDirection() != Direction.DOWN) {
+                    player1.setCurrentDirection(Direction.UP);
+                }
+                break;
+            case DOWN:
+                if (player1.getCurrentDirection() != Direction.UP) {
+                    player1.setCurrentDirection(Direction.DOWN);
+                }
+                break;
+            case LEFT:
+                if (player1.getCurrentDirection() != Direction.RIGHT) {
+                    player1.setCurrentDirection(Direction.LEFT);
+                }
+                break;
+            case RIGHT:
+                if (player1.getCurrentDirection() != Direction.LEFT) {
+                    player1.setCurrentDirection(Direction.RIGHT);
+                }
+                break;
+            case W:
+                if (player2.getCurrentDirection() != Direction.DOWN) {
+                    player2.setCurrentDirection(Direction.UP);
+                }
+                break;
+            case S:
+                if (player2.getCurrentDirection() != Direction.UP) {
+                    player2.setCurrentDirection(Direction.DOWN);
+                }
+                break;
+            case A:
+                if (player2.getCurrentDirection() != Direction.RIGHT) {
+                    player2.setCurrentDirection(Direction.LEFT);
+                }
+                break;
+            case D:
+                if (player2.getCurrentDirection() != Direction.LEFT) {
+                    player2.setCurrentDirection(Direction.RIGHT);
+                }
+                break;
+        }
     }
 
     private void updateCanvas()
@@ -146,3 +146,4 @@ public class GameController {
     }
 
 }
+
