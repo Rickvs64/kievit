@@ -73,7 +73,6 @@ public class Player {
         return tail;
     }
 
-    //Moving the coordinates points  //TODO : move to better location (GameController etc.)
     public void move() {
         Coordinate temp = coordinates.get(0);
         switch (currentDirection) {
@@ -91,7 +90,7 @@ public class Player {
                 break;
         }
     }
-    //intersection with playerself or enemy //TODO intersection with grid and unittesting and possible enum for intersection
+
     public boolean intersects(Player other) {
         Coordinate head = coordinates.get(0);
         for (Coordinate c:other.coordinates
@@ -120,47 +119,18 @@ public class Player {
 
         if(
             //Check top
-                (head.getX() >= 10 & head.getX() <= 970) & (head.getY() <= 18) ||
-                        //Check bottom
-                        (head.getX() >= 10 & head.getX() <= 970) & (head.getY() >= 743) ||
+            (head.getX() >= 10 & head.getX() <= 970) & (head.getY() <= 18) ||
+            //Check bottom
+            (head.getX() >= 10 & head.getX() <= 970) & (head.getY() >= 743) ||
 
-                        //Check left
-                        (head.getY() >= 10 & head.getY() <= 760) & (head.getX() <= 10) ||
-                        //Check right
-                        (head.getY() >= 10 & head.getY() <= 760) & (head.getX() >= 970))
+            //Check left
+            (head.getY() >= 10 & head.getY() <= 760) & (head.getX() <= 10) ||
+            //Check right
+            (head.getY() >= 10 & head.getY() <= 760) & (head.getX() >= 970))
         {
             return true;
         }
 
         return false;
     }
-
-//    public String determineDirection()
-//    {
-//        Coordinate head = coordinates.get(0);
-//
-//        //Boven is geraakt, ga naar beneden.
-//        if((head.getX() >= 10 & head.getX() <= 970) & (head.getY() <= 18))
-//        {
-//            return "BOTTOM";
-//        }
-//
-//        //Beneden is geraakt, ga naar boven.
-//        if((head.getX() >= 10 & head.getX() <= 970) & (head.getY() >= 743))
-//        {
-//            return "TOP";
-//        }
-//
-//        //Links is geraakt, ga naar rechts.
-//        if((head.getY() >= 10 & head.getY() <= 760) & (head.getX() <= 10))
-//        {
-//            return "RIGHT";
-//        }
-//
-//        //Rechts is geraakt, ga naar links.
-//        if((head.getY() >= 10 & head.getY() <= 760) & (head.getX() >= 970))
-//        {
-//            return "LEFT";
-//        }
-//    }
 }
