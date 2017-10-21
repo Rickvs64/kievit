@@ -45,7 +45,8 @@ public class GameController {
                 //TODO maybe new timer for intersection?
                 if (
                         player1.intersects(player2) ||
-                        player1.hitsGrid())
+                                player1.hitsGrid())
+
                 {
                     animationTimer.stop();
                     playerTimer.cancel();
@@ -54,8 +55,8 @@ public class GameController {
 
                 if(
                         player2.intersects(player1) ||
-                        player2.hitsGrid()
-                )
+                                player2.hitsGrid()
+                        )
                 {
                     animationTimer.stop();
                     playerTimer.cancel();
