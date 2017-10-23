@@ -7,6 +7,7 @@ import gui.game.GameController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -29,11 +30,19 @@ public class LobbyController {
     @FXML
     private Label lbl_credits;
     @FXML
-    private TextField roomName;
+    private Label lbl_username2;
     @FXML
-    private TextField roomPassword;
+    private Label lbl_credits2;
+    @FXML
+    private TextField playerName;
+    @FXML
+    private TextField playerPassword;
     @FXML
     private Label playerList;
+    @FXML
+    private Group player2login;
+    @FXML
+    private Group player2stats;
     public void setUser(User user) {
         this.user = user;
         this.lbl_username.setText(this.user.getUsername());
@@ -80,6 +89,17 @@ public class LobbyController {
             playerList.setText(msg.toString());
         }
     });
+    }
+
+    @FXML
+    public void loginPlayer()
+    {
+
+    }
+    @FXML
+    public void loginGuest()
+    {
+
     }
     public void startGame() throws IOException {
         // Set the next "page" (scene) to display.

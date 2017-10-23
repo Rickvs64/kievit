@@ -27,10 +27,8 @@ public class GameController {
     private Canvas grid;
     @FXML
     private AnchorPane gridTemp;
-
     @FXML
     private Text txtPoints;
-
     private JavaFXPaintable paintable;
     private boolean first = true;
     private Integer points = 0;
