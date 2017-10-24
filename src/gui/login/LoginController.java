@@ -37,9 +37,7 @@ public class LoginController {
     @FXML
     private Label lbl_accountCreated;
 
-    public LoginController() throws SQLException, IOException, ClassNotFoundException {
-
-    }
+    public LoginController() throws SQLException, IOException, ClassNotFoundException { }
 
     @FXML
     public void initialize() {

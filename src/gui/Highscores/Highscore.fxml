@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.Button?>
+<AnchorPane fx:id="gridTemp" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1014.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Highscores.HighscoreController">
+    <children>
+
+        <Canvas fx:id="grid" height="800.0" layoutX="14.0" layoutY="14.0" width="1014.0" />
+      <TableView id="HighscoreTable" fx:id="HighscoreTable" prefHeight="700" prefWidth="1014">
+        <columns>
+          <TableColumn id="userid" fx:id="userid" prefWidth="150" text="Userid" />
+          <TableColumn id="username" fx:id="username" prefWidth="300" text="Username" />
+          <TableColumn id="score" fx:id="score" prefWidth="300" text="Score" />
+        </columns>
+      </TableView>
+      <Button fx:id="reload" layoutX="85.0" layoutY="731.0" mnemonicParsing="false" onMouseClicked="#LoadHighscores" text="Reload" />
+      <Button layoutX="776.0" layoutY="721.0" mnemonicParsing="false" onMouseClicked="#toHomeScreen" prefHeight="51.0" prefWidth="205.0" text="Return to Home" />
+
+
+    </children>
+</AnchorPane>
