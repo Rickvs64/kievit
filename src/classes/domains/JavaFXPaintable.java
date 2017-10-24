@@ -15,8 +15,6 @@ public class JavaFXPaintable {
     private Rectangle r;
     public JavaFXPaintable(Canvas canvas) {
         gc = canvas.getGraphicsContext2D();
-
-
         r = new Rectangle();
         r.setX(50);
         r.setY(50);

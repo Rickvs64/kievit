@@ -38,4 +38,6 @@ public class User {
     public void setCredits(Integer credits) {
         this.credits = credits;
     }
+
+    public void setPassword(String password) { this.password = password; }
 }

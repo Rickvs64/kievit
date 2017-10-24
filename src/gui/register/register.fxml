@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.TextField?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="542.0" prefWidth="896.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.register.RegisterController">
+   <children>
+      <Label layoutX="244.0" layoutY="39.0" text="Register a new account" wrapText="true">
+         <font>
+            <Font size="40.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txt_username" layoutX="244.0" layoutY="213.0" prefHeight="31.0" prefWidth="409.0" />
+      <Label layoutX="244.0" layoutY="192.0" text="Username" />
+      <Label layoutX="244.0" layoutY="282.0" text="Password" />
+      <Label layoutX="244.0" layoutY="380.0" text="Confirm password" />
+      <PasswordField fx:id="txt_password" layoutX="244.0" layoutY="303.0" prefHeight="31.0" prefWidth="409.0" />
+      <PasswordField fx:id="txt_password_confirm" layoutX="244.0" layoutY="401.0" prefHeight="31.0" prefWidth="409.0" />
+      <Hyperlink fx:id="link_back" layoutX="14.0" layoutY="10.0" onAction="#cancelRegister" text="&lt; Back to login" />
+      <Button fx:id="btn_submit" layoutX="448.0" layoutY="465.0" mnemonicParsing="false" onAction="#confirmRegister" prefHeight="31.0" prefWidth="205.0" text="Create account" />
+   </children>
+</AnchorPane>
