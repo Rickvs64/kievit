@@ -26,7 +26,7 @@ public class LobbyController {
     private int roomID;
     private boolean guest = false;
     private String guestName;
-    private Timer timer;
+    private Timer timer = new Timer();
     private IRoomRepository roomRepository;
     @FXML
     private Label lbl_username;
@@ -125,8 +125,8 @@ public class LobbyController {
         timer.cancel();
         // Set the next "page" (scene) to display.
         // Note that an incorrect path will result in unexpected NullPointer exceptions!
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/gui/game/Game.fxml"));
-        Parent root = (Parent)fxmlLoader.load();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../../game/Game.fxml"));
+        Parent root = fxmlLoader.load();
         GameController controller = fxmlLoader.<GameController>getController();
         // Run the setUser() method in HomeController.
         // This is the JavaFX equivalent of sending data from one form to another in C#.
