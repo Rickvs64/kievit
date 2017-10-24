@@ -29,17 +29,7 @@ public class LoginController {
     @FXML
     private Button btn_submit;
 
-    public LoginController() throws SQLException, IOException, ClassNotFoundException {
-    }
-
-    /**
-     * Temporary test method. Credential validation is skipped - user object is created and sent straight to home screen.
-     * @param event
-     */
-    @FXML
-    private void testSkipLogin(ActionEvent event) throws IOException {
-        toHomeScreen(userRepo.getDummyUser());
-    }
+    public LoginController() throws SQLException, IOException, ClassNotFoundException { }
 
     /**
      * Attempt to login with the values set in user form.
