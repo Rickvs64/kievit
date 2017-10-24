@@ -2,7 +2,9 @@ package gui.room.lobby;
 
 import classes.domains.User;
 import classes.repositories.IRoomRepository;
+import classes.repositories.IUserRepository;
 import classes.repositories.RoomRepository;
+import classes.repositories.SQLUserRepository;
 import gui.game.GameController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -25,6 +27,7 @@ public class LobbyController {
     private User user2;
     private int roomID;
     private boolean guest = false;
+    private boolean login = false;
     private String guestName;
     private Timer timer;
     private IRoomRepository roomRepository;
@@ -84,6 +87,10 @@ public class LobbyController {
         {
             users.add(user2);
         }
+        if (login)
+        {
+            users.add(user2);
+        }
         StringBuilder msg = new StringBuilder();
         for (User u:users
              ) {
@@ -100,9 +107,21 @@ public class LobbyController {
     }
 
     @FXML
-    public void loginPlayer()
-    {
-
+    public void loginPlayer() throws SQLException, IOException, ClassNotFoundException {
+        if (!playerName.getText().trim().isEmpty()& !playerPassword.getText().trim().isEmpty()) {
+            User user = new User(playerName.getText(), playerPassword.getText());
+            user.setCredits(640);
+            IUserRepository userRepo = new SQLUserRepository();
+            if (userRepo.checkUserExists(user)) {
+                setUser2(user);
+                player2login.setVisible(false);
+                player2stats.setVisible(true);
+                login = true;
+            } else {
+                System.out.println("Wrong user credentials, mate.");
+                playerPassword.setText("");
+            }
+        }
     }
     @FXML
     public void loginGuest()
