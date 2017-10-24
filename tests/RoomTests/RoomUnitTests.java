@@ -1,9 +1,8 @@
-package Game;
+package RoomTests;
 
 import classes.domains.Room;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class RoomUnitTests {

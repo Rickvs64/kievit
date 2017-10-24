@@ -1,15 +1,10 @@
-package Game;
-import classes.domains.JavaFXPaintable;
-import classes.domains.Room;
+package RoomTests;
 import classes.domains.User;
 import classes.repositories.IRoomRepository;
 import classes.repositories.RoomRepository;
-import gui.game.GameController;
-import javafx.scene.canvas.Canvas;
 import org.junit.Assert;
 import org.junit.Test;
 
-import javax.jws.soap.SOAPBinding;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
