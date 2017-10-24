@@ -71,7 +71,7 @@ public class GameController {
             public void run() {
                 UpdatePlayer();
             }
-        }, 1000 , 100);
+        }, 1000 , 50);
     }
 
     public void setUsers(User user,User user2) {
@@ -80,7 +80,7 @@ public class GameController {
     }
 
     @FXML
-    private void handle (KeyEvent event){
+    private void ChangeDirection(KeyEvent event){
         KeyCode keyCode = event.getCode();
         switch( keyCode ) {
             case UP:
@@ -131,7 +131,7 @@ public class GameController {
         if (first)
         {
             paintable = new JavaFXPaintable(this.grid);
-            gridTemp.getScene().setOnKeyPressed(this::handle);
+            gridTemp.getScene().setOnKeyPressed(this::ChangeDirection);
             first = false;
         }
         paintable.draw(player1,player2);
