@@ -71,7 +71,7 @@ public class GameController {
             public void run() {
                 UpdatePlayer();
             }
-        }, 0 , 50);
+        }, 1000 , 100);
     }
 
     public void setUsers(User user,User user2) {

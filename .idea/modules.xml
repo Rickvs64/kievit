@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Kievit.iml" filepath="$PROJECT_DIR$/Kievit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/kievit.iml" filepath="$PROJECT_DIR$/kievit.iml" />
     </modules>
   </component>
 </project>
