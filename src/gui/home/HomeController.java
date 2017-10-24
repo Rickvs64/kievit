@@ -39,12 +39,12 @@ public class HomeController {
         RoomController roomController = fxmlLoader.<RoomController>getController();
         // Run the setUser() method in HomeController.
         // This is the JavaFX equivalent of sending data from one form to another in C#.
-        roomController.setUser(user);
         Scene homeScreen = new Scene(root);
         Stage stage;
         stage = (Stage) lbl_username.getScene().getWindow(); // Weird backwards logic trick to get the current scene window.
 
         stage.setScene(homeScreen);
+        roomController.setUser(user);
         stage.show();
     }
 }
