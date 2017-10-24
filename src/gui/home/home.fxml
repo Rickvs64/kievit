@@ -45,7 +45,7 @@
             <Image url="@../../resources/img/egg-silhouette.png" />
          </image>
       </ImageView>
-      <Label layoutX="258.0" layoutY="302.0" prefHeight="152.0" prefWidth="104.0" text="Join lobby" textAlignment="CENTER" wrapText="true">
+      <Label layoutX="258.0" layoutY="302.0" onMouseClicked="#openJoinScreen" prefHeight="152.0" prefWidth="104.0" text="Join lobby" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="40.0" />
          </font>

@@ -28,11 +28,13 @@ public class RoomController {
     private TextField roomName;
     @FXML
     private TextField roomPassword;
+
     public void setUser(User user) {
        this.user = user;
-        this.lbl_username.setText(this.user.getUsername());
-        this.lbl_credits.setText(String.valueOf(this.user.getCredits()));
+       lbl_username.setText(user.getUsername());
+       lbl_credits.setText(String.valueOf(user.getCredits()));
     }
+
     @FXML
     public void createRoom() throws IOException, SQLException, ClassNotFoundException {
         if (!roomName.getText().trim().isEmpty() && !roomPassword.getText().trim().isEmpty())
