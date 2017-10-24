@@ -23,11 +23,12 @@
       <PasswordField id="txt_password" fx:id="txt_password" layoutX="277.0" layoutY="369.0" prefHeight="31.0" prefWidth="342.0" />
       <Button id="btn_submit" fx:id="btn_submit" layoutX="499.0" layoutY="427.0" mnemonicParsing="false" onAction="#login" prefHeight="31.0" prefWidth="120.0" text="Submit!" />
       <Text layoutX="277.0" layoutY="448.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Don't have an account?" />
-      <Hyperlink id="link_register" layoutX="272.0" layoutY="447.0" text="Click here" />
+      <Hyperlink id="link_register" layoutX="272.0" layoutY="447.0" onAction="#register" text="Click here" />
       <ImageView fitHeight="224.0" fitWidth="400.0" layoutX="248.0" layoutY="6.0">
          <image>
             <Image url="@../../resources/img/logo.png" />
          </image>
       </ImageView>
+      <Label fx:id="lbl_accountCreated" layoutX="277.0" layoutY="230.0" text="TEMP TEXT" textFill="#00d000" wrapText="true" />
    </children>
 </AnchorPane>
