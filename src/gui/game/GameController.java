@@ -4,14 +4,20 @@ import classes.domains.Direction;
 import classes.domains.JavaFXPaintable;
 import classes.domains.Player;
 import classes.domains.User;
+import gui.home.HomeController;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -33,6 +39,8 @@ public class GameController {
     private boolean first = true;
     private Integer points = 0;
 
+    private boolean gameOver = false;
+
     public GameController() {
         player1 = new Player(950, 600, Direction.UP, 1, 0);
         player2 = new Player(50, 600, Direction.UP, 2, 0);
@@ -41,24 +49,16 @@ public class GameController {
             public void handle(long now) {
                 updateCanvas();
                 //TODO maybe new timer for intersection?
-                if (
-                        player1.intersects(player2) ||
-                                player1.hitsGrid())
-
-                {
+                if ( player1.intersects(player2) ||  player1.hitsGrid()) {
                     animationTimer.stop();
                     playerTimer.cancel();
-                    txtPoints.setText("Player 2 wint! Aantal punten: " + points / 40);
-                }
-
-                if(
-                        player2.intersects(player1) ||
-                                player2.hitsGrid()
-                        )
-                {
+                    txtPoints.setText("Player 2 wint! Aantal punten: " + points / 40 + "\n Press any key to go back");
+                    gameOver = true;
+                } else if(player2.intersects(player1) || player2.hitsGrid()) {
                     animationTimer.stop();
                     playerTimer.cancel();
-                    txtPoints.setText("Player 1 wint! Aantal punten: " + points / 40);
+                    txtPoints.setText("Player 1 wint! Aantal punten: " + points / 40 + "\n Press any key to go back");
+                    gameOver = true;
                 }
 
                 points++;
@@ -81,6 +81,14 @@ public class GameController {
 
     @FXML
     private void handle (KeyEvent event){
+        if (gameOver) {
+            try {
+                toHomeScreen();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
         KeyCode keyCode = event.getCode();
         switch( keyCode ) {
             case UP:
@@ -126,10 +134,34 @@ public class GameController {
         }
     }
 
-    private void updateCanvas()
-    {
-        if (first)
-        {
+    /**
+     * Navigate to the home screen while sending an instance of User to be used later in the application.
+     * @throws IOException
+     */
+    @FXML
+    private void toHomeScreen() throws IOException {
+        // Set the next "page" (scene) to display.
+        // Note that an incorrect path will result in unexpected NullPointer exceptions!
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../home/home.fxml"));
+
+        Parent root = (Parent)fxmlLoader.load();
+        HomeController controller = fxmlLoader.<HomeController>getController();
+
+        // Run the setUser() method in HomeController.
+        // This is the JavaFX equivalent of sending data from one form to another in C#.
+        controller.setUser(user);
+
+        Scene homeScreen = new Scene(root);
+
+        Stage stage;
+        stage = (Stage) grid.getScene().getWindow(); // Weird backwards logic trick to get the current scene window.
+
+        stage.setScene(homeScreen);
+        stage.show();
+    }
+
+    private void updateCanvas() {
+        if (first) {
             paintable = new JavaFXPaintable(this.grid);
             gridTemp.getScene().setOnKeyPressed(this::handle);
             first = false;
@@ -137,8 +169,7 @@ public class GameController {
         paintable.draw(player1,player2);
     }
 
-    private void UpdatePlayer()
-    {
+    private void UpdatePlayer() {
         player1.move();
         player2.move();
     }
