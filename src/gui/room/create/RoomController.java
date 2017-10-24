@@ -51,7 +51,7 @@ public class RoomController {
         LobbyController controller = fxmlLoader.<LobbyController>getController();
         // Run the setUser() method in HomeController.
         // This is the JavaFX equivalent of sending data from one form to another in C#.
-        controller.setUser(new User("Alex",1000));
+        controller.setUser(user);
         controller.setRoom(roomID);
         Scene homeScreen = new Scene(root);
         Stage stage;

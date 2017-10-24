@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -7,8 +13,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="542.0" prefWidth="896.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.home.HomeController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="542.0" prefWidth="896.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.home.HomeController">
    <children>
       <Label layoutX="332.0" layoutY="146.0" text="Home menu">
          <font>
@@ -45,7 +50,7 @@
             <Font size="40.0" />
          </font>
       </Label>
-      <Label layoutX="527.0" layoutY="302.0" prefHeight="152.0" prefWidth="119.0" text="Create lobby" textAlignment="CENTER" wrapText="true">
+      <Label layoutX="527.0" layoutY="302.0" onMouseClicked="#openRoom" prefHeight="152.0" prefWidth="119.0" text="Create lobby" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="40.0" />
          </font>
