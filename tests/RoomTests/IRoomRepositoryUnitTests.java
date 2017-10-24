@@ -29,7 +29,7 @@ public class IRoomRepositoryUnitTests {
         boolean passed = true;
         try{
             IRoomRepository roomRepository = new RoomRepository();
-            roomRepository.createRoom(1,"bob","jan",50);
+            roomRepository.createRoom(6,"bob","jan",50);
 
         }
         catch (Exception e)
@@ -44,7 +44,7 @@ public class IRoomRepositoryUnitTests {
         boolean passed = true;
         try{
             IRoomRepository roomRepository = new RoomRepository();
-            List<User> users = roomRepository.getLobby(30);
+            List<User> users = roomRepository.getLobby(64);
         }
         catch (Exception e)
         {

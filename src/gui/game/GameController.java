@@ -38,12 +38,11 @@ public class GameController {
     private JavaFXPaintable paintable;
     private boolean first = true;
     private Integer points = 0;
-
     private boolean gameOver = false;
 
     public GameController() {
         player1 = new Player(950, 600, Direction.UP, 1, 0);
-        player2 = new Player(50, 600, Direction.UP, 2, 0);
+        player2 = new Player(0, 600, Direction.UP, 2, 0);
         animationTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -71,7 +70,7 @@ public class GameController {
             public void run() {
                 UpdatePlayer();
             }
-        }, 1000 , 100);
+        }, 1000 , 50);
     }
 
     public void setUsers(User user,User user2) {
@@ -80,7 +79,7 @@ public class GameController {
     }
 
     @FXML
-    private void handle (KeyEvent event){
+    private void ChangeDirection(KeyEvent event){
         if (gameOver) {
             try {
                 toHomeScreen();
@@ -163,7 +162,7 @@ public class GameController {
     private void updateCanvas() {
         if (first) {
             paintable = new JavaFXPaintable(this.grid);
-            gridTemp.getScene().setOnKeyPressed(this::handle);
+            gridTemp.getScene().setOnKeyPressed(this::ChangeDirection);
             first = false;
         }
         paintable.draw(player1,player2);

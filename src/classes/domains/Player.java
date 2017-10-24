@@ -4,7 +4,6 @@ package classes.domains;
 import javafx.scene.image.Image;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,15 +55,6 @@ public class Player {
         return coordinates;
     }
 
-
-    public StatusPlayer getStatus() {
-        return status;
-    }
-
-    public void setStatus(StatusPlayer status) {
-        this.status = status;
-    }
-
     public Image getHead() {
         return head;
     }
@@ -97,16 +87,15 @@ public class Player {
                 ) {
             if (c.getY() == head.getY() && c.getX() == head.getX())
             {
-                System.out.println("NOT SURE IF IT WORKS CORRECTLY //Alex // Enemy");
                 return true;
             }
         }
+
         List<Coordinate> temp = coordinates.stream().collect(Collectors.toList());
         temp.remove(0);
         for (Coordinate c2: temp) {
             if (c2.getY() == head.getY() && c2.getX() == head.getX())
             {
-                System.out.println("NOT SURE IF IT WORKS CORRECTLY //Alex // Suicide");
                 return true;
             }
         }
