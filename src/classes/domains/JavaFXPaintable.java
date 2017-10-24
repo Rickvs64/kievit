@@ -28,16 +28,14 @@ public class JavaFXPaintable {
         drawPlayer(player1);
         drawPlayer(player2);
     }
-    public void drawPlayer(Player player)
-    {
+
+    public void drawPlayer(Player player) {
 
         List<Integer> x = new ArrayList<>();
         List<Integer> y = new ArrayList<>();
-        for (Coordinate c:player.getCoordinates()
-             ) {
-            x.add(c.getX());
-            y.add(c.getY());
-
+        for (int i = 0; i < player.getCoordinates().size(); i++) {
+            x.add(player.getCoordinates().get(i).getX());
+            y.add(player.getCoordinates().get(i).getY());
         }
         Image head = player.getHead();
         Image tail = player.getTail();
