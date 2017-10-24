@@ -50,7 +50,7 @@
             <Font size="40.0" />
          </font>
       </Label>
-      <Label layoutX="527.0" layoutY="302.0" onMouseClicked="#openLobby" prefHeight="152.0" prefWidth="119.0" text="Create lobby" textAlignment="CENTER" wrapText="true">
+      <Label layoutX="527.0" layoutY="302.0" onMouseClicked="#openRoom" prefHeight="152.0" prefWidth="119.0" text="Create lobby" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="40.0" />
          </font>
