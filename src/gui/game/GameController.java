@@ -34,8 +34,8 @@ public class GameController {
     private Integer points = 0;
 
     public GameController() {
-        player1 = new Player(50, 600, Direction.UP, 1, 0);
-        player2 = new Player(950, 600, Direction.UP, 2, 0);
+        player1 = new Player(950, 600, Direction.UP, 1, 0);
+        player2 = new Player(50, 600, Direction.UP, 2, 0);
         animationTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
