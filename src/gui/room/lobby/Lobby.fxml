@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
@@ -31,5 +32,23 @@
         <Label id="lbl_username" fx:id="lbl_username" alignment="CENTER_RIGHT" layoutX="688.0" layoutY="50.0" prefHeight="21.0" prefWidth="189.0" text="TEMPTEXT" textAlignment="RIGHT" />
         <Button layoutX="354.0" layoutY="406.0" mnemonicParsing="false" onAction="#startGame" prefHeight="21.0" prefWidth="189.0" text="Start Game" />
       <Label fx:id="playerList" layoutX="390.0" layoutY="214.0" text="players.........." />
+      <Group fx:id="player2stats" layoutX="625.0" layoutY="155.0" visible="false">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="TRANSPARENT" height="92.0" layoutX="56.0" layoutY="-46.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
+            <Label id="lbl_credits" fx:id="lbl_credits2" alignment="CENTER_RIGHT" layoutX="64.0" prefHeight="21.0" prefWidth="189.0" text="★ 550" textAlignment="RIGHT" />
+            <Label id="lbl_username" fx:id="lbl_username2" alignment="CENTER_RIGHT" layoutX="66.0" layoutY="-21.0" prefHeight="21.0" prefWidth="189.0" text="TEMPTEXT" textAlignment="RIGHT" />
+            <Label alignment="CENTER_RIGHT" layoutX="61.0" layoutY="-42.0" prefHeight="21.0" prefWidth="189.0" text="Currently logged in as:" textAlignment="RIGHT" />
+         </children>
+      </Group>
+      <Label layoutX="624.0" layoutY="109.0" text="Player 2:" />
+      <Group fx:id="player2login" layoutX="683.0" layoutY="117.0">
+         <children>
+            <TextField fx:id="playerName" layoutY="1.0" prefHeight="25.0" prefWidth="200.0" promptText="Username" />
+            <Button layoutY="74.0" mnemonicParsing="false" onAction="#loginGuest" prefHeight="25.0" prefWidth="96.0" text="Play as Guest" />
+            <TextField fx:id="playerPassword" layoutY="40.0" prefHeight="25.0" prefWidth="200.0" promptText="Password" />
+            <Button layoutX="100.0" layoutY="74.0" mnemonicParsing="false" onAction="#loginPlayer" prefHeight="25.0" prefWidth="96.0" text="Login" />
+         </children>
+      </Group>
+      <Label layoutX="624.0" layoutY="13.0" text="Player 1:" />
     </children>
 </AnchorPane>

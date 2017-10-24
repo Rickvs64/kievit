@@ -7,6 +7,7 @@ import gui.game.GameController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -23,24 +24,35 @@ public class LobbyController {
     private User user;
     private User user2;
     private int roomID;
+    private boolean guest = false;
+    private String guestName;
+    private Timer timer;
     private IRoomRepository roomRepository;
     @FXML
     private Label lbl_username;
     @FXML
     private Label lbl_credits;
     @FXML
-    private TextField roomName;
+    private Label lbl_username2;
     @FXML
-    private TextField roomPassword;
+    private Label lbl_credits2;
+    @FXML
+    private TextField playerName;
+    @FXML
+    private TextField playerPassword;
     @FXML
     private Label playerList;
+    @FXML
+    private Group player2login;
+    @FXML
+    private Group player2stats;
     public void setUser(User user) {
         this.user = user;
         this.lbl_username.setText(this.user.getUsername());
         this.lbl_credits.setText(String.valueOf(this.user.getCredits()));
         this.roomRepository = new RoomRepository();
-        setUser2();
-        Timer timer = new Timer();
+        //setUser2();
+        timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -59,19 +71,24 @@ public class LobbyController {
     public void setRoom(int roomID){
         this.roomID = roomID;
     }
-    public void setUser2() {
-        this.user2 = user;
+    public void setUser2(User user2) {
+
+        this.user2 = user2;
+        this.lbl_username2.setText(this.user2.getUsername());
+        this.lbl_credits2.setText(String.valueOf(this.user2.getCredits()));
     }
 
     public void UpdateLobby() throws SQLException, IOException, ClassNotFoundException {
         List<User> users = roomRepository.getLobby(roomID);
-        System.out.println(users.get(0).getUsername());
+        if (guest)
+        {
+            users.add(user2);
+        }
         StringBuilder msg = new StringBuilder();
         for (User u:users
              ) {
             msg.append(u.getUsername() + " Credits: " + u.getCredits());
             msg.append("\n");
-            System.out.println(msg.toString());
         }
         //TODO : uitvogelen of het echt moet op deze manier(anders Error)
         Platform.runLater(new Runnable() {
@@ -81,7 +98,31 @@ public class LobbyController {
         }
     });
     }
+
+    @FXML
+    public void loginPlayer()
+    {
+
+    }
+    @FXML
+    public void loginGuest()
+    {
+        if (playerName.getText().trim().isEmpty())
+        {
+            guestName = "Guest";
+        }
+        else
+        {
+            guestName = playerName.getText();
+        }
+        setUser2(new User(guestName,0));
+        player2login.setVisible(false);
+        player2stats.setVisible(true);
+        guest = true;
+
+    }
     public void startGame() throws IOException {
+        timer.cancel();
         // Set the next "page" (scene) to display.
         // Note that an incorrect path will result in unexpected NullPointer exceptions!
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/gui/game/Game.fxml"));
