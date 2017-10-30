@@ -41,8 +41,8 @@ public class GameController {
     private boolean gameOver = false;
 
     public GameController() {
-        player1 = new Player(950, 600, Direction.UP, 1, 0);
-        player2 = new Player(50, 600, Direction.UP, 2, 0);
+        player1 = new Player(50, 600, Direction.UP, 1, 0);
+        player2 = new Player(950, 600, Direction.UP, 2, 0);
         animationTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -91,43 +91,43 @@ public class GameController {
         KeyCode keyCode = event.getCode();
         switch( keyCode ) {
             case UP:
-                if (player1.getCurrentDirection() != Direction.DOWN) {
-                    player1.setCurrentDirection(Direction.UP);
-                }
-                break;
-            case DOWN:
-                if (player1.getCurrentDirection() != Direction.UP) {
-                    player1.setCurrentDirection(Direction.DOWN);
-                }
-                break;
-            case LEFT:
-                if (player1.getCurrentDirection() != Direction.RIGHT) {
-                    player1.setCurrentDirection(Direction.LEFT);
-                }
-                break;
-            case RIGHT:
-                if (player1.getCurrentDirection() != Direction.LEFT) {
-                    player1.setCurrentDirection(Direction.RIGHT);
-                }
-                break;
-            case W:
                 if (player2.getCurrentDirection() != Direction.DOWN) {
                     player2.setCurrentDirection(Direction.UP);
                 }
                 break;
-            case S:
+            case DOWN:
                 if (player2.getCurrentDirection() != Direction.UP) {
                     player2.setCurrentDirection(Direction.DOWN);
                 }
                 break;
-            case A:
+            case LEFT:
                 if (player2.getCurrentDirection() != Direction.RIGHT) {
                     player2.setCurrentDirection(Direction.LEFT);
                 }
                 break;
-            case D:
+            case RIGHT:
                 if (player2.getCurrentDirection() != Direction.LEFT) {
                     player2.setCurrentDirection(Direction.RIGHT);
+                }
+                break;
+            case W:
+                if (player1.getCurrentDirection() != Direction.DOWN) {
+                    player1.setCurrentDirection(Direction.UP);
+                }
+                break;
+            case S:
+                if (player1.getCurrentDirection() != Direction.UP) {
+                    player1.setCurrentDirection(Direction.DOWN);
+                }
+                break;
+            case A:
+                if (player1.getCurrentDirection() != Direction.RIGHT) {
+                    player1.setCurrentDirection(Direction.LEFT);
+                }
+                break;
+            case D:
+                if (player1.getCurrentDirection() != Direction.LEFT) {
+                    player1.setCurrentDirection(Direction.RIGHT);
                 }
                 break;
         }
