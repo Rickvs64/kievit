@@ -4,10 +4,10 @@ import javafx.scene.image.Image;
 
 public class Item {
     private int ID;
-    private ItemType type;
+    private String type;
     private String name;
 
-    public Item(int ID, ItemType type,String name) {
+    public Item(int ID, String type,String name) {
         this.ID = ID;
         this.type = type;
         this.name = name;
@@ -21,7 +21,7 @@ public class Item {
         return name;
     }
 
-    public ItemType getType() {
+    public String getType() {
         return type;
     }
 
