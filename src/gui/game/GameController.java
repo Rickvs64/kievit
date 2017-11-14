@@ -51,12 +51,12 @@ public class GameController {
                 if ( player1.intersects(player2) ||  player1.hitsGrid()) {
                     animationTimer.stop();
                     playerTimer.cancel();
-                    txtPoints.setText("Player 2 wint! Aantal punten: " + points / 40 + "\n Press any key to go back");
+                    txtPoints.setText("Player 2 wint! Aantal punten: " + points / 40 + "\n Press the enter key to go back");
                     gameOver = true;
                 } else if(player2.intersects(player1) || player2.hitsGrid()) {
                     animationTimer.stop();
                     playerTimer.cancel();
-                    txtPoints.setText("Player 1 wint! Aantal punten: " + points / 40 + "\n Press any key to go back");
+                    txtPoints.setText("Player 1 wint! Aantal punten: " + points / 40 + "\n Press the enter to go back");
                     gameOver = true;
                 }
 
@@ -80,7 +80,7 @@ public class GameController {
 
     @FXML
     private void ChangeDirection(KeyEvent event){
-        if (gameOver) {
+        if (gameOver && event.getCode() == KeyCode.ENTER) {
             try {
                 toHomeScreen();
             } catch (IOException e) {
