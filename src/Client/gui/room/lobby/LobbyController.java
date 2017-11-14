@@ -1,12 +1,12 @@
-package gui.room.lobby;
+package Client.gui.room.lobby;
 
 import classes.domains.User;
 import classes.repositories.IRoomRepository;
 import classes.repositories.IUserRepository;
 import classes.repositories.RoomRepository;
 import classes.repositories.SQLUserRepository;
-import gui.game.GameController;
-import gui.home.HomeController;
+import Client.gui.game.GameController;
+import Client.gui.home.HomeController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

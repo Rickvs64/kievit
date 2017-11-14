@@ -1,10 +1,10 @@
-package gui.register;
+package Client.gui.register;
 
 import classes.domains.Censorship;
 import classes.domains.User;
 import classes.repositories.IUserRepository;
 import classes.repositories.SQLUserRepository;
-import gui.login.LoginController;
+import Client.gui.login.LoginController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

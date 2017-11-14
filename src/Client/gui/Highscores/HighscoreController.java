@@ -1,10 +1,10 @@
-package gui.Highscores;
+package Client.gui.Highscores;
 
 import classes.domains.HighscoreEntry;
 import classes.domains.User;
 import classes.repositories.HighscoreRepository;
 import classes.repositories.IHighscoreRepository;
-import gui.home.HomeController;
+import Client.gui.home.HomeController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

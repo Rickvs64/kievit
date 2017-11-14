@@ -1,10 +1,10 @@
-package gui.game;
+package Client.gui.game;
 
 import classes.domains.Direction;
 import classes.domains.JavaFXPaintable;
 import classes.domains.Player;
 import classes.domains.User;
-import gui.home.HomeController;
+import Client.gui.home.HomeController;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

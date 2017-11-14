@@ -1,9 +1,9 @@
-package gui.login;
+package Client.gui.login;
 
 import classes.domains.*;
 import classes.repositories.*;
-import gui.home.HomeController;
-import gui.register.RegisterController;
+import Client.gui.home.HomeController;
+import Client.gui.register.RegisterController;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

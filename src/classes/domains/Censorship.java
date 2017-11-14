@@ -13,7 +13,7 @@ public class Censorship {
 
     public Censorship() throws IOException {
         bannedTerms = new ArrayList<String>();
-        Scanner s = new Scanner(new File("src/resources/swearWords.txt"));
+        Scanner s = new Scanner(new File("src/Client.resources/swearWords.txt"));
         while (s.hasNextLine()){
             bannedTerms.add(s.nextLine());
         }
