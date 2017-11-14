@@ -61,9 +61,7 @@ public class ShopController {
     private void selectedItem()
     {
         Item  item = listItems.getSelectionModel().getSelectedItem();
-        System.out.println(item.getName());
         imageItem.setImage(item.getImage());
-        //blblb
     }
 
 

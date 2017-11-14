@@ -55,7 +55,7 @@
             <Font size="40.0" />
          </font>
       </Label>
-      <Label layoutX="41.0" layoutY="252.0" prefHeight="152.0" prefWidth="104.0" text="Open shop" textAlignment="CENTER" wrapText="true">
+      <Label layoutX="41.0" layoutY="252.0" onMouseClicked="#openShopScreen" prefHeight="152.0" prefWidth="104.0" text="Open shop" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="26.0" />
          </font>

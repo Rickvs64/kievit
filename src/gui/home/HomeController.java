@@ -1,6 +1,7 @@
 package gui.home;
 
 import classes.domains.User;
+import gui.Shop.ShopController;
 import gui.room.create.RoomController;
 import gui.room.lobby.LobbyController;
 import javafx.fxml.FXML;
@@ -65,6 +66,23 @@ public class HomeController {
 
         stage.setScene(homeScreen);
         lobbyController.setUser(user);
+        stage.show();
+    }
+    @FXML
+    private void openShopScreen() throws IOException {
+        // Set the next "page" (scene) to display.
+        // Note that an incorrect path will result in unexpected NullPointer exceptions!
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../shop/Shop.fxml"));
+        Parent root = (Parent)fxmlLoader.load();
+        ShopController shopController = fxmlLoader.getController();
+        // Run the setUser() method in HomeController.
+        // This is the JavaFX equivalent of sending data from one form to another in C#.
+        Scene homeScreen = new Scene(root);
+        Stage stage;
+        stage = (Stage) lbl_username.getScene().getWindow(); // Weird backwards logic trick to get the current scene window.
+
+        stage.setScene(homeScreen);
+        shopController.setUser(user);
         stage.show();
     }
 }
