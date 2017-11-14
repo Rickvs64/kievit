@@ -31,7 +31,7 @@
         <Label id="lbl_username" fx:id="lbl_username" alignment="CENTER_RIGHT" layoutX="688.0" layoutY="50.0" prefHeight="21.0" prefWidth="189.0" text="TEMPTEXT" textAlignment="RIGHT" />
       <ImageView fx:id="imageItem" fitHeight="128.0" fitWidth="128.0" layoutX="324.0" layoutY="128.0" pickOnBounds="true" preserveRatio="true" />
       <Button layoutX="14.0" layoutY="16.0" mnemonicParsing="false" text="Back" />
-      <Button layoutX="314.0" layoutY="274.0" mnemonicParsing="false" onAction="#getItems" prefHeight="109.0" prefWidth="148.0" text="Buy!" />
+      <Button layoutX="314.0" layoutY="274.0" mnemonicParsing="false" onAction="#buySelectedItem" prefHeight="109.0" prefWidth="148.0" text="Buy!" />
       <TableView fx:id="listItems" layoutX="20.0" layoutY="120.0" onMouseClicked="#selectedItem" prefHeight="407.0" prefWidth="287.0">
         <columns>
           <TableColumn fx:id="ID" editable="false" prefWidth="75.0" text="ID" visible="false" />
@@ -39,6 +39,5 @@
             <TableColumn fx:id="type" editable="false" prefWidth="122.0" text="Type" />
         </columns>
       </TableView>
-      <Button layoutX="314.0" layoutY="395.0" mnemonicParsing="false" onAction="#selectedItem" prefHeight="109.0" prefWidth="148.0" text="select" />
     </children>
 </AnchorPane>
