@@ -61,7 +61,7 @@ public class RegisterController {
             showMessageDialog(null, "Passwords don't match.");
             System.out.println("Passwords don't match.");
         }
-        else if (stringContainsItemFromList(txt_username.getText(), censorship.getBannedTerms())) {
+        else if (stringContainsItemFromList(txt_username.getText().toLowerCase(), censorship.getBannedTerms())) {
             // Found a no-no word :(
             showMessageDialog(null, "Please refrain from using immature usernames.");
             System.out.println("Found a match in username and banned terminology list.");

@@ -34,6 +34,7 @@ public class RoomController {
        this.user = user;
        lbl_username.setText(user.getUsername());
        lbl_credits.setText(String.valueOf(user.getCredits()));
+        System.out.println(user.getUsername());
     }
 
     @FXML
@@ -42,7 +43,7 @@ public class RoomController {
         {
             System.out.println("passed");
             IRoomRepository roomRepository = new RoomRepository();
-            int roomID = roomRepository.createRoom(1,roomName.getText(),roomPassword.getText(),50);
+            int roomID = roomRepository.createRoom(32,roomName.getText(),roomPassword.getText(),50);
             toLobbyScreen(roomID);
         }
     }

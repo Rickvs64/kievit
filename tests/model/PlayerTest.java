@@ -132,7 +132,17 @@ public class PlayerTest {
     @Test
     public void playerIntersectsHisself()
     {
-       //Alex
+        Player player2 = new Player(99999, 9999, Direction.LEFT, 3, 1);
+       Player player = new Player(20,20,Direction.RIGHT,1,1);
+       player.move();
+       player.setCurrentDirection(Direction.DOWN);
+       player.move();
+       player.setCurrentDirection(Direction.LEFT);
+       player.move();
+       player.setCurrentDirection(Direction.UP);
+       player.move();
+
+        Assert.assertEquals(player.intersects(player2), true);
     }
 
     @Test

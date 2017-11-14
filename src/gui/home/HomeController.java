@@ -24,6 +24,7 @@ public class HomeController {
     public void setUser(User user) {
         this.user = user;
         updateUserInfo();
+        System.out.println(user.getUsername());
     }
 
     private void updateUserInfo() {
