@@ -1,10 +1,12 @@
-package Client.gui.room.create;
+package gui.room.create;
 
 import classes.domains.User;
 import classes.repositories.IRoomRepository;
 import classes.repositories.RoomRepository;
-import Client.gui.home.HomeController;
-import Client.gui.room.lobby.LobbyController;
+import gui.game.GameController;
+import gui.home.HomeController;
+import gui.room.lobby.Lobby;
+import gui.room.lobby.LobbyController;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

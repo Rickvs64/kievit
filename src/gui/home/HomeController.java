@@ -1,8 +1,8 @@
-package Client.gui.home;
+package gui.home;
 
 import classes.domains.User;
-import Client.gui.room.create.RoomController;
-import Client.gui.room.lobby.LobbyController;
+import gui.room.create.RoomController;
+import gui.room.lobby.LobbyController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

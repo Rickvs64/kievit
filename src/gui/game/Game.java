@@ -1,4 +1,4 @@
-package Client.gui.game;
+package gui.game;
 
 import javafx.application.Application;
 import javafx.fxml.FXML;

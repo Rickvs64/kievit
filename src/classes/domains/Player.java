@@ -23,16 +23,16 @@ public class Player {
         this.userID = userID;
         switch (playerNumber) {
             case 1:
-                this.head = new Image("@../../Client.resources/img/bird0.gif");
-                this.tail = new Image("@../../Client.resources/img/poop0.gif");
+                this.head = new Image("@../../resources/img/bird0.gif");
+                this.tail = new Image("@../../resources/img/poop0.gif");
                 break;
             case 2:
-                this.head = new Image("@../../Client.resources/img/bird1.gif");
-                this.tail = new Image("@../../Client.resources/img/poop1.gif");
+                this.head = new Image("@../../resources/img/bird1.gif");
+                this.tail = new Image("@../../resources/img/poop1.gif");
                 break;
             default:
-                this.head = new Image("@../../Client.resources/img/bird2.gif");
-                this.tail = new Image("@../../Client.resources/img/poop2.gif");
+                this.head = new Image("@../../resources/img/bird2.gif");
+                this.tail = new Image("@../../resources/img/poop2.gif");
                 break;
         }
 
