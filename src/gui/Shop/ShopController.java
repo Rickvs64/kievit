@@ -19,7 +19,7 @@ import java.sql.SQLException;
 
 public class ShopController {
     private User user;
-
+    private Item  item;
     @FXML
     private Label lbl_username;
 
@@ -61,16 +61,34 @@ public class ShopController {
         name.setCellValueFactory(new PropertyValueFactory<Item,String>("name"));
         type.setCellValueFactory(new PropertyValueFactory<Item,String>("type"));
         IShopRepository shopRepository = new ShopRepository();
-        for (Item i:shopRepository.getItems(1)) {
-            listItems.getItems().add(i);
+        if (!shopRepository.getItems(33).isEmpty())
+        {
+            for (Item i:shopRepository.getItems(33)) {
+                listItems.getItems().add(i);
+            }
         }
+
     }
     @FXML
     private void selectedItem()
     {
-        Item  item = listItems.getSelectionModel().getSelectedItem();
-        imageItem.setImage(item.getImage());
+        if (listItems.getSelectionModel().getSelectedItem() != null)
+        {
+            item = listItems.getSelectionModel().getSelectedItem();
+            imageItem.setImage(item.getImage());
+        }
     }
+
+    @FXML
+    private void buySelectedItem() throws SQLException, IOException, ClassNotFoundException {
+        if (item != null)
+        {
+            IShopRepository shopRepository = new ShopRepository();
+            shopRepository.buyItem(item.getID(),33);
+            getItems();
+        }
+    }
+
 
 
 
