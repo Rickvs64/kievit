@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="542.0" prefWidth="896.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.room.search.searchroomController">
+    <children>
+        <ImageView fitHeight="112.0" fitWidth="200.0" layoutX="348.0" layoutY="15.0">
+            <image>
+                <Image url="@../../../resources/img/logo.png" />
+            </image>
+        </ImageView>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="TRANSPARENT" height="92.0" layoutX="682.0" layoutY="14.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
+        <Label alignment="CENTER_RIGHT" layoutX="688.0" layoutY="21.0" prefHeight="21.0" prefWidth="189.0" text="Currently logged in as:" textAlignment="RIGHT" />
+        <Label id="lbl_credits" fx:id="lbl_credits" alignment="CENTER_RIGHT" layoutX="688.0" layoutY="78.0" prefHeight="21.0" prefWidth="189.0" text="★ 550" textAlignment="RIGHT" />
+        <Label id="lbl_username" fx:id="lbl_username" alignment="CENTER_RIGHT" layoutX="688.0" layoutY="50.0" prefHeight="21.0" prefWidth="189.0" text="TEMPTEXT" textAlignment="RIGHT" />
+        <Button layoutX="14.0" layoutY="19.0" mnemonicParsing="false" onAction="#toHomeScreen" prefHeight="25.0" prefWidth="67.0" text="Back" />
+      <TableView layoutX="14.0" layoutY="152.0" prefHeight="288.0" prefWidth="859.0">
+        <columns>
+            <TableColumn id="name" fx:id="name" prefWidth="150" text="Room Name" />
+            <TableColumn id="players" fx:id="players" prefWidth="300" text="Players" />
+            <TableColumn id="score" fx:id="score" prefWidth="300" text="Score" />
+            <TableColumn id="password" fx:id="password" prefWidth="300" text="password" />
+        </columns>
+      </TableView>
+    </children>
+</AnchorPane>

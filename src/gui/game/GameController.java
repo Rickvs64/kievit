@@ -53,7 +53,9 @@ public class GameController {
                     playerTimer.cancel();
                     txtPoints.setText("Player 2 wint! Aantal punten: " + points / 40 + "\n Press the enter key to go back");
                     gameOver = true;
-                } else if(player2.intersects(player1) || player2.hitsGrid()) {
+                }
+                else if(player2.intersects(player1) || player2.hitsGrid()) {
+
                     animationTimer.stop();
                     playerTimer.cancel();
                     txtPoints.setText("Player 1 wint! Aantal punten: " + points / 40 + "\n Press the enter to go back");

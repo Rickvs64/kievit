@@ -98,7 +98,6 @@ public class LobbyController {
             msg.append(u.getUsername() + " Credits: " + u.getCredits());
             msg.append("\n");
         }
-        //TODO : uitvogelen of het echt moet op deze manier(anders Error)
         Platform.runLater(new Runnable() {
         @Override
         public void run() {

@@ -34,7 +34,6 @@ public class RoomController {
        this.user = user;
        lbl_username.setText(user.getUsername());
        lbl_credits.setText(String.valueOf(user.getCredits()));
-        System.out.println(user.getUsername());
     }
 
     @FXML

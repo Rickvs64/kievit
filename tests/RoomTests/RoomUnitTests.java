@@ -11,7 +11,7 @@ public class RoomUnitTests {
     public void testConstructor()  {
         boolean passed = true;
         try{
-            room = new Room(0,"bob","Jan",false);
+            room = new Room(0,"bob","Jan",0,1);
         }
         catch (Exception e)
         {

@@ -1,5 +1,6 @@
 package classes.repositories;
 
+import classes.domains.Room;
 import classes.domains.User;
 
 import java.io.IOException;
@@ -49,6 +50,20 @@ public class RoomRepository implements IRoomRepository {
         }
         conn.close();
         return users;
+    }
+    public List<Room> getAvaiableRooms() throws SQLException, IOException, ClassNotFoundException {
+        List<Room> rooms = new ArrayList<>();
+        String queryCreateRoom = "select ID, name, started, password, started, available from room p\n" +
+                "where available == 1;";
+        IConnection connection = new ConnectionManager();
+        Connection conn = connection.getConnection();
+        PreparedStatement preparedStmt = conn.prepareStatement(queryCreateRoom, Statement.RETURN_GENERATED_KEYS);
+        ResultSet rs = preparedStmt.executeQuery();
+        while (rs.next()) {
+            rooms.add(new Room(rs.getInt("ID"),rs.getString("name"), rs.getString("password"), rs.getInt("started"),  rs.getInt("available")));
+        }
+        conn.close();
+        return rooms;
     }
 
 
