@@ -61,9 +61,9 @@ public class ShopController {
         name.setCellValueFactory(new PropertyValueFactory<Item,String>("name"));
         type.setCellValueFactory(new PropertyValueFactory<Item,String>("type"));
         IShopRepository shopRepository = new ShopRepository();
-        if (!shopRepository.getItems(33).isEmpty())
+        if (!shopRepository.getItems(11).isEmpty())
         {
-            for (Item i:shopRepository.getItems(33)) {
+            for (Item i:shopRepository.getItems(11)) {
                 listItems.getItems().add(i);
             }
         }
@@ -77,6 +77,11 @@ public class ShopController {
             item = listItems.getSelectionModel().getSelectedItem();
             imageItem.setImage(item.getImage());
         }
+        else
+        {
+            item = null;
+            imageItem.setImage(null);
+        }
     }
 
     @FXML
@@ -84,8 +89,9 @@ public class ShopController {
         if (item != null)
         {
             IShopRepository shopRepository = new ShopRepository();
-            shopRepository.buyItem(item.getID(),33);
+            shopRepository.buyItem(item.getID(),11);
             getItems();
+            selectedItem();
         }
     }
 

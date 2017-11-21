@@ -18,6 +18,7 @@ public class ShopRepository implements IShopRepository {
         IConnection connection = new ConnectionManager();
         Connection conn = connection.getConnection();
         PreparedStatement preparedStmt = conn.prepareStatement(getitems, Statement.RETURN_GENERATED_KEYS);
+        preparedStmt.setInt (1, userID);
         ResultSet rs = preparedStmt.executeQuery();
         while (rs.next()) {
             items.add(new Item(rs.getInt("ID"),rs.getString("type"),rs.getString("name")));
