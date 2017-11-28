@@ -104,20 +104,20 @@ public class GameController {
         } catch (NotBoundException e) {
             e.printStackTrace();
         }
-        updatePlayersTimer = new Timer();
-        updatePlayersTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                UpdatePlayerServer();
-            }
-        }, 1000 , 50);
+        //updatePlayersTimer = new Timer();
+        //updatePlayersTimer.schedule(new TimerTask() {
+        //    @Override
+        //    public void run() {
+        //        UpdatePlayerServer();
+        //    }
+        //}, 1000 , 25);
     }
 
     private void UpdatePlayerServer() {
         if (playerNumber == 1)
         {
             try {
-                //lobby = server.updatePlayer(player1,1);
+
                 server.updateDirection(player1.getCurrentDirection(),lobby.getId(),player1.getUserID());
             } catch (RemoteException e) {
                 e.printStackTrace();
@@ -302,6 +302,7 @@ public class GameController {
                         }
                         break;
                 }
+                UpdatePlayerServer();
             }
             else {
                 switch (keyCode) {
@@ -342,6 +343,7 @@ public class GameController {
                         }
                         break;
                 }
+                UpdatePlayerServer();
             }
         }
     }
@@ -382,6 +384,7 @@ public class GameController {
     }
 
     private void UpdatePlayer() throws RemoteException {
+        UpdatePlayerServer();
         player1.move();
         player2.move();
     }

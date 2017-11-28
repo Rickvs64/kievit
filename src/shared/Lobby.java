@@ -63,7 +63,6 @@ public class Lobby extends UnicastRemoteObject implements ILobby, Serializable {
         for (IPlayer p : players) {
             try {
                 if (p.getUserID() == player.getUserID()) {
-                    System.out.println("updated player");
                     p.update(player);
                 }
             } catch (RemoteException e) {
@@ -91,7 +90,6 @@ public class Lobby extends UnicastRemoteObject implements ILobby, Serializable {
         for (IPlayer p : players) {
             try {
                 if (p.getUserID() == userID) {
-                    System.out.println("updated player");
                     p.setCurrentDirection(currentDirection);
                 }
             } catch (RemoteException e) {
