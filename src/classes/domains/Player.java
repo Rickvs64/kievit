@@ -44,6 +44,10 @@ public class Player {
         }
     }
 
+    public int getUserID() {
+        return userID;
+    }
+
     public Direction getCurrentDirection() {
         return currentDirection;
     }
@@ -131,5 +135,14 @@ public class Player {
                 //Check right
                 (head.getY() >= 10 & head.getY() <= 760) & (head.getX() >= 970);
 
+    }
+    public void update(Player player)
+    {
+        this.userID = player.userID;
+        this.currentDirection = player.currentDirection;
+        this.coordinates = player.coordinates;
+        this.status = player.status;
+        this.head = player.head;
+        this.tail = player.tail;
     }
 }
