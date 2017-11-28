@@ -1,9 +1,6 @@
 package gui.game;
 
-import classes.domains.Direction;
-import classes.domains.JavaFXPaintable;
-import classes.domains.Player;
-import classes.domains.User;
+import classes.domains.*;
 import gui.home.HomeController;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
@@ -16,16 +13,21 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import server.IServerManager;
 import shared.ILobby;
 
 import java.io.IOException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.Timer;
 import java.util.TimerTask;
 
 
 public class GameController {
-    private Player player1;
-    private Player player2;
+    private IPlayer player1;
+    private IPlayer player2;
     private User user;
     private User user2;
     private AnimationTimer animationTimer;
@@ -44,28 +46,39 @@ public class GameController {
     private boolean local = false;
     private int playerNumber;
     private ILobby lobby;
+    private Timer updatePlayersTimer;
+    private Registry registry;
+    private IServerManager server;
+    private int opponementId;
 
 
-    public GameController() {
+    public GameController() throws RemoteException {
         player1 = new Player(50, 600, Direction.UP, 1, 0);
-        player2 = new Player(920, 600, Direction.UP, 2, 0);
+        player2 = new Player(950, 600, Direction.UP, 2, 0);
         animationTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                updateCanvas();
-                //TODO maybe new timer for intersection?
-                if ( player1.intersects(player2) ||  player1.hitsGrid()) {
-                    animationTimer.stop();
-                    playerTimer.cancel();
-                    txtPoints.setText("Player 2 wint! Aantal punten: " + points / 40 + "\n Press the enter key to go back");
-                    gameOver = true;
+                try {
+                    updateCanvas();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
                 }
-                else if(player2.intersects(player1) || player2.hitsGrid()) {
+                try {
+                    if ( player1.intersects(player2) ||  player1.hitsGrid()) {
+                        animationTimer.stop();
+                        playerTimer.cancel();
+                        txtPoints.setText("Player 2 wint! Aantal punten: " + points / 40 + "\n Press the enter key to go back");
+                        gameOver = true;
+                    }
+                    else if(player2.intersects(player1) || player2.hitsGrid()) {
 
-                    animationTimer.stop();
-                    playerTimer.cancel();
-                    txtPoints.setText("Player 1 wint! Aantal punten: " + points / 40 + "\n Press the enter to go back");
-                    gameOver = true;
+                        animationTimer.stop();
+                        playerTimer.cancel();
+                        txtPoints.setText("Player 1 wint! Aantal punten: " + points / 40 + "\n Press the enter to go back");
+                        gameOver = true;
+                    }
+                } catch (RemoteException e) {
+                    e.printStackTrace();
                 }
 
                 points++;
@@ -76,18 +89,81 @@ public class GameController {
         playerTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                UpdatePlayer();
+                try {
+                    UpdatePlayer();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
             }
         }, 1000 , 50);
+        this.registry = locateRegistry("127.0.0.1",1099);
+        try {
+            this.server = (IServerManager) registry.lookup("serverManager");
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (NotBoundException e) {
+            e.printStackTrace();
+        }
+        updatePlayersTimer = new Timer();
+        updatePlayersTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                UpdatePlayerServer();
+            }
+        }, 100 , 50);
     }
 
+    private void UpdatePlayerServer() {
+        if (playerNumber == 1)
+        {
+            try {
+                lobby = server.update(player1,1);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+           //try {
+           //   this.player2 = lobby.getPlayer(opponementId);
+           //} catch (RemoteException e) {
+           //    e.printStackTrace();
+           //}
+        }
+        else
+        {
+            try {
+                lobby = server.update(player2,1);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+           //try {
+           //    this.player1 = lobby.getPlayer(opponementId);
+           //} catch (RemoteException e) {
+           //    e.printStackTrace();
+           //}
+        }
+    }
+    private Registry locateRegistry(String ipAdress, int portNumber)
+    {
+        try
+        {
+            return LocateRegistry.getRegistry(ipAdress, portNumber);
+        }
+        catch (RemoteException ex) {
+            System.out.println("Client: Cannot locate registry");
+            System.out.println("Client: RemoteException: " + ex.getMessage());
+            return null;
+        }
+    }
     public void setUsers(User user,User user2) {
         this.user = user;
         this.user2 = user2;
     }
-
+    public void setupMulti(int playerNumber,ILobby lobby)
+    {
+        this.playerNumber = playerNumber;
+        this.lobby = lobby;
+    }
     @FXML
-    private void ChangeDirection(KeyEvent event){
+    private void ChangeDirection(KeyEvent event)  {
         if (gameOver && event.getCode() == KeyCode.ENTER) {
             try {
                 toHomeScreen();
@@ -100,43 +176,79 @@ public class GameController {
             KeyCode keyCode = event.getCode();
             switch (keyCode) {
                 case UP:
-                    if (player2.getCurrentDirection() != Direction.DOWN) {
-                        player2.setCurrentDirection(Direction.UP);
+                    try {
+                        if (player2.getCurrentDirection() != Direction.DOWN) {
+                            player2.setCurrentDirection(Direction.UP);
+                        }
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
                     }
                     break;
                 case DOWN:
-                    if (player2.getCurrentDirection() != Direction.UP) {
-                        player2.setCurrentDirection(Direction.DOWN);
+                    try {
+                        if (player2.getCurrentDirection() != Direction.UP) {
+                            player2.setCurrentDirection(Direction.DOWN);
+                        }
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
                     }
                     break;
                 case LEFT:
-                    if (player2.getCurrentDirection() != Direction.RIGHT) {
-                        player2.setCurrentDirection(Direction.LEFT);
+                    try {
+                        if (player2.getCurrentDirection() != Direction.RIGHT) {
+                            player2.setCurrentDirection(Direction.LEFT);
+                        }
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
                     }
                     break;
                 case RIGHT:
-                    if (player2.getCurrentDirection() != Direction.LEFT) {
-                        player2.setCurrentDirection(Direction.RIGHT);
+                    try {
+                        if (player2.getCurrentDirection() != Direction.LEFT) {
+                            try {
+                                player2.setCurrentDirection(Direction.RIGHT);
+                            } catch (RemoteException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
                     }
                     break;
                 case W:
-                    if (player1.getCurrentDirection() != Direction.DOWN) {
-                        player1.setCurrentDirection(Direction.UP);
+                    try {
+                        if (player1.getCurrentDirection() != Direction.DOWN) {
+                            player1.setCurrentDirection(Direction.UP);
+                        }
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
                     }
                     break;
                 case S:
-                    if (player1.getCurrentDirection() != Direction.UP) {
-                        player1.setCurrentDirection(Direction.DOWN);
+                    try {
+                        if (player1.getCurrentDirection() != Direction.UP) {
+                            player1.setCurrentDirection(Direction.DOWN);
+                        }
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
                     }
                     break;
                 case A:
-                    if (player1.getCurrentDirection() != Direction.RIGHT) {
-                        player1.setCurrentDirection(Direction.LEFT);
+                    try {
+                        if (player1.getCurrentDirection() != Direction.RIGHT) {
+                            player1.setCurrentDirection(Direction.LEFT);
+                        }
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
                     }
                     break;
                 case D:
-                    if (player1.getCurrentDirection() != Direction.LEFT) {
-                        player1.setCurrentDirection(Direction.RIGHT);
+                    try {
+                        if (player1.getCurrentDirection() != Direction.LEFT) {
+                            player1.setCurrentDirection(Direction.RIGHT);
+                        }
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
                     }
                     break;
             }
@@ -146,23 +258,39 @@ public class GameController {
             if (playerNumber ==1) {
                 switch (keyCode) {
                     case W:
-                        if (player1.getCurrentDirection() != Direction.DOWN) {
-                            player1.setCurrentDirection(Direction.UP);
+                        try {
+                            if (player1.getCurrentDirection() != Direction.DOWN) {
+                                player1.setCurrentDirection(Direction.UP);
+                            }
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
                         }
                         break;
                     case S:
-                        if (player1.getCurrentDirection() != Direction.UP) {
-                            player1.setCurrentDirection(Direction.DOWN);
+                        try {
+                            if (player1.getCurrentDirection() != Direction.UP) {
+                                player1.setCurrentDirection(Direction.DOWN);
+                            }
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
                         }
                         break;
                     case A:
-                        if (player1.getCurrentDirection() != Direction.RIGHT) {
-                            player1.setCurrentDirection(Direction.LEFT);
+                        try {
+                            if (player1.getCurrentDirection() != Direction.RIGHT) {
+                                player1.setCurrentDirection(Direction.LEFT);
+                            }
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
                         }
                         break;
                     case D:
-                        if (player1.getCurrentDirection() != Direction.LEFT) {
-                            player1.setCurrentDirection(Direction.RIGHT);
+                        try {
+                            if (player1.getCurrentDirection() != Direction.LEFT) {
+                                player1.setCurrentDirection(Direction.RIGHT);
+                            }
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
                         }
                         break;
                 }
@@ -170,23 +298,39 @@ public class GameController {
             else {
                 switch (keyCode) {
                     case W:
-                        if (player2.getCurrentDirection() != Direction.DOWN) {
-                            player2.setCurrentDirection(Direction.UP);
+                        try {
+                            if (player2.getCurrentDirection() != Direction.DOWN) {
+                                player2.setCurrentDirection(Direction.UP);
+                            }
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
                         }
                         break;
                     case S:
-                        if (player2.getCurrentDirection() != Direction.UP) {
-                            player2.setCurrentDirection(Direction.DOWN);
+                        try {
+                            if (player2.getCurrentDirection() != Direction.UP) {
+                                player2.setCurrentDirection(Direction.DOWN);
+                            }
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
                         }
                         break;
                     case A:
-                        if (player2.getCurrentDirection() != Direction.RIGHT) {
-                            player2.setCurrentDirection(Direction.LEFT);
+                        try {
+                            if (player2.getCurrentDirection() != Direction.RIGHT) {
+                                player2.setCurrentDirection(Direction.LEFT);
+                            }
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
                         }
                         break;
                     case D:
-                        if (player2.getCurrentDirection() != Direction.LEFT) {
-                            player2.setCurrentDirection(Direction.RIGHT);
+                        try {
+                            if (player2.getCurrentDirection() != Direction.LEFT) {
+                                player2.setCurrentDirection(Direction.RIGHT);
+                            }
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
                         }
                         break;
                 }
@@ -220,7 +364,7 @@ public class GameController {
         stage.show();
     }
 
-    private void updateCanvas() {
+    private void updateCanvas() throws RemoteException {
         if (first) {
             paintable = new JavaFXPaintable(this.grid);
             gridTemp.getScene().setOnKeyPressed(this::ChangeDirection);
@@ -229,7 +373,7 @@ public class GameController {
         paintable.draw(player1,player2);
     }
 
-    private void UpdatePlayer() {
+    private void UpdatePlayer() throws RemoteException {
         player1.move();
         player2.move();
     }

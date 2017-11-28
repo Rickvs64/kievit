@@ -9,6 +9,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public class PlayerTest {
@@ -21,7 +22,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void testImagePlayerOne() {
+    public void testImagePlayerOne() throws RemoteException {
 
         Player player = new Player(1, 1, Direction.UP, 1, 1);
 
@@ -30,7 +31,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void testImagePlayerTwo() {
+    public void testImagePlayerTwo() throws RemoteException {
 
         Player player = new Player(1, 1, Direction.DOWN, 2, 1);
 
@@ -39,7 +40,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void testImagePlayersDefault() {
+    public void testImagePlayersDefault() throws RemoteException {
 
         Player player = new Player(1, 1, Direction.DOWN, 3, 1);
 
@@ -48,7 +49,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void getDirection() {
+    public void getDirection() throws RemoteException {
 
         Player player = new Player(1, 1, Direction.DOWN, 3, 1);
 
@@ -56,8 +57,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void setCurrentDirection()
-    {
+    public void setCurrentDirection() throws RemoteException {
         Player player = new Player(1, 1, Direction.DOWN, 3, 1);
         player.setCurrentDirection(Direction.UP);
 
@@ -65,8 +65,7 @@ public class PlayerTest {
     }
 
    @Test
-    public void moveUp()
-    {
+    public void moveUp() throws RemoteException {
        Player player = new Player(1, 1, Direction.UP, 3, 1);
 
        player.move();
@@ -75,8 +74,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void moveDown()
-    {
+    public void moveDown() throws RemoteException {
         Player player = new Player(1, 1, Direction.DOWN, 3, 1);
 
         player.move();
@@ -85,8 +83,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void moveLeft()
-    {
+    public void moveLeft() throws RemoteException {
         Player player = new Player(1, 1, Direction.LEFT, 3, 1);
 
         player.move();
@@ -95,8 +92,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void moveRight()
-    {
+    public void moveRight() throws RemoteException {
         Player player = new Player(1, 1, Direction.RIGHT, 3, 1);
 
         player.move();
@@ -105,23 +101,21 @@ public class PlayerTest {
     }
 
     @Test
-    public void doesNotHitGrid()
-    {
+    public void doesNotHitGrid() throws RemoteException {
         Player player = new Player(1, 1, Direction.RIGHT, 3, 1);
 
         Assert.assertEquals(player.hitsGrid(), false);
     }
 
     @Test
-    public void hitsGrid()
-    {
+    public void hitsGrid() throws RemoteException {
         Player player = new Player(11, 9, Direction.RIGHT, 3, 1);
 
         Assert.assertEquals(player.hitsGrid(), true);
     }
 
     @Test
-    public void playerIntersectsWithOtherPlayer()
+    public void playerIntersectsWithOtherPlayer()throws RemoteException
     {
         Player player = new Player(11, 9, Direction.LEFT, 3, 1);
         Player player2 = new Player(11, 9, Direction.LEFT, 3, 1);
@@ -130,7 +124,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void playerIntersectsHisself()
+    public void playerIntersectsHisself()throws RemoteException
     {
         Player player2 = new Player(99999, 9999, Direction.LEFT, 3, 1);
        Player player = new Player(20,20,Direction.RIGHT,1,1);
@@ -146,7 +140,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void playerDoesNotIntersect()
+    public void playerDoesNotIntersect()throws RemoteException
     {
         Player player = new Player(11, 9, Direction.LEFT, 3, 1);
         Player player2 = new Player(100, 100, Direction.LEFT, 3, 1);

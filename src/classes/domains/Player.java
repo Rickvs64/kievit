@@ -4,11 +4,15 @@ package classes.domains;
 import javafx.scene.image.Image;
 
 import java.awt.geom.Line2D;
+import java.io.Serializable;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Player {
+public class Player extends UnicastRemoteObject implements Remote,IPlayer,Serializable{
     //user
     private int userID;
     //movement
@@ -19,7 +23,8 @@ public class Player {
     private Image head;
     private Image tail;
 
-    public Player(int startX, int startY, Direction direction, int playerNumber, int userID) {
+    public Player(int startX, int startY, Direction direction, int playerNumber, int userID) throws RemoteException {
+        //super();
         //cosmetic based on playernumber //TODO : Cosmetic from shops
         this.userID = userID;
         switch (playerNumber) {
@@ -86,7 +91,7 @@ public class Player {
         }
     }
 
-    public boolean intersects(Player other) {
+    public boolean intersects(IPlayer other) throws RemoteException {
         if (coordinates.size() <= 1)
             return false;
         if (other.getCoordinates().size() <= 1)
@@ -136,13 +141,12 @@ public class Player {
                 (head.getY() >= 10 & head.getY() <= 760) & (head.getX() >= 970);
 
     }
-    public void update(Player player)
-    {
-        this.userID = player.userID;
-        this.currentDirection = player.currentDirection;
-        this.coordinates = player.coordinates;
-        this.status = player.status;
-        this.head = player.head;
-        this.tail = player.tail;
+    public void update(IPlayer player) throws RemoteException {
+        this.userID = player.getUserID();
+        this.currentDirection = player.getCurrentDirection();
+        this.coordinates = player.getCoordinates();
+        this.status = StatusPlayer.Alive;
+        this.head = player.getHead();
+        this.tail = player.getTail();
     }
 }

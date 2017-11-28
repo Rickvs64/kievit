@@ -9,12 +9,14 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.rmi.RemoteException;
+
 public class JavaFXPaintableUnitTests {
     JavaFXPaintable paintable;
     Player player2;
     Player player1;
     @Before
-    public void initialize() {
+    public void initialize() throws RemoteException {
         JFXPanel jfxPanel = new JFXPanel();
         paintable = new JavaFXPaintable(new Canvas());
         player1 = new Player(50,50, Direction.UP,1,1);

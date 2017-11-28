@@ -7,6 +7,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 import java.awt.*;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,15 +22,14 @@ public class JavaFXPaintable {
         r.setWidth(200);
         r.setHeight(100);
     }
-    public void draw(Player player1,Player player2)
-    {
+    public void draw(IPlayer player1,IPlayer player2) throws RemoteException {
         gc.clearRect(0, 0, 1000, 1000);
         drawGrid();
         drawPlayer(player1);
         drawPlayer(player2);
     }
 
-    public void drawPlayer(Player player) {
+    public void drawPlayer(IPlayer player) throws RemoteException {
 
         List<Integer> x = new ArrayList<>();
         List<Integer> y = new ArrayList<>();

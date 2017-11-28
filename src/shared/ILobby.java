@@ -1,10 +1,13 @@
 package shared;
 
-import classes.domains.Player;
+import classes.domains.IPlayer;
+
+import java.rmi.RemoteException;
 
 public interface ILobby {
-    int getId();
-    boolean getStatus();
-    Player getPlayer(int id);
-    void update(Player player);
+    int getId() throws RemoteException;
+    boolean getStatus() throws RemoteException;
+    IPlayer getPlayer(int id) throws RemoteException;
+    void update(IPlayer player) throws RemoteException;
+    void setStatus(boolean status) throws RemoteException;
 }
