@@ -110,7 +110,7 @@ public class GameController {
             public void run() {
                 UpdatePlayerServer();
             }
-        }, 100 , 50);
+        }, 1000 , 50);
     }
 
     private void UpdatePlayerServer() {
@@ -121,11 +121,11 @@ public class GameController {
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
-           //try {
-           //   this.player2 = lobby.getPlayer(opponementId);
-           //} catch (RemoteException e) {
-           //    e.printStackTrace();
-           //}
+           try {
+              this.player2 = lobby.getPlayer(opponementId);
+           } catch (RemoteException e) {
+               e.printStackTrace();
+           }
         }
         else
         {
@@ -134,11 +134,11 @@ public class GameController {
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
-           //try {
-           //    this.player1 = lobby.getPlayer(opponementId);
-           //} catch (RemoteException e) {
-           //    e.printStackTrace();
-           //}
+           try {
+               this.player1 = lobby.getPlayer(opponementId);
+           } catch (RemoteException e) {
+               e.printStackTrace();
+           }
         }
     }
     private Registry locateRegistry(String ipAdress, int portNumber)

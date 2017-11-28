@@ -58,52 +58,46 @@ public class testLobbyController {
         } catch (NotBoundException e) {
             e.printStackTrace();
         }
-        //setUser2();
-        timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                try {
-                    UpdateLobby();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, 100 , 1000);
-    }
-    public void setUser(User user) {
-        this.user = user;
-        this.lbl_username.setText(this.user.getUsername());
-        this.lbl_credits.setText(String.valueOf(this.user.getCredits()));
-        this.roomRepository = new RoomRepository();
-        this.registry = locateRegistry("127.0.0.1",1099);
         try {
-            this.server = (IServerManager) registry.lookup("serverManager");
-        } catch (RemoteException e) {
+            findLobby();
+        } catch (SQLException e) {
             e.printStackTrace();
-        } catch (NotBoundException e) {
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        //setUser2();
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 try {
                     UpdateLobby();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
+                }  catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-        }, 100 , 1000);
+        }, 100 , 50);
+    }
+    public void setUser(User user) {
+
+    }
+
+    private void UpdateLobby() throws IOException {
+        this.lobby = server.getLobby(1);
+        System.out.println("count : " + lobby.getCount());
+        if (lobby.getStatus()){
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        startGame();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
     }
 
     private Registry locateRegistry(String ipAdress, int portNumber)
@@ -118,29 +112,15 @@ public class testLobbyController {
             return null;
         }
     }
-    public void UpdateLobby() throws SQLException, IOException, ClassNotFoundException {
-        if (server.getLobby(1) != null) {
-            this.lobby = server.getLobby(1);
-           //
-           //StringBuilder msg = new StringBuilder();
-           //for (User u : users
-           //        ) {
-           //    msg.append(u.getUsername() + " Credits: " + u.getCredits());
-           //    msg.append("\n");
-           //}
-           //Platform.runLater(new Runnable() {
-           //    @Override
-           //    public void run() {
-           //        playerList.setText(msg.toString());
-           //    }
-           //});
-            if (this.lobby.getStatus() == true)
-            {
-                startGame();
-            }
+    public void findLobby() throws SQLException, IOException, ClassNotFoundException {
+
+        if (server.getLobby(1) == null) {
+            this.lobby = server.addLobby(1);
+            server.addCount(this.lobby.getId());
         }
         else {
-            server.addLobby(1);
+            lobby = server.getLobby(1);
+            server.addCount(this.lobby.getId());
         }
     }
 
@@ -148,10 +128,10 @@ public class testLobbyController {
 
     public void startGame() throws IOException {
         int playerNumber = 2;
-        if (this.lobby.getStatus() == false)
+        if (server.getStatus(lobby.getId()) == false)
         {
             playerNumber = 1;
-            this.lobby.setStatus(true);
+            server.setStatus(true,lobby.getId());
         }
         timer.cancel();
         // Set the next "page" (scene) to display.

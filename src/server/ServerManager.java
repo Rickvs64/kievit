@@ -2,6 +2,7 @@ package server;
 
 import classes.domains.IPlayer;
 import classes.domains.Player;
+import javafx.embed.swing.JFXPanel;
 import shared.ILobby;
 import shared.Lobby;
 
@@ -14,31 +15,30 @@ import java.util.TimerTask;
 
 public class ServerManager extends UnicastRemoteObject implements IServerManager {
     List<ILobby> lobbyList = new ArrayList<>();
-
+    JFXPanel jfxPanel = new JFXPanel();
 
     public ServerManager() throws RemoteException {
     }
 
 
-    public void addLobby(int id)
+    public ILobby addLobby(int id)
     {
 
         System.out.println("Lobby created");
-        lobbyList.add(new Lobby(id));
+        ILobby lobby = new Lobby(1);
+        lobbyList.add(lobby);
+        return lobby;
     }
 
     @Override
     public ILobby getLobby(int id) {
+        System.out.println("Lobby got");
         //System.out.println("player joined Yay!!!");
         for (ILobby l:lobbyList
                 ) {
             try {
                 if (l.getId() == id)
                 {
-                    //if (l.getCount() == 2)
-                    //{
-                    //    System.out.println("YAYY");
-                    //}
                     return  l;
                 }
             } catch (RemoteException e) {
@@ -48,21 +48,6 @@ public class ServerManager extends UnicastRemoteObject implements IServerManager
         return null;
     }
 
-    @Override
-    public void start(int id) {
-        System.out.println("started lobby " + id);
-        for (ILobby l:lobbyList
-                ) {
-            try {
-                if (l.getId() == id)
-                {
-                    l.setStatus(true);
-                }
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     public ILobby update(IPlayer p,int lobbyId)
     {
@@ -79,5 +64,55 @@ public class ServerManager extends UnicastRemoteObject implements IServerManager
             }
         }
         return null;
+    }
+    public ILobby addCount(int lobbyId)
+    {
+        for (ILobby l:lobbyList
+                ) {
+            try {
+                if (l.getId() == lobbyId)
+                {
+                    l.addCount();
+                    return l;
+                }
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public boolean getStatus(int id) {
+        for (ILobby l:lobbyList
+                ) {
+            try {
+                if (l.getId() == id)
+                {
+                    if (l.getStatus() == true)
+                    {
+                        return true;
+                    }
+                }
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void setStatus(boolean b,int id) {
+        for (ILobby l:lobbyList
+                ) {
+            try {
+                if (l.getId() == id)
+                {
+                   l.setStatus(b);
+                }
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
