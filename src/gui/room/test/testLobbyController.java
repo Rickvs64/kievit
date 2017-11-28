@@ -110,7 +110,7 @@ public class testLobbyController {
     {
         try
         {
-            return LocateRegistry.getRegistry("127.0.0.1", portNumber);
+            return LocateRegistry.getRegistry("169.254.116.131", portNumber);
         }
         catch (RemoteException ex) {
             System.out.println("Client: Cannot locate registry");

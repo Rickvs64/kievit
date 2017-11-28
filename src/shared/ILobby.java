@@ -10,4 +10,5 @@ public interface ILobby {
     IPlayer getPlayer(int id) throws RemoteException;
     void update(IPlayer player) throws RemoteException;
     void setStatus(boolean status) throws RemoteException;
+    int getCount() throws RemoteException;
 }

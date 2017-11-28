@@ -59,4 +59,9 @@ public class Lobby implements ILobby, Serializable {
     public void setStatus(boolean status) {
         this.status = status;
     }
+
+    @Override
+    public int getCount() throws RemoteException {
+        return players.size();
+    }
 }

@@ -29,12 +29,16 @@ public class ServerManager extends UnicastRemoteObject implements IServerManager
 
     @Override
     public ILobby getLobby(int id) {
-        System.out.println("player joined Yay!!!");
+        //System.out.println("player joined Yay!!!");
         for (ILobby l:lobbyList
                 ) {
             try {
                 if (l.getId() == id)
                 {
+                    if (l.getCount() == 2)
+                    {
+                        System.out.println("YAYY");
+                    }
                     return  l;
                 }
             } catch (RemoteException e) {
