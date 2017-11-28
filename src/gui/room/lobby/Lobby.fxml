@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
@@ -24,7 +25,7 @@
         <Label id="lbl_credits" fx:id="lbl_credits" alignment="CENTER_RIGHT" layoutX="688.0" layoutY="78.0" prefHeight="21.0" prefWidth="189.0" text="★ 550" textAlignment="RIGHT" />
         <Label id="lbl_username" fx:id="lbl_username" alignment="CENTER_RIGHT" layoutX="688.0" layoutY="50.0" prefHeight="21.0" prefWidth="189.0" text="TEMPTEXT" textAlignment="RIGHT" />
         <Button layoutX="354.0" layoutY="406.0" mnemonicParsing="false" onAction="#startGame" prefHeight="21.0" prefWidth="189.0" text="Start Game" />
-      <Label fx:id="playerList" layoutX="390.0" layoutY="214.0" text="players.........." />
+      <Label fx:id="playerList" layoutX="390.0" layoutY="274.0" text="players.........." />
       <Group fx:id="player2stats" layoutX="625.0" layoutY="155.0" visible="false">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="TRANSPARENT" height="92.0" layoutX="56.0" layoutY="-46.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
@@ -44,5 +45,6 @@
       </Group>
       <Label layoutX="624.0" layoutY="13.0" text="Player 1:" />
       <Button layoutX="14.0" layoutY="19.0" mnemonicParsing="false" onAction="#toHomeScreen" prefHeight="25.0" prefWidth="67.0" text="Back" />
+      <Hyperlink fx:id="LobbySearch" layoutX="288.0" layoutY="209.0" onAction="#toLobbySearch" text="Click here to search for a specific lobby instead" />
     </children>
 </AnchorPane>

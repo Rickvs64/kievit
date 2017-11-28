@@ -16,6 +16,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import shared.ILobby;
 
 import java.io.IOException;
 import java.util.Timer;
@@ -39,6 +40,11 @@ public class GameController {
     private boolean first = true;
     private Integer points = 0;
     private boolean gameOver = false;
+    //multiplayer parameters
+    private boolean local = false;
+    private int playerNumber;
+    private ILobby lobby;
+
 
     public GameController() {
         player1 = new Player(50, 600, Direction.UP, 1, 0);
@@ -90,48 +96,101 @@ public class GameController {
             }
             return;
         }
-        KeyCode keyCode = event.getCode();
-        switch( keyCode ) {
-            case UP:
-                if (player2.getCurrentDirection() != Direction.DOWN) {
-                    player2.setCurrentDirection(Direction.UP);
+        if (local) {
+            KeyCode keyCode = event.getCode();
+            switch (keyCode) {
+                case UP:
+                    if (player2.getCurrentDirection() != Direction.DOWN) {
+                        player2.setCurrentDirection(Direction.UP);
+                    }
+                    break;
+                case DOWN:
+                    if (player2.getCurrentDirection() != Direction.UP) {
+                        player2.setCurrentDirection(Direction.DOWN);
+                    }
+                    break;
+                case LEFT:
+                    if (player2.getCurrentDirection() != Direction.RIGHT) {
+                        player2.setCurrentDirection(Direction.LEFT);
+                    }
+                    break;
+                case RIGHT:
+                    if (player2.getCurrentDirection() != Direction.LEFT) {
+                        player2.setCurrentDirection(Direction.RIGHT);
+                    }
+                    break;
+                case W:
+                    if (player1.getCurrentDirection() != Direction.DOWN) {
+                        player1.setCurrentDirection(Direction.UP);
+                    }
+                    break;
+                case S:
+                    if (player1.getCurrentDirection() != Direction.UP) {
+                        player1.setCurrentDirection(Direction.DOWN);
+                    }
+                    break;
+                case A:
+                    if (player1.getCurrentDirection() != Direction.RIGHT) {
+                        player1.setCurrentDirection(Direction.LEFT);
+                    }
+                    break;
+                case D:
+                    if (player1.getCurrentDirection() != Direction.LEFT) {
+                        player1.setCurrentDirection(Direction.RIGHT);
+                    }
+                    break;
+            }
+        }
+        else {
+            KeyCode keyCode = event.getCode();
+            if (playerNumber ==1) {
+                switch (keyCode) {
+                    case W:
+                        if (player1.getCurrentDirection() != Direction.DOWN) {
+                            player1.setCurrentDirection(Direction.UP);
+                        }
+                        break;
+                    case S:
+                        if (player1.getCurrentDirection() != Direction.UP) {
+                            player1.setCurrentDirection(Direction.DOWN);
+                        }
+                        break;
+                    case A:
+                        if (player1.getCurrentDirection() != Direction.RIGHT) {
+                            player1.setCurrentDirection(Direction.LEFT);
+                        }
+                        break;
+                    case D:
+                        if (player1.getCurrentDirection() != Direction.LEFT) {
+                            player1.setCurrentDirection(Direction.RIGHT);
+                        }
+                        break;
                 }
-                break;
-            case DOWN:
-                if (player2.getCurrentDirection() != Direction.UP) {
-                    player2.setCurrentDirection(Direction.DOWN);
+            }
+            else {
+                switch (keyCode) {
+                    case W:
+                        if (player2.getCurrentDirection() != Direction.DOWN) {
+                            player2.setCurrentDirection(Direction.UP);
+                        }
+                        break;
+                    case S:
+                        if (player2.getCurrentDirection() != Direction.UP) {
+                            player2.setCurrentDirection(Direction.DOWN);
+                        }
+                        break;
+                    case A:
+                        if (player2.getCurrentDirection() != Direction.RIGHT) {
+                            player2.setCurrentDirection(Direction.LEFT);
+                        }
+                        break;
+                    case D:
+                        if (player2.getCurrentDirection() != Direction.LEFT) {
+                            player2.setCurrentDirection(Direction.RIGHT);
+                        }
+                        break;
                 }
-                break;
-            case LEFT:
-                if (player2.getCurrentDirection() != Direction.RIGHT) {
-                    player2.setCurrentDirection(Direction.LEFT);
-                }
-                break;
-            case RIGHT:
-                if (player2.getCurrentDirection() != Direction.LEFT) {
-                    player2.setCurrentDirection(Direction.RIGHT);
-                }
-                break;
-            case W:
-                if (player1.getCurrentDirection() != Direction.DOWN) {
-                    player1.setCurrentDirection(Direction.UP);
-                }
-                break;
-            case S:
-                if (player1.getCurrentDirection() != Direction.UP) {
-                    player1.setCurrentDirection(Direction.DOWN);
-                }
-                break;
-            case A:
-                if (player1.getCurrentDirection() != Direction.RIGHT) {
-                    player1.setCurrentDirection(Direction.LEFT);
-                }
-                break;
-            case D:
-                if (player1.getCurrentDirection() != Direction.LEFT) {
-                    player1.setCurrentDirection(Direction.RIGHT);
-                }
-                break;
+            }
         }
     }
 

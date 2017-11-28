@@ -7,6 +7,7 @@ import classes.repositories.RoomRepository;
 import classes.repositories.SQLUserRepository;
 import gui.game.GameController;
 import gui.home.HomeController;
+import gui.room.search.searchroomController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -155,6 +156,28 @@ public class LobbyController {
         stage = (Stage) lbl_username.getScene().getWindow(); // Weird backwards logic trick to get the current scene window.
 
         stage.setScene(homeScreen);
+        stage.show();
+    }
+
+    @FXML
+    private void toLobbySearch() throws IOException
+    {
+        // More info can be found in the toHomeScreen() method
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../search/searchroom.fxml"));
+
+        Parent root = (Parent)fxmlLoader.load();
+        searchroomController controller = fxmlLoader.<searchroomController>getController();
+
+        // Run the setUser() method in HomeController.
+        // This is the JavaFX equivalent of sending data from one form to another in C#.
+        controller.setUser(user);
+
+        Scene searchScreen = new Scene(root);
+
+        Stage stage;
+        stage = (Stage) lbl_username.getScene().getWindow(); // Weird backwards logic trick to get the current scene window.
+
+        stage.setScene(searchScreen);
         stage.show();
     }
 
