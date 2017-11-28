@@ -35,10 +35,10 @@ public class ServerManager extends UnicastRemoteObject implements IServerManager
             try {
                 if (l.getId() == id)
                 {
-                    if (l.getCount() == 2)
-                    {
-                        System.out.println("YAYY");
-                    }
+                    //if (l.getCount() == 2)
+                    //{
+                    //    System.out.println("YAYY");
+                    //}
                     return  l;
                 }
             } catch (RemoteException e) {
