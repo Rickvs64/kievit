@@ -162,6 +162,7 @@ public class LobbyController {
     @FXML
     private void toLobbySearch() throws IOException
     {
+        timer.cancel();
         // More info can be found in the toHomeScreen() method
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../search/searchroom.fxml"));
 
@@ -187,6 +188,7 @@ public class LobbyController {
      */
     @FXML
     private void toHomeScreen() throws IOException {
+        timer.cancel();
         // Set the next "page" (scene) to display.
         // Note that an incorrect path will result in unexpected NullPointer exceptions!
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../../home/home.fxml"));

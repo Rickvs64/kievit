@@ -54,7 +54,7 @@ public class RoomRepository implements IRoomRepository {
     public List<Room> getAvaiableRooms() throws SQLException, IOException, ClassNotFoundException {
         List<Room> rooms = new ArrayList<>();
         String queryCreateRoom = "select ID, name, started, password, started, available from room p\n" +
-                "where available == 1;";
+                "where available = 1;";
         IConnection connection = new ConnectionManager();
         Connection conn = connection.getConnection();
         PreparedStatement preparedStmt = conn.prepareStatement(queryCreateRoom, Statement.RETURN_GENERATED_KEYS);
