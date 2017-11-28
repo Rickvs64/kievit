@@ -50,6 +50,8 @@ public class testLobbyController {
     @FXML
     public void test()
     {
+        user = new User("Alex",100);
+        user2 = new User("bob",100);
         this.registry = locateRegistry("127.0.0.1",1099);
         try {
             this.server = (IServerManager) registry.lookup("serverManager");

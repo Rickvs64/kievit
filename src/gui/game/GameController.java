@@ -53,8 +53,8 @@ public class GameController {
 
 
     public GameController() throws RemoteException {
-        player1 = new Player(50, 600, Direction.UP, 1, 0);
-        player2 = new Player(950, 600, Direction.UP, 2, 0);
+        player1 = new Player(50, 600, Direction.UP, 1, 1);
+        player2 = new Player(950, 600, Direction.UP, 2, 2);
         animationTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -117,12 +117,13 @@ public class GameController {
         if (playerNumber == 1)
         {
             try {
-                lobby = server.update(player1,1);
+                //lobby = server.updatePlayer(player1,1);
+                server.updateDirection(player1.getCurrentDirection(),lobby.getId(),player1.getUserID());
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
            try {
-              this.player2 = lobby.getPlayer(opponementId);
+              player2.setCurrentDirection(server.getDirection(player2.getUserID(),lobby.getId()));
            } catch (RemoteException e) {
                e.printStackTrace();
            }
@@ -130,12 +131,12 @@ public class GameController {
         else
         {
             try {
-                lobby = server.update(player2,1);
+                server.updateDirection(player2.getCurrentDirection(),lobby.getId(),player2.getUserID());
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
            try {
-               this.player1 = lobby.getPlayer(opponementId);
+               player1.setCurrentDirection(server.getDirection(player1.getUserID(),lobby.getId()));
            } catch (RemoteException e) {
                e.printStackTrace();
            }
@@ -161,6 +162,13 @@ public class GameController {
     {
         this.playerNumber = playerNumber;
         this.lobby = lobby;
+        if (playerNumber ==1)
+        {
+            opponementId = 2;
+        }
+        else {
+            opponementId = 1;
+        }
     }
     @FXML
     private void ChangeDirection(KeyEvent event)  {

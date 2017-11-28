@@ -37,8 +37,8 @@ public class JavaFXPaintable {
             x.add(player.getCoordinates().get(i).getX());
             y.add(player.getCoordinates().get(i).getY());
         }
-        Image head = player.getHead();
-        Image tail = player.getTail();
+        Image head = new Image("@../../resources/img/bird0.gif");
+        Image tail = new Image("@../../resources/img/poop0.gif");
         gc.drawImage(head,x.get(0),y.get(0),20,20);
         for (int i = 0;  i < x.size()-1; i++)
         {

@@ -1,5 +1,6 @@
 package server;
 
+import classes.domains.Direction;
 import classes.domains.IPlayer;
 import classes.domains.Player;
 import javafx.embed.swing.JFXPanel;
@@ -25,15 +26,18 @@ public class ServerManager extends UnicastRemoteObject implements IServerManager
     {
 
         System.out.println("Lobby created");
-        ILobby lobby = new Lobby(1);
+        ILobby lobby = null;
+        try {
+            lobby = new Lobby(1);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
         lobbyList.add(lobby);
         return lobby;
     }
 
     @Override
-    public ILobby getLobby(int id) {
-        System.out.println("Lobby got");
-        //System.out.println("player joined Yay!!!");
+    public synchronized ILobby getLobby(int id) {
         for (ILobby l:lobbyList
                 ) {
             try {
@@ -49,7 +53,7 @@ public class ServerManager extends UnicastRemoteObject implements IServerManager
     }
 
 
-    public ILobby update(IPlayer p,int lobbyId)
+    public synchronized ILobby updatePlayer(IPlayer p,int lobbyId)
     {
         for (ILobby l:lobbyList
              ) {
@@ -114,5 +118,36 @@ public class ServerManager extends UnicastRemoteObject implements IServerManager
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public void updateDirection(Direction currentDirection, int id, int userID) throws RemoteException {
+        for (ILobby l:lobbyList
+                ) {
+            try {
+                if (l.getId() == id)
+                {
+                    l.updateDirection(userID,currentDirection);
+                }
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public Direction getDirection(int userID, int id) {
+        for (ILobby l:lobbyList
+                ) {
+            try {
+                if (l.getId() == id)
+                {
+                    return l.getDirection(userID);
+                }
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 }

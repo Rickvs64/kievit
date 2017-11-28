@@ -5,27 +5,29 @@ import classes.domains.IPlayer;
 import classes.domains.Player;
 
 import java.io.Serializable;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Lobby implements ILobby, Serializable {
+public class Lobby extends UnicastRemoteObject implements ILobby, Serializable {
     private int id;
     private boolean status;
     private List<Player> players = new ArrayList<>();
     private int count;
 
-    public Lobby(int id) {
+    public Lobby(int id) throws RemoteException {
         this.id = id;
         this.count = 0;
         this.status = false;
         try {
-            players.add(new Player(50, 600, Direction.UP, 1, 0));
+            players.add(new Player(50, 600, Direction.UP, 1, 1));
         } catch (RemoteException e) {
             e.printStackTrace();
         }
         try {
-            players.add(new Player(950, 600, Direction.UP, 2, 0));
+            players.add(new Player(950, 600, Direction.UP, 2, 2));
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -42,9 +44,9 @@ public class Lobby implements ILobby, Serializable {
     }
 
     @Override
-    public IPlayer getPlayer(int id) {
-        for (IPlayer p:players
-             ) {
+    public synchronized IPlayer getPlayer(int id) {
+        for (IPlayer p : players
+                ) {
             try {
                 if (p.getUserID() == id)
                     return p;
@@ -57,12 +59,12 @@ public class Lobby implements ILobby, Serializable {
     }
 
     @Override
-    public void update(IPlayer player) {
-        for (IPlayer p:players) {
+    public synchronized void update(IPlayer player) {
+        for (IPlayer p : players) {
             try {
-                if (p.getUserID() == player.getUserID())
-                {
-                    p = player;
+                if (p.getUserID() == player.getUserID()) {
+                    System.out.println("updated player");
+                    p.update(player);
                 }
             } catch (RemoteException e) {
                 e.printStackTrace();
@@ -80,7 +82,35 @@ public class Lobby implements ILobby, Serializable {
         return count;
     }
 
-    public synchronized void addCount() throws RemoteException{
+    public synchronized void addCount() throws RemoteException {
         count++;
+    }
+
+    @Override
+    public synchronized void updateDirection(int userID, Direction currentDirection) throws RemoteException {
+        for (IPlayer p : players) {
+            try {
+                if (p.getUserID() == userID) {
+                    System.out.println("updated player");
+                    p.setCurrentDirection(currentDirection);
+                }
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public Direction getDirection(int userID) {
+        for (IPlayer p : players) {
+            try {
+                if (p.getUserID() == userID) {
+                    return p.getCurrentDirection();
+                }
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 }

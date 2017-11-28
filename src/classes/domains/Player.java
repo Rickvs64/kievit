@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Player extends UnicastRemoteObject implements Remote,IPlayer,Serializable{
+public class Player extends UnicastRemoteObject implements IPlayer,Serializable{
     //user
     private int userID;
     //movement
@@ -20,8 +20,8 @@ public class Player extends UnicastRemoteObject implements Remote,IPlayer,Serial
     private List<Coordinate> coordinates;
     private StatusPlayer status;
     //cosmetics
-    private Image head;
-    private Image tail;
+    //private Image head;
+    //private Image tail;
 
     public Player(int startX, int startY, Direction direction, int playerNumber, int userID) throws RemoteException {
         //super();
@@ -29,16 +29,16 @@ public class Player extends UnicastRemoteObject implements Remote,IPlayer,Serial
         this.userID = userID;
         switch (playerNumber) {
             case 1:
-                this.head = new Image("@../../resources/img/bird0.gif");
-                this.tail = new Image("@../../resources/img/poop0.gif");
+                //this.head = new Image("@../../resources/img/bird0.gif");
+                //this.tail = new Image("@../../resources/img/poop0.gif");
                 break;
             case 2:
-                this.head = new Image("@../../resources/img/bird1.gif");
-                this.tail = new Image("@../../resources/img/poop1.gif");
+                //this.head = new Image("@../../resources/img/bird1.gif");
+                //this.tail = new Image("@../../resources/img/poop1.gif");
                 break;
             default:
-                this.head = new Image("@../../resources/img/bird2.gif");
-                this.tail = new Image("@../../resources/img/poop2.gif");
+                //this.head = new Image("@../../resources/img/bird2.gif");
+                //this.tail = new Image("@../../resources/img/poop2.gif");
                 break;
         }
 
@@ -65,13 +65,13 @@ public class Player extends UnicastRemoteObject implements Remote,IPlayer,Serial
         return coordinates;
     }
 
-    public Image getHead() {
-        return head;
-    }
+    //public Image getHead() {
+    //    return head;
+    //}
 
-    public Image getTail() {
-        return tail;
-    }
+    //public Image getTail() {
+    //    return tail;
+    //}
 
     public void move() {
         Coordinate temp = coordinates.get(0);
@@ -146,7 +146,7 @@ public class Player extends UnicastRemoteObject implements Remote,IPlayer,Serial
         this.currentDirection = player.getCurrentDirection();
         this.coordinates = player.getCoordinates();
         this.status = StatusPlayer.Alive;
-        this.head = player.getHead();
-        this.tail = player.getTail();
+        //this.head = player.getHead();
+        //this.tail = player.getTail();
     }
 }
