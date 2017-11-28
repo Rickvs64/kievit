@@ -1,24 +1,43 @@
 package gui.room.search;
 
+import classes.domains.HighscoreEntry;
+import classes.domains.Room;
 import classes.domains.User;
 import gui.home.HomeController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class searchroomController {
+public class searchroomController implements Initializable {
 
     private User user;
     @FXML
     private Label lbl_username;
     @FXML
     private Label lbl_credits;
+    @FXML
+    private TableView<Room> roomlist;
+    @FXML
+    private TableColumn<Room, String> name;
+    @FXML
+    private TableColumn<Room, Integer> players;
+    @FXML
+    private TableColumn<Room, Integer> id;
+    ObservableList<Room> data = FXCollections.observableArrayList();
 
     public void setUser(User user) {
         this.user = user;
@@ -46,5 +65,13 @@ public class searchroomController {
 
         stage.setScene(homeScreen);
         stage.show();
+    }
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        name.setCellValueFactory(new PropertyValueFactory<Room, String>("name"));
+        players.setCellValueFactory(new PropertyValueFactory<Room, Integer>("players"));
+        id.setCellValueFactory(new PropertyValueFactory<Room, Integer>("id"));
+        roomlist.setItems(data);
+
     }
 }
