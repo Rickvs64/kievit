@@ -46,7 +46,7 @@ public class RoomRepository implements IRoomRepository {
         preparedStmt.setInt(1, roomID);
         ResultSet rs = preparedStmt.executeQuery();
         if (rs.next()) {
-            users.add(new User(rs.getString("username"),rs.getInt("credits")));
+            users.add(new User(rs.getInt("id"),rs.getString("username"),rs.getInt("credits")));
         }
         conn.close();
         return users;

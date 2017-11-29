@@ -3,6 +3,7 @@ package server;
 import classes.domains.Direction;
 import classes.domains.IPlayer;
 import classes.domains.Player;
+import classes.domains.User;
 import javafx.embed.swing.JFXPanel;
 import shared.ILobby;
 import shared.Lobby;
@@ -22,16 +23,16 @@ public class ServerManager extends UnicastRemoteObject implements IServerManager
     }
 
 
-    public ILobby addLobby(int id)
-    {
+    public ILobby addLobby(int id) throws RemoteException {
 
-        System.out.println("Lobby created");
+
         ILobby lobby = null;
         try {
-            lobby = new Lobby(1);
+            lobby = new Lobby(id);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+        System.out.println("Lobby created id: " + lobby.getId());
         lobbyList.add(lobby);
         return lobby;
     }
@@ -69,13 +70,14 @@ public class ServerManager extends UnicastRemoteObject implements IServerManager
         }
         return null;
     }
-    public ILobby addCount(int lobbyId)
+    public ILobby joinLobby(int lobbyId,User user)
     {
         for (ILobby l:lobbyList
                 ) {
             try {
                 if (l.getId() == lobbyId)
                 {
+                    l.addUser(user);
                     l.addCount();
                     return l;
                 }
@@ -143,6 +145,22 @@ public class ServerManager extends UnicastRemoteObject implements IServerManager
                 if (l.getId() == id)
                 {
                     return l.getDirection(userID);
+                }
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public List<User> getUsers(int id) {
+        for (ILobby l:lobbyList
+                ) {
+            try {
+                if (l.getId() == id)
+                {
+                    return l.getUsers();
                 }
             } catch (RemoteException e) {
                 e.printStackTrace();

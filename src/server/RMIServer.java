@@ -90,14 +90,8 @@ public class RMIServer {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-
-        // Welcome message
         System.out.println("SERVER USING REGISTRY");
-
-        // Print IP addresses and network interfaces
-        // printIPAddresses();
-
-        // Create server
+        System.setProperty("java.rmi.server.hostname", "127.0.0.1");
         RMIServer server = new RMIServer();
     }
 }

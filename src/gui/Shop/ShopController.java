@@ -61,9 +61,9 @@ public class ShopController {
         name.setCellValueFactory(new PropertyValueFactory<Item,String>("name"));
         type.setCellValueFactory(new PropertyValueFactory<Item,String>("type"));
         IShopRepository shopRepository = new ShopRepository();
-        if (!shopRepository.getItems(11).isEmpty())
+        if (!shopRepository.getItems(user.getId()).isEmpty())
         {
-            for (Item i:shopRepository.getItems(11)) {
+            for (Item i:shopRepository.getItems(user.getId())) {
                 listItems.getItems().add(i);
             }
         }
@@ -89,7 +89,7 @@ public class ShopController {
         if (item != null)
         {
             IShopRepository shopRepository = new ShopRepository();
-            shopRepository.buyItem(item.getID(),11);
+            shopRepository.buyItem(item.getID(),user.getId());
             getItems();
             selectedItem();
         }

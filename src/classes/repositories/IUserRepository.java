@@ -2,6 +2,9 @@ package classes.repositories;
 
 import classes.domains.User;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
 public interface IUserRepository {
     /**
      * Test method that returns a dummy User object called John.
@@ -34,5 +37,6 @@ public interface IUserRepository {
      * @param username
      * @return
      */
-    Integer getCredits(String username);
+
+    User login(String username,String password) throws SQLException, IOException, ClassNotFoundException;
 }

@@ -42,7 +42,7 @@ public class RoomController {
         {
             System.out.println("passed");
             IRoomRepository roomRepository = new RoomRepository();
-            int roomID = roomRepository.createRoom(32,roomName.getText(),roomPassword.getText(),50);
+            int roomID = roomRepository.createRoom(user.getId(),roomName.getText(),roomPassword.getText(),50);
             toLobbyScreen(roomID);
         }
     }
@@ -56,8 +56,8 @@ public class RoomController {
         LobbyController controller = fxmlLoader.<LobbyController>getController();
         // Run the setUser() method in HomeController.
         // This is the JavaFX equivalent of sending data from one form to another in C#.
-        controller.setUser(user);
         controller.setRoom(roomID);
+        controller.setUser(user);
         Scene homeScreen = new Scene(root);
         Stage stage;
         stage = (Stage) lbl_username.getScene().getWindow(); // Weird backwards logic trick to get the current scene window.

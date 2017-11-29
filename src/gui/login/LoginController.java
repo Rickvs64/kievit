@@ -48,24 +48,20 @@ public class LoginController {
      * Temporary test method. Credential validation is skipped - user object is created and sent straight to home screen.
      * @param event
      */
-    @FXML
-    private void testSkipLogin(ActionEvent event) throws IOException {
-        toHomeScreen(userRepo.getDummyUser());
-    }
 
     /**
      * Attempt to login with the values set in user form.
      * @param event
      */
     @FXML
-    private void login(ActionEvent event) throws IOException, FileNotFoundException {
-        User user = new User(txt_username.getText().toLowerCase(), txt_password.getText());
-        user.setCredits(100); // Only temporarily.
+    private void login(ActionEvent event) throws IOException, FileNotFoundException, SQLException, ClassNotFoundException {
+        User user = userRepo.login(txt_username.getText().toLowerCase(), txt_password.getText());
+        if (user != null) {
 
-        if (userRepo.checkUserExists(user)) {
             toHomeScreen(user);
         }
-        else {
+        else
+        {
             System.out.println("Wrong user credentials, mate.");
         }
 
@@ -88,10 +84,6 @@ public class LoginController {
 
         Parent root = (Parent)fxmlLoader.load();
         HomeController controller = fxmlLoader.<HomeController>getController();
-
-        user.setCredits(userRepo.getCredits(user.getUsername()));
-
-        // Run the setUser() method in HomeController.
         // This is the JavaFX equivalent of sending data from one form to another in C#.
         controller.setUser(user);
 

@@ -1,6 +1,9 @@
 package classes.domains;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable{
+    private int id;
     private String username;
     private String password;
     private Integer credits;
@@ -11,7 +14,8 @@ public class User {
      * @param username
      * @param credits
      */
-    public User(String username, Integer credits) {
+    public User(int id, String username, Integer credits) {
+        this.id = id;
         this.username = username;
         this.credits = credits;
     }
@@ -19,6 +23,10 @@ public class User {
     public User(String username, String password) {
         this.username = username;
         this.password = password;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getUsername() {

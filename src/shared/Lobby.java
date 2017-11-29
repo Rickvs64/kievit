@@ -3,6 +3,7 @@ package shared;
 import classes.domains.Direction;
 import classes.domains.IPlayer;
 import classes.domains.Player;
+import classes.domains.User;
 
 import java.io.Serializable;
 import java.rmi.Remote;
@@ -16,6 +17,7 @@ public class Lobby extends UnicastRemoteObject implements ILobby, Serializable {
     private boolean status;
     private List<Player> players = new ArrayList<>();
     private int count;
+    private List<User> users = new ArrayList<>();
 
     public Lobby(int id) throws RemoteException {
         this.id = id;
@@ -110,5 +112,15 @@ public class Lobby extends UnicastRemoteObject implements ILobby, Serializable {
             }
         }
         return null;
+    }
+
+    @Override
+    public void addUser(User user) throws RemoteException {
+        users.add(user);
+    }
+
+    @Override
+    public List<User> getUsers() throws RemoteException {
+        return users;
     }
 }

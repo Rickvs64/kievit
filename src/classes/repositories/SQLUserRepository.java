@@ -1,8 +1,10 @@
 package classes.repositories;
 
 import classes.domains.CryptWithMD5;
+import classes.domains.Item;
 import classes.domains.User;
 
+import javax.jws.soap.SOAPBinding;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,7 +32,7 @@ public class SQLUserRepository implements IUserRepository {
 
     @Override
     public User getDummyUser() {
-        return new User("John", 550);
+        return new User(1,"John", 550);
     }
 
     @Override
@@ -49,6 +51,25 @@ public class SQLUserRepository implements IUserRepository {
                 return true;
             }
 
+        }
+        catch (Exception ex) {
+            // Fuck it.
+            System.out.println("Something broke, try again later.");
+            return false;
+        }
+    }
+
+
+
+    @Override
+    public Boolean createUser(User user) {
+        try {
+            String encrypted = CryptWithMD5.cryptWithMD5(user.getPassword());
+            user.setPassword(encrypted);
+
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("INSERT INTO player (username, password) VALUES ('" + user.getUsername() + "', '" + user.getPassword() + "')");
+            return true;
         }
         catch (Exception ex) {
             // Fuck it.
@@ -79,40 +100,19 @@ public class SQLUserRepository implements IUserRepository {
     }
 
     @Override
-    public Boolean createUser(User user) {
-        try {
-            String encrypted = CryptWithMD5.cryptWithMD5(user.getPassword());
-            user.setPassword(encrypted);
-
-            Statement statement = connection.createStatement();
-            statement.executeUpdate("INSERT INTO player (username, password) VALUES ('" + user.getUsername() + "', '" + user.getPassword() + "')");
-            return true;
+    public User login(String username, String password) throws SQLException, IOException, ClassNotFoundException {
+        String query = "SELECT * FROM player WHERE username = ? AND password= ?;";
+        User user = null;
+        IConnection connection = new ConnectionManager();
+        Connection conn = connection.getConnection();
+        PreparedStatement preparedStmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+        preparedStmt.setString(1,username.toLowerCase());
+        preparedStmt.setString(2,CryptWithMD5.cryptWithMD5(password));
+        ResultSet rs = preparedStmt.executeQuery();
+        if (rs.next()) {
+           user = new User(rs.getInt("id"),rs.getString("username"),rs.getInt("credits"));
         }
-        catch (Exception ex) {
-            // Fuck it.
-            System.out.println("Something broke, try again later.");
-            return false;
-        }
-    }
-
-    @Override
-    public Integer getCredits(String username) {
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet result = statement.executeQuery("SELECT credits FROM player WHERE username = '" + username + "';");
-
-            if (!result.next()) {   // If next() returns false there are no matches
-                System.out.println("Couldn't find matching player's credits. Dafuq?");
-                return null;
-            }
-            else {
-                return (Integer)result.getObject("credits");
-            }
-        }
-        catch (Exception ex) {
-            // Fuck it.
-            System.out.println("Something broke, try again later.");
-            return null;
-        }
+        conn.close();
+        return user;
     }
 }

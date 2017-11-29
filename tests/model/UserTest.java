@@ -15,7 +15,7 @@ public class UserTest {
 
     @Before
     public void initialize() {
-        userOne = new User("lars", 12);
+        userOne = new User(0,"lars", 12);
         userTwo = new User("lars", "password");
     }
 

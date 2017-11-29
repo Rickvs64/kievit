@@ -66,27 +66,9 @@ public class LobbyController {
         this.lbl_username.setText(this.user.getUsername());
         this.lbl_credits.setText(String.valueOf(this.user.getCredits()));
         this.roomRepository = new RoomRepository();
-        //setUser2();
+        setupMulti();
+    }
 
-    }
-    public void setupLocal()
-    {
-        timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                try {
-                    UpdateLobby();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, 100 , 1000);
-    }
     public void setupMulti()
     {
         this.registry = locateRegistry("127.0.0.1",1099);
@@ -111,28 +93,36 @@ public class LobbyController {
             @Override
             public void run() {
                 try {
-                    UpdateServerLobby();
+                    try {
+                        UpdateServerLobby();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
                 }  catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-        }, 100 , 50);
+        }, 1000 , 50);
 
     }
     public void findLobby() throws SQLException, IOException, ClassNotFoundException {
 
-        if (server.getLobby(1) == null) {
-            this.lobby = server.addLobby(1);
-            server.addCount(this.lobby.getId());
+        if (server.getLobby(roomID) == null) {
+            this.lobby = server.addLobby(roomID);
+            server.joinLobby(this.lobby.getId(),user);
         }
         else {
-            lobby = server.getLobby(1);
-            server.addCount(this.lobby.getId());
+            lobby = server.getLobby(roomID);
+            server.joinLobby(this.lobby.getId(),user);
         }
     }
 
-    private void UpdateServerLobby() throws IOException {
-        this.lobby = server.getLobby(1);
+    private void UpdateServerLobby() throws IOException, SQLException, ClassNotFoundException {
+        this.lobby = server.getLobby(roomID);
+        System.out.println("roomid: " + roomID);
+        System.out.println("lobbyid: " + lobby.getId());
         System.out.println("count : " + lobby.getCount());
         if (lobby.getStatus()){
             Platform.runLater(new Runnable() {
@@ -146,6 +136,7 @@ public class LobbyController {
                 }
             });
         }
+        UpdateLobby();
     }
     private Registry locateRegistry(String ipAdress, int portNumber)
     {
@@ -170,15 +161,7 @@ public class LobbyController {
     }
 
     public void UpdateLobby() throws SQLException, IOException, ClassNotFoundException {
-        List<User> users = roomRepository.getLobby(roomID);
-        if (guest)
-        {
-            users.add(user2);
-        }
-        if (login)
-        {
-            users.add(user2);
-        }
+        List<User> users = server.getUsers(lobby.getId());
         StringBuilder msg = new StringBuilder();
         for (User u:users
              ) {
@@ -197,13 +180,13 @@ public class LobbyController {
     public void loginPlayer() throws SQLException, IOException, ClassNotFoundException {
         if (!playerName.getText().trim().isEmpty()& !playerPassword.getText().trim().isEmpty()) {
             User user = new User(playerName.getText(), playerPassword.getText());
-            user.setCredits(640);
             IUserRepository userRepo = new SQLUserRepository();
-            if (userRepo.checkUserExists(user)) {
+            if (userRepo.login(playerName.getText(), playerPassword.getText()) != null) {
                 setUser2(user);
                 player2login.setVisible(false);
                 player2stats.setVisible(true);
                 login = true;
+                server.joinLobby(lobby.getId(),user2);
             } else {
                 System.out.println("Wrong user credentials, mate.");
                 playerPassword.setText("");
@@ -211,8 +194,7 @@ public class LobbyController {
         }
     }
     @FXML
-    public void loginGuest()
-    {
+    public void loginGuest() throws RemoteException {
         if (playerName.getText().trim().isEmpty())
         {
             guestName = "Guest";
@@ -221,7 +203,8 @@ public class LobbyController {
         {
             guestName = playerName.getText();
         }
-        setUser2(new User(guestName,0));
+        setUser2(new User(0,guestName,0));
+        server.joinLobby(lobby.getId(),user2);
         player2login.setVisible(false);
         player2stats.setVisible(true);
         guest = true;
