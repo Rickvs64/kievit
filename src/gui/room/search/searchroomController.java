@@ -1,6 +1,7 @@
 package gui.room.search;
 
 import classes.domains.HighscoreEntry;
+import classes.domains.IPlayer;
 import classes.domains.Room;
 import classes.domains.User;
 import classes.repositories.HighscoreRepository;
@@ -23,15 +24,21 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import jdk.internal.util.xml.impl.Input;
+import server.IServerManager;
+import shared.ILobby;
+import shared.Lobby;
 
 import java.io.IOException;
 import java.net.URL;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.sql.Time;
+import java.util.*;
 
-public class searchroomController implements Initializable {
+public class searchroomController {
 
     private User user;
     @FXML
@@ -41,55 +48,72 @@ public class searchroomController implements Initializable {
     @FXML
     private Label lbl_credits;
     @FXML
-    private TableView<Room> roomlist;
+    private TableColumn ID;
     @FXML
-    private TableColumn<Room, String> name;
+    private TableColumn name;
     @FXML
-    private TableColumn<Room, Integer> players;
+    private TableColumn count;
     @FXML
-    private TableColumn<Room, Integer> ID;
-    ObservableList<Room> data = FXCollections.observableArrayList();
-
-    public searchroomController() throws SQLException, IOException, ClassNotFoundException {
-        IRoomRepository RoomController = new RoomRepository();
-        data.clear();
-        List<Room> roomlist = RoomController.getAvaiableRooms();
-        data.addAll(roomlist);
+    private TableColumn player;
+    @FXML
+    private TableView<ILobby> lobbyList;
+    private Timer timer;
+    private Registry registry;
+    private IServerManager server;
+    private String ip = "127.0.0.1";
+    private int portNumber = 1099;
+    public searchroomController() throws SQLException, IOException, ClassNotFoundException, NotBoundException {
+        setup();
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    UpdateServerLobby();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 1000 , 50);
     }
+    private void setup() throws RemoteException, NotBoundException {
+        this.registry = locateRegistry(ip,portNumber);
+        this.server = (IServerManager) registry.lookup("serverManager");
+    }
+    private Registry locateRegistry(String ipAdress, int portNumber)
+    {
+        try
+        {
+            return LocateRegistry.getRegistry(ipAdress, portNumber);
+        }
+        catch (RemoteException ex) {
+            System.out.println("Client: Cannot locate registry");
+            System.out.println("Client: RemoteException: " + ex.getMessage());
+            return null;
+        }
+    }
+    private void UpdateServerLobby() throws RemoteException {
+        lobbyList.getItems().clear();
+        ID.setCellValueFactory(new PropertyValueFactory<ILobby,String>("id"));
+        name.setCellValueFactory(new PropertyValueFactory<ILobby,String>("name"));
+        player.setCellValueFactory(new PropertyValueFactory<ILobby,String>("player"));
+        count.setCellValueFactory(new PropertyValueFactory<ILobby,String>("count"));
+        if (!server.getAvailibleLobbys().isEmpty())
+        {
+            for (ILobby i:server.getAvailibleLobbys()) {
+                lobbyList.getItems().add(i);
+            }
+        }
+    }
+
     public void setUser(User user) {
         this.user = user;
         lbl_username.setText(user.getUsername());
         lbl_credits.setText(String.valueOf(user.getCredits()));
         System.out.println(user.getUsername());
     }
-    @FXML
-    public void LoadHighscores() throws SQLException, IOException, ClassNotFoundException {
-        IRoomRepository RoomController = new RoomRepository();
-        data.clear();
-        List<Room> roomlist = RoomController.getAvaiableRooms();
-        System.out.println(searchname.getText());
-        if(searchname.getText() == "")
-        {
-           data.addAll(RoomController.getAvaiableRooms());
-        }
-        else{
-            for (Room e: roomlist
-                 ) {
-                if(e.getName().toLowerCase().contains(searchname.getText().toLowerCase())){
-                    data.add(e);
-                }
-            }
-        }
 
 
-    }
-//    public void LoadHighscores(String filter) throws  SQLException, IOException, ClassNotFoundException{
-//        IRoomRepository RoomController = new RoomRepository();
-//        List<Room> roomlistall = RoomController.getAvaiableRooms();
-//        data.clear();
-//
-//        data.addAll(RoomController.getAvaiableRooms());
-//    }
     @FXML
     private void toHomeScreen() throws IOException {
         // Set the next "page" (scene) to display.
@@ -110,12 +134,5 @@ public class searchroomController implements Initializable {
 
         stage.setScene(homeScreen);
         stage.show();
-    }
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        name.setCellValueFactory(new PropertyValueFactory<Room, String>("name"));
-        players.setCellValueFactory(new PropertyValueFactory<Room, Integer>("players"));
-        ID.setCellValueFactory(new PropertyValueFactory<Room, Integer>("ID"));
-        roomlist.setItems(data);
     }
 }

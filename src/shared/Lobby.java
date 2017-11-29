@@ -18,11 +18,17 @@ public class Lobby extends UnicastRemoteObject implements ILobby, Serializable {
     private List<Player> players = new ArrayList<>();
     private int count;
     private List<User> users = new ArrayList<>();
+    private String name;
+    private String password;
+    private String user;
 
-    public Lobby(int id) throws RemoteException {
+    public Lobby(int id,String user,String name, String password) throws RemoteException {
         this.id = id;
         this.count = 0;
         this.status = false;
+        this.name = name;
+        this.user = user;
+        this.password = password;
         try {
             players.add(new Player(50, 600, Direction.UP, 1, 1));
         } catch (RemoteException e) {
@@ -45,6 +51,14 @@ public class Lobby extends UnicastRemoteObject implements ILobby, Serializable {
         return status;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
     @Override
     public synchronized IPlayer getPlayer(int id) {
         for (IPlayer p : players
@@ -58,6 +72,10 @@ public class Lobby extends UnicastRemoteObject implements ILobby, Serializable {
 
         }
         return null;
+    }
+
+    public String getUser() {
+        return user;
     }
 
     @Override

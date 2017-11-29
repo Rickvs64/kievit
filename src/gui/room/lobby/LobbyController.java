@@ -34,6 +34,8 @@ public class LobbyController {
     private User user;
     private User user2;
     private int roomID;
+    private String roomName;
+    private String roomPassword;
     private boolean guest = false;
     private boolean login = false;
     private String guestName;
@@ -110,7 +112,7 @@ public class LobbyController {
     public void findLobby() throws SQLException, IOException, ClassNotFoundException {
 
         if (server.getLobby(roomID) == null) {
-            this.lobby = server.addLobby(roomID);
+            this.lobby = server.addLobby(roomID,user.getUsername(),roomName,roomPassword);
             server.joinLobby(this.lobby.getId(),user);
         }
         else {
@@ -121,18 +123,12 @@ public class LobbyController {
 
     private void UpdateServerLobby() throws IOException, SQLException, ClassNotFoundException {
         this.lobby = server.getLobby(roomID);
-        System.out.println("roomid: " + roomID);
-        System.out.println("lobbyid: " + lobby.getId());
-        System.out.println("count : " + lobby.getCount());
         if (lobby.getStatus()){
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        startGame();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+            Platform.runLater(() -> {
+                try {
+                    startGame();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             });
         }
@@ -150,8 +146,10 @@ public class LobbyController {
             return null;
         }
     }
-    public void setRoom(int roomID){
+    public void setRoom(int roomID,String roomName,String roomPassword){
         this.roomID = roomID;
+        this.roomName =roomName;
+        this.roomPassword = roomPassword;
     }
     public void setUser2(User user2) {
 
@@ -168,12 +166,7 @@ public class LobbyController {
             msg.append(u.getUsername() + " Credits: " + u.getCredits());
             msg.append("\n");
         }
-        Platform.runLater(new Runnable() {
-        @Override
-        public void run() {
-            playerList.setText(msg.toString());
-        }
-    });
+        Platform.runLater(() -> playerList.setText(msg.toString()));
     }
 
     @FXML

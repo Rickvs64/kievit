@@ -23,12 +23,12 @@ public class ServerManager extends UnicastRemoteObject implements IServerManager
     }
 
 
-    public ILobby addLobby(int id) throws RemoteException {
+    public ILobby addLobby(int id,String user,String name,String password) throws RemoteException {
 
 
         ILobby lobby = null;
         try {
-            lobby = new Lobby(id);
+            lobby = new Lobby(id,user,name,password);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -167,5 +167,17 @@ public class ServerManager extends UnicastRemoteObject implements IServerManager
             }
         }
         return null;
+    }
+
+    @Override
+    public List<ILobby> getAvailibleLobbys() throws RemoteException {
+        List<ILobby> availibleLobbys = new ArrayList<>();
+        for (ILobby l:lobbyList) {
+            if (l.getCount() < 2)
+            {
+                availibleLobbys.add(l);
+            }
+        }
+        return availibleLobbys;
     }
 }

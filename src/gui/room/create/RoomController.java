@@ -43,12 +43,12 @@ public class RoomController {
             System.out.println("passed");
             IRoomRepository roomRepository = new RoomRepository();
             int roomID = roomRepository.createRoom(user.getId(),roomName.getText(),roomPassword.getText(),50);
-            toLobbyScreen(roomID);
+            toLobbyScreen(roomID,roomName.getText(),roomPassword.getText());
         }
     }
 
     @FXML
-    private void toLobbyScreen(int roomID) throws IOException {
+    private void toLobbyScreen(int roomID, String name,String password) throws IOException {
         // Set the next "page" (scene) to display.
         // Note that an incorrect path will result in unexpected NullPointer exceptions!
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../lobby/Lobby.fxml"));
@@ -56,7 +56,7 @@ public class RoomController {
         LobbyController controller = fxmlLoader.<LobbyController>getController();
         // Run the setUser() method in HomeController.
         // This is the JavaFX equivalent of sending data from one form to another in C#.
-        controller.setRoom(roomID);
+        controller.setRoom(roomID,name,password);
         controller.setUser(user);
         Scene homeScreen = new Scene(root);
         Stage stage;

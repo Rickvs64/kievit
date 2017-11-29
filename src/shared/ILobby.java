@@ -20,4 +20,7 @@ public interface ILobby extends Remote{
     Direction getDirection(int userID) throws  RemoteException;
     void addUser(User user)throws  RemoteException;
     List<User> getUsers() throws  RemoteException;
+    String getName() throws RemoteException;
+    String getPassword() throws RemoteException;
+    String getUser() throws RemoteException;
 }

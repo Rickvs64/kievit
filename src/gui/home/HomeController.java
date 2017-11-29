@@ -4,6 +4,7 @@ import classes.domains.User;
 import gui.Shop.ShopController;
 import gui.room.create.RoomController;
 import gui.room.lobby.LobbyController;
+import gui.room.search.searchroomController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -55,17 +56,17 @@ public class HomeController {
     private void openJoinScreen() throws IOException {
         // Set the next "page" (scene) to display.
         // Note that an incorrect path will result in unexpected NullPointer exceptions!
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../room/lobby/Lobby.fxml"));
+        // More info can be found in the toHomeScreen() method
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../search/searchroom.fxml"));
         Parent root = (Parent)fxmlLoader.load();
-        LobbyController lobbyController = fxmlLoader.getController();
+        searchroomController controller = fxmlLoader.<searchroomController>getController();
         // Run the setUser() method in HomeController.
         // This is the JavaFX equivalent of sending data from one form to another in C#.
-        Scene homeScreen = new Scene(root);
+        controller.setUser(user);
+        Scene searchScreen = new Scene(root);
         Stage stage;
         stage = (Stage) lbl_username.getScene().getWindow(); // Weird backwards logic trick to get the current scene window.
-
-        stage.setScene(homeScreen);
-        lobbyController.setUser(user);
+        stage.setScene(searchScreen);
         stage.show();
     }
     @FXML
