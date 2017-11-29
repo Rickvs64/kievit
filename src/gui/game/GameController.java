@@ -15,12 +15,15 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import server.IServerManager;
 import shared.ILobby;
+import shared.IServerSettings;
+import shared.ServerSettings;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.sql.SQLException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -96,7 +99,15 @@ public class GameController {
                 }
             }
         }, 1000 , 50);
-        this.registry = locateRegistry("127.0.0.1",1099);
+        try {
+            this.registry = locateRegistry();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         try {
             this.server = (IServerManager) registry.lookup("serverManager");
         } catch (RemoteException e) {
@@ -142,11 +153,11 @@ public class GameController {
            }
         }
     }
-    private Registry locateRegistry(String ipAdress, int portNumber)
-    {
+    private Registry locateRegistry() throws SQLException, IOException, ClassNotFoundException {
+        IServerSettings serverSettings = new ServerSettings();
         try
         {
-            return LocateRegistry.getRegistry(ipAdress, portNumber);
+            return LocateRegistry.getRegistry(serverSettings.getIp(), serverSettings.getPort());
         }
         catch (RemoteException ex) {
             System.out.println("Client: Cannot locate registry");

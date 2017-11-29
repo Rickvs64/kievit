@@ -24,7 +24,9 @@ import javafx.stage.Stage;
 import jdk.internal.util.xml.impl.Input;
 import server.IServerManager;
 import shared.ILobby;
+import shared.IServerSettings;
 import shared.Lobby;
+import shared.ServerSettings;
 
 import java.io.IOException;
 import java.net.URL;
@@ -58,8 +60,6 @@ public class searchroomController {
     private Timer timer;
     private Registry registry;
     private IServerManager server;
-    private String ip = "127.0.0.1";
-    private int portNumber = 1099;
     private ILobby lobby;
     public searchroomController() throws SQLException, IOException, ClassNotFoundException, NotBoundException {
         setup();
@@ -75,15 +75,15 @@ public class searchroomController {
             }
         }, 1000 , 1000);
     }
-    private void setup() throws RemoteException, NotBoundException {
-        this.registry = locateRegistry(ip,portNumber);
+    private void setup() throws IOException, NotBoundException, SQLException, ClassNotFoundException {
+        this.registry = locateRegistry();
         this.server = (IServerManager) registry.lookup("serverManager");
     }
-    private Registry locateRegistry(String ipAdress, int portNumber)
-    {
+    private Registry locateRegistry() throws SQLException, IOException, ClassNotFoundException {
+        IServerSettings serverSettings = new ServerSettings();
         try
         {
-            return LocateRegistry.getRegistry(ipAdress, portNumber);
+            return LocateRegistry.getRegistry(serverSettings.getIp(), serverSettings.getPort());
         }
         catch (RemoteException ex) {
             System.out.println("Client: Cannot locate registry");
@@ -163,7 +163,13 @@ public class searchroomController {
         // Run the setUser() method in HomeController.
         // This is the JavaFX equivalent of sending data from one form to another in C#.
         controller.setRoom(roomID,name,password);
-        controller.setUser(user);
+        try {
+            controller.setUser(user);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         Scene homeScreen = new Scene(root);
         Stage stage;
         stage = (Stage) lbl_username.getScene().getWindow(); // Weird backwards logic trick to get the current scene window.

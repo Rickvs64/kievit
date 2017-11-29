@@ -1,9 +1,14 @@
 package server;
 
+import shared.IServerSettings;
+import shared.ServerSettings;
+
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.sql.SQLException;
 import java.util.Enumeration;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -11,8 +16,8 @@ import java.rmi.registry.Registry;
 
 public class RMIServer {
     // Set port number
-    private int portNumber = 1099;
-
+    private int portNumber;
+    private String ip;
     // Set binding name for student administration
     private String bindingName = "serverManager";
 
@@ -21,9 +26,14 @@ public class RMIServer {
     private ServerManager serverManager = null;
 
     // Constructor
-    public RMIServer() {
-
+    public RMIServer() throws SQLException, IOException, ClassNotFoundException {
+        //get settings
+        IServerSettings serverSettings = new ServerSettings();
+        ip = serverSettings.getIp();
+        portNumber = serverSettings.getPort();
+        System.setProperty("java.rmi.server.hostname", ip);
         // Print port number for registry
+        System.out.println("ip : " + ip);
         System.out.println("Server: Port number " + portNumber);
 
         // Create student administration
@@ -89,9 +99,8 @@ public class RMIServer {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException, IOException, ClassNotFoundException {
         System.out.println("SERVER USING REGISTRY");
-        System.setProperty("java.rmi.server.hostname", "127.0.0.1");
         RMIServer server = new RMIServer();
     }
 }

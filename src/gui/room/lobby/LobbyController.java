@@ -19,6 +19,8 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import server.IServerManager;
 import shared.ILobby;
+import shared.IServerSettings;
+import shared.ServerSettings;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
@@ -63,7 +65,7 @@ public class LobbyController {
     private ILobby lobby;
     private Registry registry;
     private IServerManager server;
-    public void setUser(User user) {
+    public void setUser(User user) throws SQLException, IOException, ClassNotFoundException {
         this.user = user;
         this.lbl_username.setText(this.user.getUsername());
         this.lbl_credits.setText(String.valueOf(this.user.getCredits()));
@@ -71,9 +73,8 @@ public class LobbyController {
         setupMulti();
     }
 
-    public void setupMulti()
-    {
-        this.registry = locateRegistry("127.0.0.1",1099);
+    public void setupMulti() throws SQLException, IOException, ClassNotFoundException {
+        this.registry = locateRegistry();
         try {
             this.server = (IServerManager) registry.lookup("serverManager");
         } catch (RemoteException e) {
@@ -134,11 +135,11 @@ public class LobbyController {
         }
         UpdateLobby();
     }
-    private Registry locateRegistry(String ipAdress, int portNumber)
-    {
+    private Registry locateRegistry() throws SQLException, IOException, ClassNotFoundException {
+        IServerSettings serverSettings = new ServerSettings();
         try
         {
-            return LocateRegistry.getRegistry(ipAdress, portNumber);
+            return LocateRegistry.getRegistry(serverSettings.getIp(), serverSettings.getPort());
         }
         catch (RemoteException ex) {
             System.out.println("Client: Cannot locate registry");
