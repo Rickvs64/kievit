@@ -4,11 +4,9 @@ import classes.domains.HighscoreEntry;
 import classes.domains.IPlayer;
 import classes.domains.Room;
 import classes.domains.User;
-import classes.repositories.HighscoreRepository;
-import classes.repositories.IHighscoreRepository;
-import classes.repositories.IRoomRepository;
-import classes.repositories.RoomRepository;
+import classes.repositories.*;
 import gui.home.HomeController;
+import gui.room.lobby.LobbyController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -62,6 +60,7 @@ public class searchroomController {
     private IServerManager server;
     private String ip = "127.0.0.1";
     private int portNumber = 1099;
+    private ILobby lobby;
     public searchroomController() throws SQLException, IOException, ClassNotFoundException, NotBoundException {
         setup();
         timer = new Timer();
@@ -74,7 +73,7 @@ public class searchroomController {
                     e.printStackTrace();
                 }
             }
-        }, 1000 , 50);
+        }, 1000 , 1000);
     }
     private void setup() throws RemoteException, NotBoundException {
         this.registry = locateRegistry(ip,portNumber);
@@ -105,7 +104,26 @@ public class searchroomController {
             }
         }
     }
+    @FXML
+    private void selectedLobby()
+    {
+        if (lobbyList.getSelectionModel().getSelectedItem() != null)
+        {
+            lobby = lobbyList.getSelectionModel().getSelectedItem();
+        }
+        else
+        {
+            lobby = null;
+        }
+    }
 
+    @FXML
+    private void joinSelectedLobby() throws SQLException, IOException, ClassNotFoundException {
+        if (lobby != null)
+        {
+            toLobbyScreen(lobby.getId(),lobby.getName(),lobby.getPassword());
+        }
+    }
     public void setUser(User user) {
         this.user = user;
         lbl_username.setText(user.getUsername());
@@ -129,6 +147,24 @@ public class searchroomController {
 
         Scene homeScreen = new Scene(root);
 
+        Stage stage;
+        stage = (Stage) lbl_username.getScene().getWindow(); // Weird backwards logic trick to get the current scene window.
+
+        stage.setScene(homeScreen);
+        stage.show();
+    }
+    @FXML
+    private void toLobbyScreen(int roomID, String name,String password) throws IOException {
+        // Set the next "page" (scene) to display.
+        // Note that an incorrect path will result in unexpected NullPointer exceptions!
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../lobby/Lobby.fxml"));
+        Parent root = (Parent)fxmlLoader.load();
+        LobbyController controller = fxmlLoader.<LobbyController>getController();
+        // Run the setUser() method in HomeController.
+        // This is the JavaFX equivalent of sending data from one form to another in C#.
+        controller.setRoom(roomID,name,password);
+        controller.setUser(user);
+        Scene homeScreen = new Scene(root);
         Stage stage;
         stage = (Stage) lbl_username.getScene().getWindow(); // Weird backwards logic trick to get the current scene window.
 

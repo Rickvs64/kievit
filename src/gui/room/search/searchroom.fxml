@@ -27,7 +27,7 @@
         <Label id="lbl_credits" fx:id="lbl_credits" alignment="CENTER_RIGHT" layoutX="688.0" layoutY="78.0" prefHeight="21.0" prefWidth="189.0" text="★ 550" textAlignment="RIGHT" />
         <Label id="lbl_username" fx:id="lbl_username" alignment="CENTER_RIGHT" layoutX="688.0" layoutY="50.0" prefHeight="21.0" prefWidth="189.0" text="TEMPTEXT" textAlignment="RIGHT" />
         <Button layoutX="14.0" layoutY="19.0" mnemonicParsing="false" onAction="#toHomeScreen" prefHeight="25.0" prefWidth="67.0" text="Back" />
-      <TableView fx:id="lobbyList" layoutX="14.0" layoutY="152.0" prefHeight="288.0" prefWidth="859.0">
+      <TableView fx:id="lobbyList" layoutX="14.0" layoutY="152.0" onMouseClicked="#selectedLobby" prefHeight="288.0" prefWidth="859.0">
         <columns>
             <TableColumn id="ID" fx:id="ID" prefWidth="150" text="ID" />
             <TableColumn id="name" fx:id="name" prefWidth="150" text="Room Name" />
@@ -36,6 +36,7 @@
         </columns>
       </TableView>
       <Label layoutX="14.0" layoutY="117.0" text="Search: " />
+      <Button layoutX="800.0" layoutY="452.0" mnemonicParsing="false" onAction="#joinSelectedLobby" text="Join Lobby" />
 
     </children>
 </AnchorPane>

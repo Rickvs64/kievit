@@ -57,7 +57,7 @@ public class HomeController {
         // Set the next "page" (scene) to display.
         // Note that an incorrect path will result in unexpected NullPointer exceptions!
         // More info can be found in the toHomeScreen() method
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../search/searchroom.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../room/search/searchroom.fxml"));
         Parent root = (Parent)fxmlLoader.load();
         searchroomController controller = fxmlLoader.<searchroomController>getController();
         // Run the setUser() method in HomeController.
