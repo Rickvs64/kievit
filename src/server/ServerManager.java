@@ -183,6 +183,23 @@ public class ServerManager extends UnicastRemoteObject implements IServerManager
 
     @Override
     public void setCosmetics(int playerNumber, int lobbyID, int headID, int tailID) throws RemoteException {
+        for (ILobby l:lobbyList) {
+            if (l.getId() == lobbyID)
+            {
+                l.setCosmetics(playerNumber,headID,tailID);
+            }
+        }
+    }
 
+    @Override
+    public IPlayer getPlayer(int lobbyID, int playerNumber) throws RemoteException {
+        IPlayer player = null;
+        for (ILobby l:lobbyList) {
+            if (l.getId() == lobbyID)
+            {
+                player = l.getPlayer(playerNumber);
+            }
+        }
+        return player;
     }
 }

@@ -22,4 +22,5 @@ public interface IServerManager extends Remote {
     List<User> getUsers(int id)throws  RemoteException;
     List<ILobby> getAvailibleLobbys() throws RemoteException;
     void setCosmetics(int playerNumber,int lobbyID, int headID, int tailID) throws RemoteException;
+    IPlayer getPlayer(int lobbyID, int playerNumber) throws RemoteException;
 }
