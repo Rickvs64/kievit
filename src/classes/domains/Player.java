@@ -18,6 +18,8 @@ public class Player extends UnicastRemoteObject implements IPlayer,Serializable{
     //movement
     private Direction currentDirection;
     private List<Coordinate> coordinates;
+    private int headID;
+    private int tailID;
 
     public Player(int startX, int startY, Direction direction, int playerNumber, int userID) throws RemoteException {
         this.userID = userID;
@@ -116,5 +118,15 @@ public class Player extends UnicastRemoteObject implements IPlayer,Serializable{
         this.userID = player.getUserID();
         this.currentDirection = player.getCurrentDirection();
         this.coordinates = player.getCoordinates();
+    }
+
+    @Override
+    public int getHeadID() throws RemoteException {
+        return headID;
+    }
+
+    @Override
+    public int getTail() throws RemoteException {
+        return tailID;
     }
 }

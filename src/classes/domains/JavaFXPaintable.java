@@ -25,11 +25,11 @@ public class JavaFXPaintable {
     public void draw(IPlayer player1,IPlayer player2) throws RemoteException {
         gc.clearRect(0, 0, 1000, 1000);
         drawGrid();
-        drawPlayer(player1,1);
-        drawPlayer(player2,2);
+        drawPlayer(player1);
+        drawPlayer(player2);
     }
 
-    public void drawPlayer(IPlayer player,int cosmetic) throws RemoteException {
+    public void drawPlayer(IPlayer player) throws RemoteException {
 
         List<Integer> x = new ArrayList<>();
         List<Integer> y = new ArrayList<>();
@@ -37,22 +37,8 @@ public class JavaFXPaintable {
             x.add(player.getCoordinates().get(i).getX());
             y.add(player.getCoordinates().get(i).getY());
         }
-        Image head = null;
-        Image tail = null;
-        switch (cosmetic) {
-            case 1:
-                head = new Image("@../../resources/img/bird0.gif");
-                tail = new Image("@../../resources/img/poop0.gif");
-                break;
-            case 2:
-                head = new Image("@../../resources/img/bird1.gif");
-                tail = new Image("@../../resources/img/poop1.gif");
-                break;
-            default:
-                head = new Image("@../../resources/img/bird2.gif");
-                tail = new Image("@../../resources/img/poop2.gif");
-                break;
-        }
+        Image head = new Image("@../../resources/img/item_" + player.getHeadID() + ".gif");
+        Image tail = new Image("@../../resources/img/item_" + player.getTail() + ".gif");
         gc.drawImage(head,x.get(0),y.get(0),20,20);
         for (int i = 0;  i < x.size()-1; i++)
         {

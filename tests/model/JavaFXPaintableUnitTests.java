@@ -41,7 +41,7 @@ public class JavaFXPaintableUnitTests {
         try{
             player1.move();
             player1.move();
-            paintable.drawPlayer(player1,1);
+            paintable.drawPlayer(player1);
         }
         catch (Exception e)
         {

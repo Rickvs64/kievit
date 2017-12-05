@@ -15,4 +15,6 @@ public interface IPlayer extends Remote {
     boolean intersects(IPlayer other) throws RemoteException;
     boolean hitsGrid() throws RemoteException;
     void update(IPlayer player) throws RemoteException;
+    int getHeadID() throws RemoteException;
+    int getTail() throws RemoteException;
 }
