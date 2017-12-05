@@ -10,6 +10,7 @@ import java.awt.*;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.StreamSupport;
 
 public class JavaFXPaintable {
     private final GraphicsContext gc;
@@ -35,7 +36,9 @@ public class JavaFXPaintable {
         List<Integer> y = new ArrayList<>();
         for (int i = 0; i < player.getCoordinates().size(); i++) {
             x.add(player.getCoordinates().get(i).getX());
-            y.add(player.getCoordinates().get(i).getY());
+         System.out.println("head "+ player.getHeadID());
+         System.out.println("tail" + player.getTailID());
+         y.add(player.getCoordinates().get(i).getY());
         }
         Image head = new Image("@../../resources/img/item_" + player.getHeadID() + ".gif");
         Image tail = new Image("@../../resources/img/item_" + player.getTailID() + ".gif");

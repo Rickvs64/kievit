@@ -57,7 +57,11 @@ public class GameController {
 
     public GameController() throws RemoteException {
         player1 = new Player(50, 600, Direction.UP, 1, 1);
+        player1.setHeadID(3);
+        player1.setTailID(8);
         player2 = new Player(950, 600, Direction.UP, 2, 2);
+        player2.setHeadID(3);
+        player2.setTailID(8);
         animationTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
