@@ -56,7 +56,21 @@ public class SQLUserRepositoryTest {
         randomUser.setPassword("password123");
         Assert.assertTrue(userRepo.checkUserExists(randomUser));
     }
-
+    @Test
+    public void login()
+    {
+        User user = null;
+        try {
+            user = userRepo.login("a","a");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        Assert.assertEquals(false, user == null);
+    }
     @Test
     public void getCredits() {
        Assert.assertEquals((Integer)550, randomUser.getCredits());
