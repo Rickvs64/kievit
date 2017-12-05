@@ -24,6 +24,6 @@ public interface ILobby extends Remote{
     String getPassword() throws RemoteException;
     String getUser() throws RemoteException;
     String getPlayername() throws  RemoteException;
-    void setCosmetics(int playerNumber, int headID, int tailID);
+    void setCosmetics(int playerNumber, int headID, int tailID) throws  RemoteException;
 
 }
