@@ -57,6 +57,8 @@ public class searchroomController {
     private TableColumn player;
     @FXML
     private TableView<ILobby> lobbyList;
+
+
     private Timer timer;
     private Registry registry;
     private IServerManager server;
@@ -163,6 +165,7 @@ public class searchroomController {
         // Run the setUser() method in HomeController.
         // This is the JavaFX equivalent of sending data from one form to another in C#.
         controller.setRoom(roomID,name,password);
+        controller.setPlayerNr(2);
         try {
             controller.setUser(user);
         } catch (SQLException e) {

@@ -57,6 +57,7 @@ public class RoomController {
         // Run the setUser() method in HomeController.
         // This is the JavaFX equivalent of sending data from one form to another in C#.
         controller.setRoom(roomID,name,password);
+        controller.setPlayerNr(1);
         try {
             controller.setUser(user);
         } catch (SQLException e) {

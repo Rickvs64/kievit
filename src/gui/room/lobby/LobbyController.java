@@ -12,10 +12,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.util.Callback;
+import javafx.util.StringConverter;
 import server.IServerManager;
 import shared.ILobby;
 import shared.IServerSettings;
@@ -44,6 +45,10 @@ public class LobbyController {
     private Timer timer = new Timer();
     private IRoomRepository roomRepository;
     private IShopRepository shopRepository;
+    private int playerNr;
+    private int head_id;
+    private int tail_id;
+
     @FXML
     private Label lbl_username;
     @FXML
@@ -217,12 +222,27 @@ public class LobbyController {
 
     }
     public void startGame() throws IOException {
-        int playerNumber = 2;
+
         if (server.getStatus(lobby.getId()) == false)
         {
-            playerNumber = 1;
+
             server.setStatus(true,lobby.getId());
         }
+
+        if(cbHeadEquip.getSelectionModel().getSelectedItem() != null){
+            Item head = (Item)cbHeadEquip.getSelectionModel().getSelectedItem();
+            this.head_id = head.getID();
+        }else{
+            this.head_id = 3;
+        }
+
+        if(cbTailEquip.getSelectionModel().getSelectedItem() != null){
+            Item tail = (Item)cbTailEquip.getSelectionModel().getSelectedItem();
+            this.tail_id = tail.getID();
+        }else{
+            this.tail_id = 8;
+        }
+
         timer.cancel();
         // Set the next "page" (scene) to display.
         // Note that an incorrect path will result in unexpected NullPointer exceptions!
@@ -232,7 +252,7 @@ public class LobbyController {
         // Run the setUser() method in HomeController.
         // This is the JavaFX equivalent of sending data from one form to another in C#.
         controller.setUsers(user,user2);
-        controller.setupMulti(playerNumber,lobby);
+        controller.setupMulti(playerNr,lobby);
         Scene homeScreen = new Scene(root);
         Stage stage;
         stage = (Stage) lbl_username.getScene().getWindow(); // Weird backwards logic trick to get the current scene window.
@@ -291,23 +311,39 @@ public class LobbyController {
         stage.show();
     }
 
+    public void setPlayerNr(int playerNr) {
+        this.playerNr = playerNr;
+    }
+
     private void loadHeadEquip() throws SQLException, IOException, ClassNotFoundException {
+            cbHeadEquip.getItems().addAll(shopRepository.getOwnedItems(user.getId(), "head"));
 
+            Callback<ListView<Item>, ListCell<Item>> factory = lv -> new ListCell<Item>() {
 
-//id, type, name, price
-        for (Item e: shopRepository.getOwnedItems(user.getId(), "head")
-             ) {
-            cbHeadEquip.getItems().add(new Item(e.getID(),e.getType(),e.getName(),e.getPrice()).toString());
-        }
+            @Override
+            protected void updateItem(Item item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty ? "" : item.getName());
+            }
 
+        };
+        cbHeadEquip.setCellFactory(factory);
+        cbHeadEquip.setButtonCell(factory.call(null));
     }
 
     private void loadTailEquip() throws SQLException, IOException, ClassNotFoundException {
+            cbTailEquip.getItems().addAll(shopRepository.getOwnedItems(user.getId(), "tail"));
 
-//id, type, name, price
-        for (Item e: shopRepository.getOwnedItems(user.getId(), "tail")
-                ) {
-            cbTailEquip.getItems().add(new Item(e.getID(),e.getType(),e.getName(),e.getPrice()).toString());
-        }
+        Callback<ListView<Item>, ListCell<Item>> factory = lv -> new ListCell<Item>() {
+
+            @Override
+            protected void updateItem(Item item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty ? "" : item.getName());
+            }
+
+        };
+        cbTailEquip.setCellFactory(factory);
+        cbTailEquip.setButtonCell(factory.call(null));
     }
 }
