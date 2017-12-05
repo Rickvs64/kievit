@@ -180,4 +180,9 @@ public class ServerManager extends UnicastRemoteObject implements IServerManager
         }
         return availibleLobbys;
     }
+
+    @Override
+    public void setCosmetics(int playerNumber, int lobbyID, int headID, int tailID) throws RemoteException {
+
+    }
 }

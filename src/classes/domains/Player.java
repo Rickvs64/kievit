@@ -126,7 +126,15 @@ public class Player extends UnicastRemoteObject implements IPlayer,Serializable{
     }
 
     @Override
-    public int getTail() throws RemoteException {
+    public int getTailID() throws RemoteException {
         return tailID;
+    }
+    @Override
+    public void setHeadID(int headID) {
+        this.headID = headID;
+    }
+    @Override
+    public void setTailID(int tailID) {
+        this.tailID = tailID;
     }
 }

@@ -3,6 +3,7 @@ package server;
 import classes.domains.Direction;
 import classes.domains.IPlayer;
 import classes.domains.User;
+import com.sun.org.apache.regexp.internal.RE;
 import shared.ILobby;
 
 import java.rmi.Remote;
@@ -20,4 +21,5 @@ public interface IServerManager extends Remote {
     Direction getDirection(int userID, int id) throws  RemoteException;
     List<User> getUsers(int id)throws  RemoteException;
     List<ILobby> getAvailibleLobbys() throws RemoteException;
+    void setCosmetics(int playerNumber,int lobbyID, int headID, int tailID) throws RemoteException;
 }

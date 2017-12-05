@@ -16,5 +16,7 @@ public interface IPlayer extends Remote {
     boolean hitsGrid() throws RemoteException;
     void update(IPlayer player) throws RemoteException;
     int getHeadID() throws RemoteException;
-    int getTail() throws RemoteException;
+    int getTailID() throws RemoteException;
+    void setHeadID(int headID) throws RemoteException;
+    void setTailID(int tailID) throws  RemoteException;
 }
