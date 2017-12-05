@@ -9,4 +9,5 @@ import java.util.List;
 public interface IShopRepository {
     List<Item> getItems(int userID) throws SQLException, IOException, ClassNotFoundException;
     void buyItem(int id, int i) throws SQLException, IOException, ClassNotFoundException;
+    List<Item> getOwnedItems(int userID, String type) throws SQLException, IOException, ClassNotFoundException;
 }

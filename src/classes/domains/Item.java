@@ -34,4 +34,9 @@ public class Item {
     public Image getImage(){
         return new Image("@../../resources/img/item_" + ID +".gif");
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
