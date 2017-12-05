@@ -243,6 +243,8 @@ public class LobbyController {
             this.tail_id = 8;
         }
 
+        server.setCosmetics(playerNr, lobby.getId(), head_id, tail_id);
+
         timer.cancel();
         // Set the next "page" (scene) to display.
         // Note that an incorrect path will result in unexpected NullPointer exceptions!
@@ -253,6 +255,7 @@ public class LobbyController {
         // This is the JavaFX equivalent of sending data from one form to another in C#.
         controller.setUsers(user,user2);
         controller.setupMulti(playerNr,lobby);
+
         Scene homeScreen = new Scene(root);
         Stage stage;
         stage = (Stage) lbl_username.getScene().getWindow(); // Weird backwards logic trick to get the current scene window.
