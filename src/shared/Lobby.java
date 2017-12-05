@@ -77,7 +77,10 @@ public class Lobby extends UnicastRemoteObject implements ILobby, Serializable {
     public String getUser() {
         return user;
     }
-
+    public String getPlayername()
+    {
+        return users.get(0).getUsername();
+    }
     @Override
     public synchronized void update(IPlayer player) {
         for (IPlayer p : players) {

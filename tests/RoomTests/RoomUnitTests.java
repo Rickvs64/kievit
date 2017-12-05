@@ -44,4 +44,17 @@ public class RoomUnitTests {
 
     }
 
+    @Test
+    public void getPlayers(){
+        room.setPlayers(3);
+        Assert.assertEquals(3,room.getPlayers());
+    }
+
+    @Test
+    public void getSpeed()
+    {
+        room.setSpeed(40);
+        Assert.assertEquals(40,room.getSpeed());
+    }
+
 }

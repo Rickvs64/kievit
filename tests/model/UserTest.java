@@ -20,6 +20,10 @@ public class UserTest {
     }
 
     @Test
+    public void getID(){
+        Assert.assertEquals(0,userOne.getId());
+    }
+    @Test
     public void getUserName() {
 
         Assert.assertEquals("lars", userOne.getUsername());

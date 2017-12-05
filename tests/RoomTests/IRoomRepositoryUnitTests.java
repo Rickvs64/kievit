@@ -44,7 +44,7 @@ public class IRoomRepositoryUnitTests {
         boolean passed = true;
         try{
             IRoomRepository roomRepository = new RoomRepository();
-            List<User> users = roomRepository.getLobby(64);
+            List<User> users = roomRepository.getLobby(113);
         }
         catch (Exception e)
         {

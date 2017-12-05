@@ -1,14 +1,11 @@
 package classes.repositories;
 
 import classes.domains.Item;
-import classes.domains.ItemType;
 
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ShopRepository implements IShopRepository {
     @Override

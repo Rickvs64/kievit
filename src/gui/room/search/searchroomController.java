@@ -78,6 +78,10 @@ public class searchroomController {
     private void setup() throws IOException, NotBoundException, SQLException, ClassNotFoundException {
         this.registry = locateRegistry();
         this.server = (IServerManager) registry.lookup("serverManager");
+        ID.setCellValueFactory(new PropertyValueFactory<ILobby,String>("id"));
+        name.setCellValueFactory(new PropertyValueFactory<ILobby,String>("name"));
+        player.setCellValueFactory(new PropertyValueFactory<ILobby,String>("playername"));
+        count.setCellValueFactory(new PropertyValueFactory<ILobby,String>("count"));
     }
     private Registry locateRegistry() throws SQLException, IOException, ClassNotFoundException {
         IServerSettings serverSettings = new ServerSettings();
@@ -93,10 +97,6 @@ public class searchroomController {
     }
     private void UpdateServerLobby() throws RemoteException {
         lobbyList.getItems().clear();
-        ID.setCellValueFactory(new PropertyValueFactory<ILobby,String>("id"));
-        name.setCellValueFactory(new PropertyValueFactory<ILobby,String>("name"));
-        player.setCellValueFactory(new PropertyValueFactory<ILobby,String>("player"));
-        count.setCellValueFactory(new PropertyValueFactory<ILobby,String>("count"));
         if (!server.getAvailibleLobbys().isEmpty())
         {
             for (ILobby i:server.getAvailibleLobbys()) {

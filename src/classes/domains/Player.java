@@ -18,30 +18,9 @@ public class Player extends UnicastRemoteObject implements IPlayer,Serializable{
     //movement
     private Direction currentDirection;
     private List<Coordinate> coordinates;
-    private StatusPlayer status;
-    //cosmetics
-    //private Image head;
-    //private Image tail;
 
     public Player(int startX, int startY, Direction direction, int playerNumber, int userID) throws RemoteException {
-        //super();
-        //cosmetic based on playernumber //TODO : Cosmetic from shops
         this.userID = userID;
-        switch (playerNumber) {
-            case 1:
-                //this.head = new Image("@../../resources/img/bird0.gif");
-                //this.tail = new Image("@../../resources/img/poop0.gif");
-                break;
-            case 2:
-                //this.head = new Image("@../../resources/img/bird1.gif");
-                //this.tail = new Image("@../../resources/img/poop1.gif");
-                break;
-            default:
-                //this.head = new Image("@../../resources/img/bird2.gif");
-                //this.tail = new Image("@../../resources/img/poop2.gif");
-                break;
-        }
-
         this.currentDirection = direction;
         this.coordinates = new ArrayList<>();
         for (int i = 0; i < 1; i++) {
@@ -64,14 +43,6 @@ public class Player extends UnicastRemoteObject implements IPlayer,Serializable{
     public List<Coordinate> getCoordinates() {
         return coordinates;
     }
-
-    //public Image getHead() {
-    //    return head;
-    //}
-
-    //public Image getTail() {
-    //    return tail;
-    //}
 
     public void move() {
         Coordinate temp = coordinates.get(0);
@@ -145,8 +116,5 @@ public class Player extends UnicastRemoteObject implements IPlayer,Serializable{
         this.userID = player.getUserID();
         this.currentDirection = player.getCurrentDirection();
         this.coordinates = player.getCoordinates();
-        this.status = StatusPlayer.Alive;
-        //this.head = player.getHead();
-        //this.tail = player.getTail();
     }
 }

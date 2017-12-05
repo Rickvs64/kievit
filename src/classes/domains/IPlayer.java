@@ -11,8 +11,6 @@ public interface IPlayer extends Remote {
     Direction getCurrentDirection() throws RemoteException;
     void setCurrentDirection(Direction currentDirection) throws RemoteException;
     List<Coordinate> getCoordinates() throws RemoteException;
-    //Image getHead() throws RemoteException;
-    //Image getTail() throws RemoteException;
     void move() throws RemoteException;
     boolean intersects(IPlayer other) throws RemoteException;
     boolean hitsGrid() throws RemoteException;

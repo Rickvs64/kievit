@@ -147,4 +147,19 @@ public class PlayerTest {
 
         Assert.assertEquals(player.intersects(player2), false);
     }
+
+    @Test
+    public void playerHitsGrind() throws RemoteException {
+        Player player = new Player(11, 9, Direction.LEFT, 3, 1);
+        Assert.assertEquals(player.hitsGrid(),true);
+    }
+
+    @Test
+    public void updatePlayer() throws RemoteException {
+        Player player = new Player(11, 9, Direction.RIGHT, 3, 1);
+        Player player2 = new Player(100, 100, Direction.LEFT, 3, 1);
+        player.update(player2);
+        Assert.assertEquals(player2.getCurrentDirection(),player.getCurrentDirection());
+    }
+
 }
