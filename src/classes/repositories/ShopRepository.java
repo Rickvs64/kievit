@@ -36,15 +36,16 @@ public class ShopRepository implements IShopRepository {
         conn.close();
     }
 
-    public List<Item> getOwnedItems(int userID) throws SQLException, IOException, ClassNotFoundException {
+    public List<Item> getOwnedItems(int userID, String type) throws SQLException, IOException, ClassNotFoundException {
         List<Item> items = new ArrayList<>();
         String getitems = "select i.ID,i.type,i.name,i.price from item i\n" +
                 "join player_item p_i on p_i.item_id=i.ID\n" +
-                "where p_i.player_id = ?;";
+                "where p_i.player_id = ? and i.type = ?;";
         IConnection connection = new ConnectionManager();
         Connection conn = connection.getConnection();
         PreparedStatement preparedStmt = conn.prepareStatement(getitems, Statement.RETURN_GENERATED_KEYS);
         preparedStmt.setInt(1, userID);
+        preparedStmt.setString(2, type);
         ResultSet rs = preparedStmt.executeQuery();
         while (rs.next()) {
             items.add(new Item(rs.getInt("ID"),rs.getString("type"),rs.getString("name"),rs.getInt("price")));

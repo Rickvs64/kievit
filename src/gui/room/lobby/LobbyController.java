@@ -1,10 +1,8 @@
 package gui.room.lobby;
 
+import classes.domains.Item;
 import classes.domains.User;
-import classes.repositories.IRoomRepository;
-import classes.repositories.IUserRepository;
-import classes.repositories.RoomRepository;
-import classes.repositories.SQLUserRepository;
+import classes.repositories.*;
 import gui.game.GameController;
 import gui.home.HomeController;
 import gui.room.search.searchroomController;
@@ -14,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -28,6 +27,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -43,6 +43,7 @@ public class LobbyController {
     private String guestName;
     private Timer timer = new Timer();
     private IRoomRepository roomRepository;
+    private IShopRepository shopRepository;
     @FXML
     private Label lbl_username;
     @FXML
@@ -61,6 +62,14 @@ public class LobbyController {
     private Group player2login;
     @FXML
     private Group player2stats;
+    @FXML
+    private Label lbl_tail;
+    @FXML
+    private Label lbl_head;
+    @FXML
+    private ComboBox cbHeadEquip;
+    @FXML
+    private ComboBox cbTailEquip;
 
     private ILobby lobby;
     private Registry registry;
@@ -70,7 +79,10 @@ public class LobbyController {
         this.lbl_username.setText(this.user.getUsername());
         this.lbl_credits.setText(String.valueOf(this.user.getCredits()));
         this.roomRepository = new RoomRepository();
+        this.shopRepository = new ShopRepository();
         setupMulti();
+        loadHeadEquip();
+        loadTailEquip();
     }
 
     public void setupMulti() throws SQLException, IOException, ClassNotFoundException {
@@ -277,5 +289,25 @@ public class LobbyController {
 
         stage.setScene(homeScreen);
         stage.show();
+    }
+
+    private void loadHeadEquip() throws SQLException, IOException, ClassNotFoundException {
+
+
+//id, type, name, price
+        for (Item e: shopRepository.getOwnedItems(user.getId(), "head")
+             ) {
+            cbHeadEquip.getItems().add(new Item(e.getID(),e.getType(),e.getName(),e.getPrice()).toString());
+        }
+
+    }
+
+    private void loadTailEquip() throws SQLException, IOException, ClassNotFoundException {
+
+//id, type, name, price
+        for (Item e: shopRepository.getOwnedItems(user.getId(), "tail")
+                ) {
+            cbTailEquip.getItems().add(new Item(e.getID(),e.getType(),e.getName(),e.getPrice()).toString());
+        }
     }
 }

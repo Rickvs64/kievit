@@ -46,5 +46,9 @@
       <Label layoutX="624.0" layoutY="13.0" text="Player 1:" />
       <Button layoutX="14.0" layoutY="19.0" mnemonicParsing="false" onAction="#toHomeScreen" prefHeight="25.0" prefWidth="67.0" text="Back" />
       <Hyperlink fx:id="LobbySearch" layoutX="288.0" layoutY="209.0" onAction="#toLobbySearch" text="Click here to search for a specific lobby instead" />
+      <ComboBox fx:id="cbHeadEquip" layoutX="89.0" layoutY="335.0" prefWidth="150.0" />
+      <ComboBox fx:id="cbTailEquip" layoutX="89.0" layoutY="406.0" prefWidth="150.0" />
+      <Label fx:id="lbl_head" layoutX="22.0" layoutY="340.0" text="Head" />
+      <Label fx:id="lbl_tail" layoutX="22.0" layoutY="411.0" text="Tail" />
     </children>
 </AnchorPane>
