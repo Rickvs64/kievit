@@ -36,8 +36,6 @@ public class JavaFXPaintable {
         List<Integer> y = new ArrayList<>();
         for (int i = 0; i < player.getCoordinates().size(); i++) {
             x.add(player.getCoordinates().get(i).getX());
-         System.out.println("head "+ player.getHeadID());
-         System.out.println("tail" + player.getTailID());
          y.add(player.getCoordinates().get(i).getY());
         }
         Image head = new Image("@../../resources/img/item_" + player.getHeadID() + ".gif");

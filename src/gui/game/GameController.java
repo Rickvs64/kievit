@@ -177,29 +177,12 @@ public class GameController {
     {
         this.playerNumber = playerNumber;
         this.lobby = lobby;
-
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         if (playerNumber ==1)
         {
             opponementId = 2;
-            try {
-                this.player2 = server.getPlayer(lobby.getId(), opponementId);
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
         }
         else {
             opponementId = 1;
-            try {
-                this.player1 = server.getPlayer(lobby.getId(), opponementId);
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
         }
     }
     @FXML
