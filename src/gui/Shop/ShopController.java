@@ -4,15 +4,18 @@ import classes.domains.Item;
 import classes.domains.User;
 import classes.repositories.IShopRepository;
 import classes.repositories.ShopRepository;
+import gui.home.HomeController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -36,6 +39,8 @@ public class ShopController {
     private TableColumn name;
     @FXML
     private TableColumn type;
+    @FXML
+    private TableColumn price;
     public void setUser(User user) {
         this.user = user;
         try {
@@ -60,6 +65,8 @@ public class ShopController {
         ID.setCellValueFactory(new PropertyValueFactory<Item,String>("ID"));
         name.setCellValueFactory(new PropertyValueFactory<Item,String>("name"));
         type.setCellValueFactory(new PropertyValueFactory<Item,String>("type"));
+        price.setCellValueFactory(new PropertyValueFactory<Item, String>("price"));
+
         IShopRepository shopRepository = new ShopRepository();
         if (!shopRepository.getItems(user.getId()).isEmpty())
         {
@@ -93,6 +100,23 @@ public class ShopController {
             getItems();
             selectedItem();
         }
+    }
+    public void toHomeScreen() throws IOException {
+        // Set the next "page" (scene) to display.
+        // Note that an incorrect path will result in unexpected NullPointer exceptions!
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../home/home.fxml"));
+
+        Parent root = (Parent)fxmlLoader.load();
+        HomeController controller = fxmlLoader.<HomeController>getController();
+        controller.setUser(user);
+
+        Scene homeScreen = new Scene(root);
+
+        Stage stage;
+        stage = (Stage) listItems.getScene().getWindow(); // Weird backwards logic trick to get the current scene window.
+
+        stage.setScene(homeScreen);
+        stage.show();
     }
 
 

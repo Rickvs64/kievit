@@ -14,14 +14,14 @@ public class ShopRepository implements IShopRepository {
     @Override
     public List<Item> getItems(int userID) throws SQLException, IOException, ClassNotFoundException {
         List<Item> items = new ArrayList<>();
-        String getitems = "select ID,type,name from item where ID not in (select i.ID  from item i join player_item p_i on p_i.item_id=i.ID where p_i.player_id = ?);";
+        String getitems = "select ID,type,name,price from item where ID not in (select i.ID  from item i join player_item p_i on p_i.item_id=i.ID where p_i.player_id = ?);";
         IConnection connection = new ConnectionManager();
         Connection conn = connection.getConnection();
         PreparedStatement preparedStmt = conn.prepareStatement(getitems, Statement.RETURN_GENERATED_KEYS);
         preparedStmt.setInt (1, userID);
         ResultSet rs = preparedStmt.executeQuery();
         while (rs.next()) {
-            items.add(new Item(rs.getInt("ID"),rs.getString("type"),rs.getString("name")));
+            items.add(new Item(rs.getInt("ID"),rs.getString("type"),rs.getString("name"),rs.getInt("price")));
         }
         conn.close();
         return items;
@@ -41,7 +41,7 @@ public class ShopRepository implements IShopRepository {
 
     public List<Item> getOwnedItems(int userID) throws SQLException, IOException, ClassNotFoundException {
         List<Item> items = new ArrayList<>();
-        String getitems = "select i.ID,i.type,i.name from item i\n" +
+        String getitems = "select i.ID,i.type,i.name,i.price from item i\n" +
                 "join player_item p_i on p_i.item_id=i.ID\n" +
                 "where p_i.player_id = ?;";
         IConnection connection = new ConnectionManager();
@@ -50,7 +50,7 @@ public class ShopRepository implements IShopRepository {
         preparedStmt.setInt(1, userID);
         ResultSet rs = preparedStmt.executeQuery();
         while (rs.next()) {
-            items.add(new Item(rs.getInt("ID"),rs.getString("type"),rs.getString("name")));
+            items.add(new Item(rs.getInt("ID"),rs.getString("type"),rs.getString("name"),rs.getInt("price")));
         }
         conn.close();
         return items;
