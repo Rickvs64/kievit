@@ -363,6 +363,15 @@ public class GameController extends UnicastRemoteObject implements IListener{
     }
 
     private void UpdatePlayer() throws RemoteException {
+        Direction dir = server.getDirection(opponementId,lobby.getId());
+        if (playerNumber == 1)
+        {
+            player2.setCurrentDirection(dir);
+        }
+        else
+        {
+            player1.setCurrentDirection(dir);
+        }
         player1.move();
         player2.move();
     }

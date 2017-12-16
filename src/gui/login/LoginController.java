@@ -29,30 +29,33 @@ import java.sql.SQLException;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public class LoginController {
+    //Java RMI
     private IServerManager server;
     private Registry registry;
+    //login textfields
     @FXML
     private TextField txt_username;
-
     @FXML
     private PasswordField txt_password;
-
+    //button login
     @FXML
     private Button btn_submit;
-
+    //label register passed
     @FXML
     private Label lbl_accountCreated;
 
     public LoginController() throws SQLException, IOException, ClassNotFoundException, NotBoundException {
+        //server push ip config because of VPN problems
         System.setProperty("java.rmi.server.hostname","127.0.0.1");
         setup();
     }
-
+    //setup for java RMI connection
     private void setup() throws IOException, NotBoundException, SQLException, ClassNotFoundException {
         this.registry = locateRegistry();
         this.server = (IServerManager) registry.lookup("serverManager");
 
     }
+    //locating register
     private Registry locateRegistry() throws SQLException, IOException, ClassNotFoundException {
         IServerSettings serverSettings = new ServerSettings();
         try
@@ -65,10 +68,13 @@ public class LoginController {
             return null;
         }
     }
+    //??
     @FXML
     public void initialize() {
         lbl_accountCreated.setText("");
     }
+
+    //login
     @FXML
     private void login(ActionEvent event) throws IOException {
         User user = server.login(txt_username.getText().toLowerCase(), txt_password.getText());
@@ -82,7 +88,7 @@ public class LoginController {
         }
 
     }
-
+    //register
     @FXML
     private void register() throws IOException {
         toRegisterScreen();
@@ -94,19 +100,13 @@ public class LoginController {
      * @throws IOException
      */
     private void toHomeScreen(User user) throws IOException {
-        // Set the next "page" (scene) to display.
-        // Note that an incorrect path will result in unexpected NullPointer exceptions!
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../home/home.fxml"));
-
         Parent root = (Parent)fxmlLoader.load();
         HomeController controller = fxmlLoader.<HomeController>getController();
-        // This is the JavaFX equivalent of sending data from one form to another in C#.
         controller.setup(user,server);
         Scene homeScreen = new Scene(root);
-
         Stage stage;
-        stage = (Stage) txt_username.getScene().getWindow(); // Weird backwards logic trick to get the current scene window.
-
+        stage = (Stage) txt_username.getScene().getWindow();
         stage.setScene(homeScreen);
         stage.show();
     }

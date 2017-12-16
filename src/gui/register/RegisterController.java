@@ -22,7 +22,6 @@ import java.util.List;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public class RegisterController {
-    private IUserRepository userRepo = new SQLUserRepository();
     private User user;
     private IServerManager server;
     private Censorship censorship = new Censorship();

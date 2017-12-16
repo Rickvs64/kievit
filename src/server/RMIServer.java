@@ -16,8 +16,8 @@ import java.rmi.registry.Registry;
 
 public class RMIServer {
     // Set port number
-    private int portNumber;
-    private String ip;
+    private static int portNumber = 1099;
+    private static String ip = "127.0.0.1";
     // Set binding name for student administration
     private String bindingName = "serverManager";
 
@@ -28,9 +28,7 @@ public class RMIServer {
     // Constructor
     public RMIServer() throws SQLException, IOException, ClassNotFoundException {
         //get settings
-        IServerSettings serverSettings = new ServerSettings();
-        ip = serverSettings.getIp();
-        portNumber = serverSettings.getPort();
+
         System.setProperty("java.rmi.server.hostname", ip);
         // Print port number for registry
         System.out.println("ip : " + ip);
@@ -100,6 +98,14 @@ public class RMIServer {
      */
     public static void main(String[] args) throws SQLException, IOException, ClassNotFoundException {
         System.out.println("SERVER USING REGISTRY");
+        if (args.length != 0) {
+            if (!args[0].isEmpty()) {
+                ip = args[0];
+            }
+            if (!args[1].isEmpty()) {
+                portNumber = Integer.parseInt(args[1]);
+            }
+        }
         RMIServer server = new RMIServer();
     }
 }
