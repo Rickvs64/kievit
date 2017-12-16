@@ -267,4 +267,14 @@ public class ServerManager extends UnicastRemoteObject implements IServerManager
         return nextLobbyID;
     }
 
+    @Override
+    public boolean checkUsernameExists(String username) throws RemoteException {
+        return userRepo.checkUsernameExists(username);
+    }
+
+    @Override
+    public boolean createUser(User user) throws RemoteException {
+        return userRepo.createUser(user);
+    }
+
 }

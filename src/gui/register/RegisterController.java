@@ -12,8 +12,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import server.IServerManager;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -22,6 +24,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
 public class RegisterController {
     private IUserRepository userRepo = new SQLUserRepository();
     private User user;
+    private IServerManager server;
     private Censorship censorship = new Censorship();
 
     @FXML
@@ -36,7 +39,10 @@ public class RegisterController {
     public RegisterController() throws SQLException, IOException, ClassNotFoundException {
         // Empty constructor with declared exceptions, thus allowing form-to-form navigation.
     }
-
+    public void setup(IServerManager server)
+    {
+        this.server = server;
+    }
     @FXML
     private void cancelRegister() throws IOException {
         backToLogin(false);
@@ -66,14 +72,14 @@ public class RegisterController {
             showMessageDialog(null, "Please refrain from using immature usernames.");
             System.out.println("Found a match in username and banned terminology list.");
         }
-        else if (userRepo.checkUsernameExists(txt_username.getText().toLowerCase())) {
+        else if (server.checkUsernameExists(txt_username.getText().toLowerCase())) {
             // Username already taken
             showMessageDialog(null, "This username is already in use.");
             System.out.println("This username is already in use.");
         }
         else {
             user = new User(txt_username.getText().toLowerCase(), txt_password.getText());
-            if (userRepo.createUser(user)) {
+            if (server.createUser(user)) {
                 backToLogin(true);
             }
             else {

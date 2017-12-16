@@ -29,4 +29,6 @@ public interface IServerManager extends Remote {
     List<Item> getItems(int id) throws RemoteException;
     List<Item> getOwnedItems(int id, String type) throws RemoteException;
     int getNewLobbyID() throws RemoteException;
+    boolean checkUsernameExists(String username) throws RemoteException;
+    boolean createUser(User user) throws RemoteException;
 }
