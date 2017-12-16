@@ -21,6 +21,7 @@ import java.util.TimerTask;
 public class ServerManager extends UnicastRemoteObject implements IServerManager {
     List<ILobby> lobbyList = new ArrayList<>();
     JFXPanel jfxPanel = new JFXPanel();
+    private int nextLobbyID = 1;
     private IUserRepository userRepo = new SQLUserRepository();
     private IShopRepository shopRepo = new ShopRepository();
     public ServerManager() throws IOException, SQLException, ClassNotFoundException {
@@ -258,6 +259,12 @@ public class ServerManager extends UnicastRemoteObject implements IServerManager
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public synchronized int getNewLobbyID() throws RemoteException {
+        nextLobbyID++;
+        return nextLobbyID;
     }
 
 }

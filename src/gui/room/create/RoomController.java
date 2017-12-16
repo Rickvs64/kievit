@@ -1,13 +1,8 @@
 package gui.room.create;
 
 import classes.domains.User;
-import classes.repositories.IRoomRepository;
-import classes.repositories.RoomRepository;
-import gui.game.GameController;
 import gui.home.HomeController;
-import gui.room.lobby.Lobby;
 import gui.room.lobby.LobbyController;
-import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -37,14 +32,12 @@ public class RoomController {
         if (!roomName.getText().trim().isEmpty() && !roomPassword.getText().trim().isEmpty())
         {
             System.out.println("passed");
-            IRoomRepository roomRepository = new RoomRepository();
-            int roomID = roomRepository.createRoom(user.getId(),roomName.getText(),roomPassword.getText(),50);
-            toLobbyScreen(roomID,roomName.getText(),roomPassword.getText());
+            toLobbyScreen(roomName.getText(),roomPassword.getText());
         }
     }
 
     @FXML
-    private void toLobbyScreen(int roomID, String name,String password) throws IOException {
+    private void toLobbyScreen(String name,String password) throws IOException {
         // Set the next "page" (scene) to display.
         // Note that an incorrect path will result in unexpected NullPointer exceptions!
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../lobby/Lobby.fxml"));
@@ -52,9 +45,9 @@ public class RoomController {
         LobbyController controller = fxmlLoader.<LobbyController>getController();
         // Run the setUser() method in HomeController.
         // This is the JavaFX equivalent of sending data from one form to another in C#.
-        controller.setRoom(roomID,name,password);
+        controller.setRoom(name,password);
         controller.setPlayerNr(1);
-        controller.setup(user,server);
+        controller.setup(user,server,server.getNewLobbyID());
         Scene homeScreen = new Scene(root);
         Stage stage;
         stage = (Stage) lbl_username.getScene().getWindow(); // Weird backwards logic trick to get the current scene window.

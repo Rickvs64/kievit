@@ -28,4 +28,5 @@ public interface IServerManager extends Remote {
     void buyItem(int userID, int itemID) throws RemoteException;
     List<Item> getItems(int id) throws RemoteException;
     List<Item> getOwnedItems(int id, String type) throws RemoteException;
+    int getNewLobbyID() throws RemoteException;
 }

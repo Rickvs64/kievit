@@ -1,18 +1,10 @@
 package gui.room.search;
 
-import classes.domains.HighscoreEntry;
-import classes.domains.IPlayer;
-import classes.domains.Room;
 import classes.domains.User;
-import classes.repositories.*;
 import gui.home.HomeController;
 import gui.room.lobby.LobbyController;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -21,21 +13,13 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import jdk.internal.util.xml.impl.Input;
 import server.IServerManager;
 import shared.ILobby;
-import shared.IServerSettings;
-import shared.Lobby;
-import shared.ServerSettings;
 
 import java.io.IOException;
-import java.net.URL;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.util.*;
 
 public class searchroomController {
@@ -147,9 +131,9 @@ public class searchroomController {
         LobbyController controller = fxmlLoader.<LobbyController>getController();
         // Run the setUser() method in HomeController.
         // This is the JavaFX equivalent of sending data from one form to another in C#.
-        controller.setRoom(roomID,name,password);
+        controller.setRoom(name,password);
         controller.setPlayerNr(2);
-        controller.setup(user,server);
+        controller.setup(user,server,roomID);
         Scene homeScreen = new Scene(root);
         Stage stage;
         stage = (Stage) lbl_username.getScene().getWindow(); // Weird backwards logic trick to get the current scene window.

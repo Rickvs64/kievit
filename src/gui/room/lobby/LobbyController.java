@@ -36,7 +36,7 @@ import java.util.TimerTask;
 public class LobbyController {
     private User user;
     private User user2;
-    private int roomID;
+    private int lobbyID;
     private String roomName;
     private String roomPassword;
     private boolean guest = false;
@@ -108,18 +108,18 @@ public class LobbyController {
     }
     public void findLobby() throws SQLException, IOException, ClassNotFoundException {
 
-        if (server.getLobby(roomID) == null) {
-            this.lobby = server.addLobby(roomID,user.getUsername(),roomName,roomPassword);
+        if (server.getLobby(lobbyID) == null) {
+            this.lobby = server.addLobby(lobbyID,user.getUsername(),roomName,roomPassword);
             server.joinLobby(this.lobby.getId(),user);
         }
         else {
-            lobby = server.getLobby(roomID);
+            lobby = server.getLobby(lobbyID);
             server.joinLobby(this.lobby.getId(),user);
         }
     }
 
     private void UpdateServerLobby() throws IOException, SQLException, ClassNotFoundException {
-        this.lobby = server.getLobby(roomID);
+        this.lobby = server.getLobby(lobbyID);
         if (lobby.getStatus()){
             Platform.runLater(() -> {
                 try {
@@ -131,8 +131,7 @@ public class LobbyController {
         }
         UpdateLobby();
     }
-    public void setRoom(int roomID,String roomName,String roomPassword){
-        this.roomID = roomID;
+    public void setRoom(String roomName,String roomPassword){
         this.roomName =roomName;
         this.roomPassword = roomPassword;
     }
@@ -157,10 +156,9 @@ public class LobbyController {
     @FXML
     public void loginPlayer() throws SQLException, IOException, ClassNotFoundException {
         if (!playerName.getText().trim().isEmpty()& !playerPassword.getText().trim().isEmpty()) {
-            User user = new User(playerName.getText(), playerPassword.getText());
-            IUserRepository userRepo = new SQLUserRepository();
-            if (userRepo.login(playerName.getText(), playerPassword.getText()) != null) {
-                setUser2(user);
+            User user2 = server.login(playerName.getText(), playerPassword.getText());
+            if (user2 != null) {
+                setUser2(user2);
                 player2login.setVisible(false);
                 player2stats.setVisible(true);
                 login = true;
@@ -315,9 +313,10 @@ public class LobbyController {
         cbTailEquip.setCellFactory(factory);
         cbTailEquip.setButtonCell(factory.call(null));
     }
-    public void setup(User user, IServerManager server){
+    public void setup(User user, IServerManager server,int lobbyID){
         this.user = user;
         this.server = server;
+        this.lobbyID = lobbyID;
         this.lbl_username.setText(this.user.getUsername());
         this.lbl_credits.setText(String.valueOf(this.user.getCredits()));
         try {
