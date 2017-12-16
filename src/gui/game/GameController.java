@@ -14,6 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import server.IServerManager;
+import shared.IListener;
 import shared.ILobby;
 import shared.IServerSettings;
 import shared.ServerSettings;
@@ -23,12 +24,13 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
 import java.util.Timer;
 import java.util.TimerTask;
 
 
-public class GameController {
+public class GameController extends UnicastRemoteObject implements IListener{
     private IPlayer player1;
     private IPlayer player2;
     private User user;
@@ -103,78 +105,40 @@ public class GameController {
                 }
             }
         }, 3000 , 50);
-        try {
-            this.registry = locateRegistry();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
-            this.server = (IServerManager) registry.lookup("serverManager");
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        } catch (NotBoundException e) {
-            e.printStackTrace();
-        }
-        //updatePlayersTimer = new Timer();
-        //updatePlayersTimer.schedule(new TimerTask() {
-        //    @Override
-        //    public void run() {
-        //        UpdatePlayerServer();
-        //    }
-        //}, 1000 , 25);
-    }
 
+    }
     private void UpdatePlayerServer() {
         if (playerNumber == 1)
         {
             try {
 
-                server.updateDirection(player1.getCurrentDirection(),lobby.getId(),player1.getUserID());
+                server.updateDirection(player1.getCurrentDirection(),lobby.getId(),playerNumber);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
-           try {
-              player2.setCurrentDirection(server.getDirection(player2.getUserID(),lobby.getId()));
-           } catch (RemoteException e) {
-               e.printStackTrace();
-           }
         }
         else
         {
             try {
-                server.updateDirection(player2.getCurrentDirection(),lobby.getId(),player2.getUserID());
+                server.updateDirection(player2.getCurrentDirection(),lobby.getId(),playerNumber);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
-           try {
-               player1.setCurrentDirection(server.getDirection(player1.getUserID(),lobby.getId()));
-           } catch (RemoteException e) {
-               e.printStackTrace();
-           }
         }
     }
-    private Registry locateRegistry() throws SQLException, IOException, ClassNotFoundException {
-        IServerSettings serverSettings = new ServerSettings();
-        try
-        {
-            return LocateRegistry.getRegistry(serverSettings.getIp(), serverSettings.getPort());
-        }
-        catch (RemoteException ex) {
-            System.out.println("Client: Cannot locate registry");
-            System.out.println("Client: RemoteException: " + ex.getMessage());
-            return null;
-        }
-    }
+
     public void setUsers(User user,User user2) {
         this.user = user;
         this.user2 = user2;
     }
-    public void setupMulti(int playerNumber,ILobby lobby)
+    public void setupMulti(int playerNumber,ILobby lobby, IServerManager server)
     {
+        this.server = server;
+        try {
+            server.addListener(this);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
         this.playerNumber = playerNumber;
         this.lobby = lobby;
         if (playerNumber ==1)
@@ -399,10 +363,30 @@ public class GameController {
     }
 
     private void UpdatePlayer() throws RemoteException {
-        UpdatePlayerServer();
         player1.move();
         player2.move();
     }
 
+    @Override
+    public void setDirectionOtherPlayer(Direction direction) throws RemoteException {
+        if (playerNumber == 1)
+        {
+            this.player2.setCurrentDirection(direction);
+        }
+        else
+        {
+            this.player1.setCurrentDirection(direction);
+        }
+    }
+
+    @Override
+    public int getLobbyID() throws RemoteException {
+        return lobby.getId();
+    }
+
+    @Override
+    public int getUserID() throws RemoteException {
+        return playerNumber;
+    }
 }
 

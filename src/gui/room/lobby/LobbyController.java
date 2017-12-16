@@ -219,7 +219,7 @@ public class LobbyController {
         // Run the setUser() method in HomeController.
         // This is the JavaFX equivalent of sending data from one form to another in C#.
         controller.setUsers(user,user2);
-        controller.setupMulti(playerNr,lobby);
+        controller.setupMulti(playerNr,lobby,server);
 
         Scene homeScreen = new Scene(root);
         Stage stage;

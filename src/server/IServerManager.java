@@ -5,18 +5,19 @@ import classes.domains.IPlayer;
 import classes.domains.Item;
 import classes.domains.User;
 import com.sun.org.apache.regexp.internal.RE;
+import shared.IListener;
 import shared.ILobby;
+import shared.IRemotePublisher;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
-public interface IServerManager extends Remote {
+public interface IServerManager extends Remote, IRemotePublisher {
     User login(String username, String password) throws RemoteException;
-    ILobby updatePlayer(IPlayer p, int lobbyId) throws RemoteException;
     ILobby addLobby(int id,String user,String name,String password) throws RemoteException;
     ILobby getLobby(int id) throws RemoteException;
-    ILobby joinLobby(int lobbyId,User user) throws RemoteException;
+    ILobby joinLobby(int lobbyId, User user) throws RemoteException;
     boolean getStatus(int id) throws RemoteException;
     void setStatus(boolean b,int id) throws RemoteException;
     void updateDirection(Direction currentDirection, int id, int userID) throws RemoteException;

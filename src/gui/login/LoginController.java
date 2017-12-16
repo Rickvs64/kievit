@@ -44,6 +44,7 @@ public class LoginController {
     private Label lbl_accountCreated;
 
     public LoginController() throws SQLException, IOException, ClassNotFoundException, NotBoundException {
+        System.setProperty("java.rmi.server.hostname","127.0.0.1");
         setup();
     }
 

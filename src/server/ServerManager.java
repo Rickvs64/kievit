@@ -6,7 +6,9 @@ import classes.repositories.IUserRepository;
 import classes.repositories.SQLUserRepository;
 import classes.repositories.ShopRepository;
 import javafx.embed.swing.JFXPanel;
+import shared.IListener;
 import shared.ILobby;
+import shared.IRemotePublisher;
 import shared.Lobby;
 
 import java.io.IOException;
@@ -20,13 +22,13 @@ import java.util.TimerTask;
 
 public class ServerManager extends UnicastRemoteObject implements IServerManager {
     List<ILobby> lobbyList = new ArrayList<>();
+    List<IListener> clients = new ArrayList<>();
     JFXPanel jfxPanel = new JFXPanel();
     private int nextLobbyID = 1;
     private IUserRepository userRepo = new SQLUserRepository();
     private IShopRepository shopRepo = new ShopRepository();
     public ServerManager() throws IOException, SQLException, ClassNotFoundException {
     }
-
 
     public ILobby addLobby(int id,String user,String name,String password) throws RemoteException {
         ILobby lobby = null;
@@ -71,22 +73,7 @@ public class ServerManager extends UnicastRemoteObject implements IServerManager
         return null;
     }
 
-    public synchronized ILobby updatePlayer(IPlayer p, int lobbyId)
-    {
-        for (ILobby l:lobbyList
-             ) {
-            try {
-                if (l.getId() == lobbyId)
-                {
-                    l.update(p);
-                    return  l;
-                }
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
-    }
+
     public ILobby joinLobby(int lobbyId,User user)
     {
         for (ILobby l:lobbyList
@@ -147,6 +134,13 @@ public class ServerManager extends UnicastRemoteObject implements IServerManager
                 if (l.getId() == id)
                 {
                     l.updateDirection(userID,currentDirection);
+                    for (IListener client:clients
+                         ) {
+                        if (client.getLobbyID() == id && client.getUserID() != userID)
+                        {
+                            client.setDirectionOtherPlayer(currentDirection);
+                        }
+                    }
                 }
             } catch (RemoteException e) {
                 e.printStackTrace();
@@ -277,4 +271,13 @@ public class ServerManager extends UnicastRemoteObject implements IServerManager
         return userRepo.createUser(user);
     }
 
+    @Override
+    public void addListener(IListener listener) throws RemoteException {
+        this.clients.add(listener);
+    }
+
+    @Override
+    public void removeListener(IListener listener) throws RemoteException {
+        this.clients.remove(listener);
+    }
 }
