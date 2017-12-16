@@ -378,7 +378,7 @@ public class GameController {
 
         // Run the setUser() method in HomeController.
         // This is the JavaFX equivalent of sending data from one form to another in C#.
-        controller.setUser(user);
+        controller.setup(user,server);
 
         Scene homeScreen = new Scene(root);
 

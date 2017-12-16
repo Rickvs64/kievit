@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import server.IServerManager;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -29,12 +30,7 @@ public class RoomController {
     private TextField roomName;
     @FXML
     private TextField roomPassword;
-
-    public void setUser(User user) {
-       this.user = user;
-       lbl_username.setText(user.getUsername());
-       lbl_credits.setText(String.valueOf(user.getCredits()));
-    }
+    private IServerManager server;
 
     @FXML
     public void createRoom() throws IOException, SQLException, ClassNotFoundException {
@@ -58,13 +54,7 @@ public class RoomController {
         // This is the JavaFX equivalent of sending data from one form to another in C#.
         controller.setRoom(roomID,name,password);
         controller.setPlayerNr(1);
-        try {
-            controller.setUser(user);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        controller.setup(user,server);
         Scene homeScreen = new Scene(root);
         Stage stage;
         stage = (Stage) lbl_username.getScene().getWindow(); // Weird backwards logic trick to get the current scene window.
@@ -88,7 +78,7 @@ public class RoomController {
 
         // Run the setUser() method in HomeController.
         // This is the JavaFX equivalent of sending data from one form to another in C#.
-        controller.setUser(user);
+        controller.setup(user,server);
 
         Scene homeScreen = new Scene(root);
 
@@ -97,5 +87,12 @@ public class RoomController {
 
         stage.setScene(homeScreen);
         stage.show();
+    }
+
+    public void setup(User user, IServerManager server) {
+        this.user = user;
+        lbl_username.setText(user.getUsername());
+        lbl_credits.setText(String.valueOf(user.getCredits()));
+        this.server = server;
     }
 }

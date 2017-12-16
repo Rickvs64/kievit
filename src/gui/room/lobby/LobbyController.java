@@ -43,8 +43,6 @@ public class LobbyController {
     private boolean login = false;
     private String guestName;
     private Timer timer = new Timer();
-    private IRoomRepository roomRepository;
-    private IShopRepository shopRepository;
     private int playerNr;
     private int head_id;
     private int tail_id;
@@ -77,28 +75,9 @@ public class LobbyController {
     private ComboBox cbTailEquip;
 
     private ILobby lobby;
-    private Registry registry;
     private IServerManager server;
-    public void setUser(User user) throws SQLException, IOException, ClassNotFoundException {
-        this.user = user;
-        this.lbl_username.setText(this.user.getUsername());
-        this.lbl_credits.setText(String.valueOf(this.user.getCredits()));
-        this.roomRepository = new RoomRepository();
-        this.shopRepository = new ShopRepository();
-        setupMulti();
-        loadHeadEquip();
-        loadTailEquip();
-    }
 
     public void setupMulti() throws SQLException, IOException, ClassNotFoundException {
-        this.registry = locateRegistry();
-        try {
-            this.server = (IServerManager) registry.lookup("serverManager");
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        } catch (NotBoundException e) {
-            e.printStackTrace();
-        }
         try {
             findLobby();
         } catch (SQLException e) {
@@ -151,18 +130,6 @@ public class LobbyController {
             });
         }
         UpdateLobby();
-    }
-    private Registry locateRegistry() throws SQLException, IOException, ClassNotFoundException {
-        IServerSettings serverSettings = new ServerSettings();
-        try
-        {
-            return LocateRegistry.getRegistry(serverSettings.getIp(), serverSettings.getPort());
-        }
-        catch (RemoteException ex) {
-            System.out.println("Client: Cannot locate registry");
-            System.out.println("Client: RemoteException: " + ex.getMessage());
-            return null;
-        }
     }
     public void setRoom(int roomID,String roomName,String roomPassword){
         this.roomID = roomID;
@@ -265,8 +232,7 @@ public class LobbyController {
     }
 
     @FXML
-    private void toLobbySearch() throws IOException
-    {
+    private void toLobbySearch() throws IOException, SQLException, NotBoundException, ClassNotFoundException {
         timer.cancel();
         // More info can be found in the toHomeScreen() method
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../search/searchroom.fxml"));
@@ -276,7 +242,7 @@ public class LobbyController {
 
         // Run the setUser() method in HomeController.
         // This is the JavaFX equivalent of sending data from one form to another in C#.
-        controller.setUser(user);
+        controller.setup(user,server);
 
         Scene searchScreen = new Scene(root);
 
@@ -303,7 +269,7 @@ public class LobbyController {
 
         // Run the setUser() method in HomeController.
         // This is the JavaFX equivalent of sending data from one form to another in C#.
-        controller.setUser(user);
+        controller.setup(user,server);
 
         Scene homeScreen = new Scene(root);
 
@@ -319,7 +285,7 @@ public class LobbyController {
     }
 
     private void loadHeadEquip() throws SQLException, IOException, ClassNotFoundException {
-            cbHeadEquip.getItems().addAll(shopRepository.getOwnedItems(user.getId(), "head"));
+            cbHeadEquip.getItems().addAll(server.getOwnedItems(user.getId(), "head"));
 
             Callback<ListView<Item>, ListCell<Item>> factory = lv -> new ListCell<Item>() {
 
@@ -335,7 +301,7 @@ public class LobbyController {
     }
 
     private void loadTailEquip() throws SQLException, IOException, ClassNotFoundException {
-            cbTailEquip.getItems().addAll(shopRepository.getOwnedItems(user.getId(), "tail"));
+            cbTailEquip.getItems().addAll(server.getOwnedItems(user.getId(), "tail"));
 
         Callback<ListView<Item>, ListCell<Item>> factory = lv -> new ListCell<Item>() {
 
@@ -348,5 +314,26 @@ public class LobbyController {
         };
         cbTailEquip.setCellFactory(factory);
         cbTailEquip.setButtonCell(factory.call(null));
+    }
+    public void setup(User user, IServerManager server){
+        this.user = user;
+        this.server = server;
+        this.lbl_username.setText(this.user.getUsername());
+        this.lbl_credits.setText(String.valueOf(this.user.getCredits()));
+        try {
+            setupMulti();
+        } catch (SQLException | ClassNotFoundException | IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            loadHeadEquip();
+        } catch (SQLException | ClassNotFoundException | IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            loadTailEquip();
+        } catch (SQLException | IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }

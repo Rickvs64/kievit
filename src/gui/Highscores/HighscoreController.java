@@ -16,6 +16,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import server.IServerManager;
 
 import java.io.IOException;
 import java.net.URL;
@@ -38,11 +39,14 @@ public class HighscoreController implements Initializable {
     // video: https://www.youtube.com/watch?v=oOhW_oHf7bM
 
     ObservableList<HighscoreEntry> data = FXCollections.observableArrayList();
+    private IServerManager server;
+
     public HighscoreController() throws SQLException, IOException, ClassNotFoundException {
         LoadHighscores();
     }
-    public void setUser(User user) {
+    public void setup(User user,IServerManager server) {
         this.user = user;
+        this.server = server;
     }
 
     public void LoadHighscores() throws SQLException, IOException, ClassNotFoundException {
@@ -57,7 +61,7 @@ public class HighscoreController implements Initializable {
 
         Parent root = (Parent)fxmlLoader.load();
         HomeController controller = fxmlLoader.<HomeController>getController();
-        controller.setUser(user);
+        controller.setup(user,server);
 
         Scene homeScreen = new Scene(root);
 

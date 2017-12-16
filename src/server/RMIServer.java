@@ -35,7 +35,6 @@ public class RMIServer {
         // Print port number for registry
         System.out.println("ip : " + ip);
         System.out.println("Server: Port number " + portNumber);
-
         // Create student administration
         try {
             serverManager = new ServerManager();

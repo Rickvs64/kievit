@@ -11,6 +11,7 @@ public class ShopRepository implements IShopRepository {
     @Override
     public List<Item> getItems(int userID) throws SQLException, IOException, ClassNotFoundException {
         List<Item> items = new ArrayList<>();
+        System.out.println(userID);
         String getitems = "select ID,type,name,price from item where ID not in (select i.ID  from item i join player_item p_i on p_i.item_id=i.ID where p_i.player_id = ?);";
         IConnection connection = new ConnectionManager();
         Connection conn = connection.getConnection();

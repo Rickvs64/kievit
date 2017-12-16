@@ -1,15 +1,18 @@
 package server;
 
-import classes.domains.Direction;
-import classes.domains.IPlayer;
-import classes.domains.Player;
-import classes.domains.User;
+import classes.domains.*;
+import classes.repositories.IShopRepository;
+import classes.repositories.IUserRepository;
+import classes.repositories.SQLUserRepository;
+import classes.repositories.ShopRepository;
 import javafx.embed.swing.JFXPanel;
 import shared.ILobby;
 import shared.Lobby;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -18,14 +21,13 @@ import java.util.TimerTask;
 public class ServerManager extends UnicastRemoteObject implements IServerManager {
     List<ILobby> lobbyList = new ArrayList<>();
     JFXPanel jfxPanel = new JFXPanel();
-
-    public ServerManager() throws RemoteException {
+    private IUserRepository userRepo = new SQLUserRepository();
+    private IShopRepository shopRepo = new ShopRepository();
+    public ServerManager() throws IOException, SQLException, ClassNotFoundException {
     }
 
 
     public ILobby addLobby(int id,String user,String name,String password) throws RemoteException {
-
-
         ILobby lobby = null;
         try {
             lobby = new Lobby(id,user,name,password);
@@ -54,7 +56,21 @@ public class ServerManager extends UnicastRemoteObject implements IServerManager
     }
 
 
-    public synchronized ILobby updatePlayer(IPlayer p,int lobbyId)
+    @Override
+    public User login(String username, String password) throws RemoteException {
+        try {
+            return userRepo.login(username.toLowerCase(), password);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public synchronized ILobby updatePlayer(IPlayer p, int lobbyId)
     {
         for (ILobby l:lobbyList
              ) {
@@ -202,4 +218,46 @@ public class ServerManager extends UnicastRemoteObject implements IServerManager
         }
         return player;
     }
+
+    @Override
+    public void buyItem(int userID, int itemID) throws RemoteException {
+        try {
+            shopRepo.buyItem(itemID,userID);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<Item> getItems(int id) throws RemoteException {
+        try {
+            return shopRepo.getItems(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<Item> getOwnedItems(int id, String type) throws RemoteException {
+        try {
+            return shopRepo.getOwnedItems(id,type);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

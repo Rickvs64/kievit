@@ -2,7 +2,9 @@ package classes.domains;
 
 import javafx.scene.image.Image;
 
-public class Item {
+import java.io.Serializable;
+
+public class Item implements Serializable {
     private int ID;
     private String type;
     private String name;

@@ -60,11 +60,9 @@ public class searchroomController {
 
 
     private Timer timer;
-    private Registry registry;
     private IServerManager server;
     private ILobby lobby;
     public searchroomController() throws SQLException, IOException, ClassNotFoundException, NotBoundException {
-        setup();
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -77,23 +75,14 @@ public class searchroomController {
             }
         }, 1000 , 1000);
     }
-    private void setup() throws IOException, NotBoundException, SQLException, ClassNotFoundException {
-        this.registry = locateRegistry();
-        this.server = (IServerManager) registry.lookup("serverManager");
+    public void setup(User user, IServerManager server) throws IOException, NotBoundException, SQLException, ClassNotFoundException {
+        this.user = user;
+        lbl_username.setText(user.getUsername());
+        lbl_credits.setText(String.valueOf(user.getCredits()));
+        this.server = server;
 
     }
-    private Registry locateRegistry() throws SQLException, IOException, ClassNotFoundException {
-        IServerSettings serverSettings = new ServerSettings();
-        try
-        {
-            return LocateRegistry.getRegistry(serverSettings.getIp(), serverSettings.getPort());
-        }
-        catch (RemoteException ex) {
-            System.out.println("Client: Cannot locate registry");
-            System.out.println("Client: RemoteException: " + ex.getMessage());
-            return null;
-        }
-    }
+
     private void UpdateServerLobby() throws RemoteException {
         lobbyList.getItems().clear();
         ID.setCellValueFactory(new PropertyValueFactory<ILobby,String>("id"));
@@ -127,13 +116,6 @@ public class searchroomController {
             toLobbyScreen(lobby.getId(),lobby.getName(),lobby.getPassword());
         }
     }
-    public void setUser(User user) {
-        this.user = user;
-        lbl_username.setText(user.getUsername());
-        lbl_credits.setText(String.valueOf(user.getCredits()));
-        System.out.println(user.getUsername());
-    }
-
 
     @FXML
     private void toHomeScreen() throws IOException {
@@ -146,7 +128,7 @@ public class searchroomController {
 
         // Run the setUser() method in HomeController.
         // This is the JavaFX equivalent of sending data from one form to another in C#.
-        controller.setUser(user);
+        controller.setup(user,server);
 
         Scene homeScreen = new Scene(root);
 
@@ -167,13 +149,7 @@ public class searchroomController {
         // This is the JavaFX equivalent of sending data from one form to another in C#.
         controller.setRoom(roomID,name,password);
         controller.setPlayerNr(2);
-        try {
-            controller.setUser(user);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        controller.setup(user,server);
         Scene homeScreen = new Scene(root);
         Stage stage;
         stage = (Stage) lbl_username.getScene().getWindow(); // Weird backwards logic trick to get the current scene window.
