@@ -16,16 +16,10 @@ import javafx.stage.Stage;
 import server.IServerManager;
 import shared.IListener;
 import shared.ILobby;
-import shared.IServerSettings;
-import shared.ServerSettings;
 
 import java.io.IOException;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.sql.SQLException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -51,10 +45,8 @@ public class GameController extends UnicastRemoteObject implements IListener{
     private boolean local = false;
     private int playerNumber;
     private ILobby lobby;
-    private Timer updatePlayersTimer;
-    private Registry registry;
     private IServerManager server;
-    private int opponementId;
+    private int opponentId;
 
 
     public GameController() throws RemoteException {
@@ -141,12 +133,11 @@ public class GameController extends UnicastRemoteObject implements IListener{
         }
         this.playerNumber = playerNumber;
         this.lobby = lobby;
-        if (playerNumber ==1)
-        {
-            opponementId = 2;
+        if (playerNumber == 1)  {
+            opponentId = 2;
         }
         else {
-            opponementId = 1;
+            opponentId = 1;
         }
     }
     @FXML
@@ -242,90 +233,56 @@ public class GameController extends UnicastRemoteObject implements IListener{
         }
         else {
             KeyCode keyCode = event.getCode();
-            if (playerNumber ==1) {
-                switch (keyCode) {
-                    case W:
-                        try {
-                            if (player1.getCurrentDirection() != Direction.DOWN) {
-                                player1.setCurrentDirection(Direction.UP);
-                            }
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                    case S:
-                        try {
-                            if (player1.getCurrentDirection() != Direction.UP) {
-                                player1.setCurrentDirection(Direction.DOWN);
-                            }
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                    case A:
-                        try {
-                            if (player1.getCurrentDirection() != Direction.RIGHT) {
-                                player1.setCurrentDirection(Direction.LEFT);
-                            }
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                    case D:
-                        try {
-                            if (player1.getCurrentDirection() != Direction.LEFT) {
-                                player1.setCurrentDirection(Direction.RIGHT);
-                            }
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                }
-                UpdatePlayerServer();
+            IPlayer player;
+            if (playerNumber == 1) {
+                player = player1;
+            } else {
+                player = player2;
             }
-            else {
-                switch (keyCode) {
-                    case W:
-                        try {
-                            if (player2.getCurrentDirection() != Direction.DOWN) {
-                                player2.setCurrentDirection(Direction.UP);
-                            }
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
+
+            switch (keyCode) {
+                case W:
+                    try {
+                        if (player.getCurrentDirection() != Direction.DOWN) {
+                            player.setCurrentDirection(Direction.UP);
                         }
-                        break;
-                    case S:
-                        try {
-                            if (player2.getCurrentDirection() != Direction.UP) {
-                                player2.setCurrentDirection(Direction.DOWN);
-                            }
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case S:
+                    try {
+                        if (player.getCurrentDirection() != Direction.UP) {
+                            player.setCurrentDirection(Direction.DOWN);
                         }
-                        break;
-                    case A:
-                        try {
-                            if (player2.getCurrentDirection() != Direction.RIGHT) {
-                                player2.setCurrentDirection(Direction.LEFT);
-                            }
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case A:
+                    try {
+                        if (player.getCurrentDirection() != Direction.RIGHT) {
+                            player.setCurrentDirection(Direction.LEFT);
                         }
-                        break;
-                    case D:
-                        try {
-                            if (player2.getCurrentDirection() != Direction.LEFT) {
-                                player2.setCurrentDirection(Direction.RIGHT);
-                            }
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case D:
+                    try {
+                        if (player.getCurrentDirection() != Direction.LEFT) {
+                            player.setCurrentDirection(Direction.RIGHT);
                         }
-                        break;
-                }
-                UpdatePlayerServer();
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
+                    break;
             }
+            UpdatePlayerServer();
         }
     }
+
+
 
     /**
      * Navigate to the home screen while sending an instance of User to be used later in the application.
@@ -337,8 +294,8 @@ public class GameController extends UnicastRemoteObject implements IListener{
         // Note that an incorrect path will result in unexpected NullPointer exceptions!
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../home/home.fxml"));
 
-        Parent root = (Parent)fxmlLoader.load();
-        HomeController controller = fxmlLoader.<HomeController>getController();
+        Parent root = fxmlLoader.load();
+        HomeController controller = fxmlLoader.getController();
 
         // Run the setUser() method in HomeController.
         // This is the JavaFX equivalent of sending data from one form to another in C#.
@@ -363,13 +320,11 @@ public class GameController extends UnicastRemoteObject implements IListener{
     }
 
     private void UpdatePlayer() throws RemoteException {
-        Direction dir = server.getDirection(opponementId,lobby.getId());
-        if (playerNumber == 1)
-        {
+        Direction dir = server.getDirection(opponentId,lobby.getId());
+        if (playerNumber == 1) {
             player2.setCurrentDirection(dir);
         }
-        else
-        {
+        else {
             player1.setCurrentDirection(dir);
         }
         player1.move();
@@ -378,12 +333,10 @@ public class GameController extends UnicastRemoteObject implements IListener{
 
     @Override
     public void setDirectionOtherPlayer(Direction direction) throws RemoteException {
-        if (playerNumber == 1)
-        {
+        if (playerNumber == 1) {
             this.player2.setCurrentDirection(direction);
         }
-        else
-        {
+        else {
             this.player1.setCurrentDirection(direction);
         }
     }

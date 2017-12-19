@@ -23,7 +23,7 @@ public interface IServerManager extends Remote, IRemotePublisher {
     void updateDirection(Direction currentDirection, int id, int userID) throws RemoteException;
     Direction getDirection(int userID, int id) throws  RemoteException;
     List<User> getUsers(int id)throws  RemoteException;
-    List<ILobby> getAvailibleLobbys() throws RemoteException;
+    List<ILobby> getAvailableLobbies() throws RemoteException;
     void setCosmetics(int playerNumber,int lobbyID, int headID, int tailID) throws RemoteException;
     IPlayer getPlayer(int lobbyID, int playerNumber) throws RemoteException;
     void buyItem(int userID, int itemID) throws RemoteException;

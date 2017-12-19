@@ -6,7 +6,6 @@ import classes.domains.Player;
 import classes.domains.User;
 
 import java.io.Serializable;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -61,15 +60,13 @@ public class Lobby extends UnicastRemoteObject implements ILobby, Serializable {
 
     @Override
     public synchronized IPlayer getPlayer(int id) {
-        for (IPlayer p : players
-                ) {
+        for (IPlayer p : players) {
             try {
                 if (p.getUserID() == id)
                     return p;
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
-
         }
         return null;
     }
@@ -84,10 +81,8 @@ public class Lobby extends UnicastRemoteObject implements ILobby, Serializable {
 
     @Override
     public void setCosmetics(int playerNumber, int headID, int tailID) {
-        for (Player p:players
-             ) {
-            if (p.getUserID() == playerNumber)
-            {
+        for (Player p:players) {
+            if (p.getUserID() == playerNumber) {
                 p.setHeadID(headID);
                 p.setTailID(tailID);
             }

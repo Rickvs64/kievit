@@ -2,7 +2,6 @@ package gui.room.lobby;
 
 import classes.domains.Item;
 import classes.domains.User;
-import classes.repositories.*;
 import gui.game.GameController;
 import gui.home.HomeController;
 import gui.room.search.searchroomController;
@@ -13,22 +12,15 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import javafx.util.StringConverter;
 import server.IServerManager;
 import shared.ILobby;
-import shared.IServerSettings;
-import shared.ServerSettings;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -39,13 +31,8 @@ public class LobbyController {
     private int lobbyID;
     private String roomName;
     private String roomPassword;
-    private boolean guest = false;
-    private boolean login = false;
-    private String guestName;
     private Timer timer = new Timer();
     private int playerNr;
-    private int head_id;
-    private int tail_id;
 
     @FXML
     private Label lbl_username;
@@ -70,9 +57,9 @@ public class LobbyController {
     @FXML
     private Label lbl_head;
     @FXML
-    private ComboBox cbHeadEquip;
+    private ComboBox<Item> cbHeadEquip;
     @FXML
-    private ComboBox cbTailEquip;
+    private ComboBox<Item> cbTailEquip;
 
     private ILobby lobby;
     private IServerManager server;
@@ -145,10 +132,11 @@ public class LobbyController {
     public void UpdateLobby() throws SQLException, IOException, ClassNotFoundException {
         List<User> users = server.getUsers(lobby.getId());
         StringBuilder msg = new StringBuilder();
-        for (User u:users
-             ) {
-            msg.append(u.getUsername() + " Credits: " + u.getCredits());
-            msg.append("\n");
+        for (User u:users) {
+            msg.append(u.getUsername())
+               .append(" Credits: ")
+               .append(u.getCredits())
+               .append("\n");
         }
         Platform.runLater(() -> playerList.setText(msg.toString()));
     }
@@ -161,7 +149,7 @@ public class LobbyController {
                 setUser2(user2);
                 player2login.setVisible(false);
                 player2stats.setVisible(true);
-                login = true;
+                boolean login = true;
                 server.joinLobby(lobby.getId(),user2);
             } else {
                 System.out.println("Wrong user credentials, mate.");
@@ -171,6 +159,7 @@ public class LobbyController {
     }
     @FXML
     public void loginGuest() throws RemoteException {
+        String guestName;
         if (playerName.getText().trim().isEmpty())
         {
             guestName = "Guest";
@@ -179,33 +168,33 @@ public class LobbyController {
         {
             guestName = playerName.getText();
         }
-        setUser2(new User(0,guestName,0));
+        setUser2(new User(0, guestName,0));
         server.joinLobby(lobby.getId(),user2);
         player2login.setVisible(false);
         player2stats.setVisible(true);
-        guest = true;
+        boolean guest = true;
 
     }
     public void startGame() throws IOException {
 
-        if (server.getStatus(lobby.getId()) == false)
-        {
-
+        if (!server.getStatus(lobby.getId())) {
             server.setStatus(true,lobby.getId());
         }
 
-        if(cbHeadEquip.getSelectionModel().getSelectedItem() != null){
-            Item head = (Item)cbHeadEquip.getSelectionModel().getSelectedItem();
-            this.head_id = head.getID();
-        }else{
-            this.head_id = 3;
+        int head_id;
+        if(cbHeadEquip.getSelectionModel().getSelectedItem() != null) {
+            Item head = cbHeadEquip.getSelectionModel().getSelectedItem();
+            head_id = head.getID();
+        } else {
+            head_id = 3;
         }
 
-        if(cbTailEquip.getSelectionModel().getSelectedItem() != null){
-            Item tail = (Item)cbTailEquip.getSelectionModel().getSelectedItem();
-            this.tail_id = tail.getID();
-        }else{
-            this.tail_id = 8;
+        int tail_id;
+        if(cbTailEquip.getSelectionModel().getSelectedItem() != null) {
+            Item tail = cbTailEquip.getSelectionModel().getSelectedItem();
+            tail_id = tail.getID();
+        } else {
+            tail_id = 8;
         }
 
         server.setCosmetics(playerNr, lobby.getId(), head_id, tail_id);
@@ -215,7 +204,7 @@ public class LobbyController {
         // Note that an incorrect path will result in unexpected NullPointer exceptions!
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../../game/Game.fxml"));
         Parent root = fxmlLoader.load();
-        GameController controller = fxmlLoader.<GameController>getController();
+        GameController controller = fxmlLoader.getController();
         // Run the setUser() method in HomeController.
         // This is the JavaFX equivalent of sending data from one form to another in C#.
         controller.setUsers(user,user2);
@@ -235,8 +224,8 @@ public class LobbyController {
         // More info can be found in the toHomeScreen() method
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../search/searchroom.fxml"));
 
-        Parent root = (Parent)fxmlLoader.load();
-        searchroomController controller = fxmlLoader.<searchroomController>getController();
+        Parent root = fxmlLoader.load();
+        searchroomController controller = fxmlLoader.getController();
 
         // Run the setUser() method in HomeController.
         // This is the JavaFX equivalent of sending data from one form to another in C#.
@@ -262,8 +251,8 @@ public class LobbyController {
         // Note that an incorrect path will result in unexpected NullPointer exceptions!
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../../home/home.fxml"));
 
-        Parent root = (Parent)fxmlLoader.load();
-        HomeController controller = fxmlLoader.<HomeController>getController();
+        Parent root = fxmlLoader.load();
+        HomeController controller = fxmlLoader.getController();
 
         // Run the setUser() method in HomeController.
         // This is the JavaFX equivalent of sending data from one form to another in C#.

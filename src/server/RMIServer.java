@@ -28,7 +28,6 @@ public class RMIServer {
     // Constructor
     public RMIServer() throws SQLException, IOException, ClassNotFoundException {
         //get settings
-
         System.setProperty("java.rmi.server.hostname", ip);
         // Print port number for registry
         System.out.println("ip : " + ip);
@@ -106,7 +105,7 @@ public class RMIServer {
                 portNumber = Integer.parseInt(args[1]);
             }
         }
-        RMIServer server = new RMIServer();
+        new RMIServer();
     }
 }
 

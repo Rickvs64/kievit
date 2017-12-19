@@ -28,26 +28,22 @@ public class searchroomController {
     @FXML
     private Label lbl_username;
     @FXML
-    private TextField searchname;
-    @FXML
     private Label lbl_credits;
     @FXML
-    private TableColumn ID;
+    private TableColumn<ILobby, String> ID;
     @FXML
-    private TableColumn name;
+    private TableColumn<ILobby, String> name;
     @FXML
-    private TableColumn count;
+    private TableColumn<ILobby, String> count;
     @FXML
-    private TableColumn player;
+    private TableColumn<ILobby, String> player;
     @FXML
     private TableView<ILobby> lobbyList;
 
-
-    private Timer timer;
     private IServerManager server;
     private ILobby lobby;
     public searchroomController() throws SQLException, IOException, ClassNotFoundException, NotBoundException {
-        timer = new Timer();
+        Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -69,34 +65,30 @@ public class searchroomController {
 
     private void UpdateServerLobby() throws RemoteException {
         lobbyList.getItems().clear();
-        ID.setCellValueFactory(new PropertyValueFactory<ILobby,String>("id"));
-        name.setCellValueFactory(new PropertyValueFactory<ILobby,String>("name"));
-        player.setCellValueFactory(new PropertyValueFactory<ILobby,String>("playername"));
-        count.setCellValueFactory(new PropertyValueFactory<ILobby,String>("count"));
-        if (!server.getAvailibleLobbys().isEmpty())
-        {
-            for (ILobby i:server.getAvailibleLobbys()) {
+        ID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        player.setCellValueFactory(new PropertyValueFactory<>("playername"));
+        count.setCellValueFactory(new PropertyValueFactory<>("count"));
+        List<ILobby> availableLobbies = server.getAvailableLobbies();
+        if (!availableLobbies.isEmpty()) {
+            for (ILobby i: availableLobbies) {
                 lobbyList.getItems().add(i);
             }
         }
     }
     @FXML
-    private void selectedLobby()
-    {
-        if (lobbyList.getSelectionModel().getSelectedItem() != null)
-        {
+    private void selectedLobby() {
+        if (lobbyList.getSelectionModel().getSelectedItem() != null) {
             lobby = lobbyList.getSelectionModel().getSelectedItem();
-        }
-        else
-        {
+        } else {
+
             lobby = null;
         }
     }
 
     @FXML
     private void joinSelectedLobby() throws SQLException, IOException, ClassNotFoundException {
-        if (lobby != null)
-        {
+        if (lobby != null) {
             toLobbyScreen(lobby.getId(),lobby.getName(),lobby.getPassword());
         }
     }
@@ -107,8 +99,8 @@ public class searchroomController {
         // Note that an incorrect path will result in unexpected NullPointer exceptions!
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../../home/home.fxml"));
 
-        Parent root = (Parent)fxmlLoader.load();
-        HomeController controller = fxmlLoader.<HomeController>getController();
+        Parent root = fxmlLoader.load();
+        HomeController controller = fxmlLoader.getController();
 
         // Run the setUser() method in HomeController.
         // This is the JavaFX equivalent of sending data from one form to another in C#.
@@ -122,12 +114,13 @@ public class searchroomController {
         stage.setScene(homeScreen);
         stage.show();
     }
+
     @FXML
     private void toLobbyScreen(int roomID, String name,String password) throws IOException {
         // Set the next "page" (scene) to display.
         // Note that an incorrect path will result in unexpected NullPointer exceptions!
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../lobby/Lobby.fxml"));
-        Parent root = (Parent)fxmlLoader.load();
+        Parent root = fxmlLoader.load();
         LobbyController controller = fxmlLoader.<LobbyController>getController();
         // Run the setUser() method in HomeController.
         // This is the JavaFX equivalent of sending data from one form to another in C#.

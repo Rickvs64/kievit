@@ -120,8 +120,7 @@ public class LoginController {
         // Note that an incorrect path will result in unexpected NullPointer exceptions!
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../register/register.fxml"));
 
-        Parent root = (Parent)fxmlLoader.load();
-        RegisterController controller = fxmlLoader.<RegisterController>getController();
+        Parent root = fxmlLoader.load();
 
         // There's no additional data required by the newly opened form.
         Scene registerScreen = new Scene(root);

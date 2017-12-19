@@ -38,7 +38,7 @@ public class HomeController {
         // Set the next "page" (scene) to display.
         // Note that an incorrect path will result in unexpected NullPointer exceptions!
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../room/create/Room.fxml"));
-        Parent root = (Parent)fxmlLoader.load();
+        Parent root = fxmlLoader.load();
         RoomController roomController = fxmlLoader.<RoomController>getController();
         // Run the setUser() method in HomeController.
         // This is the JavaFX equivalent of sending data from one form to another in C#.
@@ -57,7 +57,7 @@ public class HomeController {
         // Note that an incorrect path will result in unexpected NullPointer exceptions!
         // More info can be found in the toHomeScreen() method
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../room/search/searchroom.fxml"));
-        Parent root = (Parent)fxmlLoader.load();
+        Parent root = fxmlLoader.load();
         searchroomController controller = fxmlLoader.<searchroomController>getController();
         // Run the setUser() method in HomeController.
         // This is the JavaFX equivalent of sending data from one form to another in C#.
@@ -73,7 +73,7 @@ public class HomeController {
         // Set the next "page" (scene) to display.
         // Note that an incorrect path will result in unexpected NullPointer exceptions!
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../shop/Shop.fxml"));
-        Parent root = (Parent)fxmlLoader.load();
+        Parent root = fxmlLoader.load();
         ShopController shopController = fxmlLoader.getController();
         // Run the setUser() method in HomeController.
         // This is the JavaFX equivalent of sending data from one form to another in C#.

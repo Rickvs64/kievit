@@ -36,9 +36,8 @@ public class HighscoreController implements Initializable {
 
     @FXML
     private TableColumn<HighscoreEntry, Integer> score;
-    // video: https://www.youtube.com/watch?v=oOhW_oHf7bM
 
-    ObservableList<HighscoreEntry> data = FXCollections.observableArrayList();
+    private ObservableList<HighscoreEntry> data = FXCollections.observableArrayList();
     private IServerManager server;
 
     public HighscoreController() throws SQLException, IOException, ClassNotFoundException {
@@ -59,8 +58,8 @@ public class HighscoreController implements Initializable {
         // Note that an incorrect path will result in unexpected NullPointer exceptions!
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../home/home.fxml"));
 
-        Parent root = (Parent)fxmlLoader.load();
-        HomeController controller = fxmlLoader.<HomeController>getController();
+        Parent root = fxmlLoader.load();
+        HomeController controller = fxmlLoader.getController();
         controller.setup(user,server);
 
         Scene homeScreen = new Scene(root);
@@ -74,9 +73,9 @@ public class HighscoreController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        userid.setCellValueFactory(new PropertyValueFactory<HighscoreEntry, Integer>("userid"));
-        username.setCellValueFactory(new PropertyValueFactory<HighscoreEntry, String>("username"));
-        score.setCellValueFactory(new PropertyValueFactory<HighscoreEntry, Integer>("score"));
+        userid.setCellValueFactory(new PropertyValueFactory<>("userid"));
+        username.setCellValueFactory(new PropertyValueFactory<>("username"));
+        score.setCellValueFactory(new PropertyValueFactory<>("score"));
         HighscoreTable.setItems(data);
 
     }

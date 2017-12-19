@@ -41,8 +41,8 @@ public class RoomController {
         // Set the next "page" (scene) to display.
         // Note that an incorrect path will result in unexpected NullPointer exceptions!
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../lobby/Lobby.fxml"));
-        Parent root = (Parent)fxmlLoader.load();
-        LobbyController controller = fxmlLoader.<LobbyController>getController();
+        Parent root = fxmlLoader.load();
+        LobbyController controller = fxmlLoader.getController();
         // Run the setUser() method in HomeController.
         // This is the JavaFX equivalent of sending data from one form to another in C#.
         controller.setRoom(name,password);
