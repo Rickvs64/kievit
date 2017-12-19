@@ -24,4 +24,19 @@ public class HighscoreRepository implements IHighscoreRepository {
         System.out.println(Highscores.size());
         return Highscores;
     }
+
+    @Override
+    public void updateHighscores(int userID, int score) throws SQLException, IOException, ClassNotFoundException {
+        String queryCreateRoom = "set @playerid = ?;\n" +
+                "set @newscore = ((select score from highscore where player_id=@playerid) +?);\n" +
+                "Update highscore set score = @newscore where player_id =@playerid;";
+        IConnection connection = new ConnectionManager();
+        Connection conn = connection.getConnection();
+        PreparedStatement preparedStmt = conn.prepareStatement(queryCreateRoom);
+        preparedStmt.setInt(userID,1);
+        preparedStmt.setInt(score,2);
+        preparedStmt.execute();
+        conn.close();
+    }
+
 }
