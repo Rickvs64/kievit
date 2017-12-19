@@ -70,6 +70,9 @@ public class GameController extends UnicastRemoteObject implements IListener{
                         playerTimer.cancel();
                         txtPoints.setText("Player 2 wint! Aantal punten: " + points / 40 + "\n Press the enter key to go back");
                         gameOver = true;
+                        if(opponementId == 1){
+                            server.updateHighscore(user.getId(), points/40);
+                        }
                     }
                     else if(player2.intersects(player1) || player2.hitsGrid()) {
 
@@ -79,6 +82,12 @@ public class GameController extends UnicastRemoteObject implements IListener{
                         gameOver = true;
                     }
                 } catch (RemoteException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
 

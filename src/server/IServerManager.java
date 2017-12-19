@@ -9,8 +9,10 @@ import shared.IListener;
 import shared.ILobby;
 import shared.IRemotePublisher;
 
+import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.sql.SQLException;
 import java.util.List;
 
 public interface IServerManager extends Remote, IRemotePublisher {
@@ -32,5 +34,6 @@ public interface IServerManager extends Remote, IRemotePublisher {
     int getNewLobbyID() throws RemoteException;
     boolean checkUsernameExists(String username) throws RemoteException;
     boolean createUser(User user) throws RemoteException;
+    void updateHighscore(int userID, int score) throws IOException, SQLException, ClassNotFoundException;
     void updateStatus(int userID, int lobbyID) throws RemoteException;
 }

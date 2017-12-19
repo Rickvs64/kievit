@@ -1,10 +1,8 @@
 package server;
 
 import classes.domains.*;
-import classes.repositories.IShopRepository;
-import classes.repositories.IUserRepository;
-import classes.repositories.SQLUserRepository;
-import classes.repositories.ShopRepository;
+
+import classes.repositories.*;
 import shared.IListener;
 import shared.ILobby;
 import shared.Lobby;
@@ -196,5 +194,11 @@ public class ServerManager extends UnicastRemoteObject implements IServerManager
     @Override
     public void removeListener(IListener listener) throws RemoteException {
         this.clients.remove(listener.getUserID());
+    }
+
+    @Override
+    public void updateHighscore(int userID, int score) throws IOException, SQLException, ClassNotFoundException {
+        IHighscoreRepository  highscoreRepo = new HighscoreRepository();
+        highscoreRepo.updateHighscores(userID,score);
     }
 }
