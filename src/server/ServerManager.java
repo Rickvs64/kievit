@@ -14,11 +14,13 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ServerManager extends UnicastRemoteObject implements IServerManager {
-    private List<ILobby> lobbyList = new ArrayList<>();
-    private List<IListener> clients = new ArrayList<>();
+    private Map<Integer, ILobby> lobbyList = new HashMap<>();
+    private Map<Integer, IListener> clients = new HashMap<>();
     private int nextLobbyID = 1;
     private IUserRepository userRepo = new SQLUserRepository();
     private IShopRepository shopRepo = new ShopRepository();
@@ -28,22 +30,13 @@ public class ServerManager extends UnicastRemoteObject implements IServerManager
     public ILobby addLobby(int id,String user,String name,String password) throws RemoteException {
         ILobby lobby = new Lobby(id,user,name,password);
         System.out.println("Lobby created id: " + lobby.getId());
-        lobbyList.add(lobby);
+        lobbyList.put(lobby.getId(), lobby);
         return lobby;
     }
 
     @Override
     public synchronized ILobby getLobby(int id) {
-        for (ILobby l:lobbyList) {
-            try {
-                if (l.getId() == id) {
-                    return  l;
-                }
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
+        return lobbyList.get(id);
     }
 
 
@@ -59,88 +52,62 @@ public class ServerManager extends UnicastRemoteObject implements IServerManager
 
 
     public ILobby joinLobby(int lobbyId,User user) {
-        for (ILobby l:lobbyList ) {
-            try {
-                if (l.getId() == lobbyId) {
-                    l.addUser(user);
-                    l.addCount();
-                    return l;
-                }
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
+        ILobby lobby = lobbyList.get(lobbyId);
+        try {
+            lobby.addUser(user);
+            lobby.addCount();
+        } catch (RemoteException e) {
+            e.printStackTrace();
         }
-        return null;
+
+        return lobby;
     }
 
     @Override
     public boolean getStatus(int id) {
-        for (ILobby l:lobbyList) {
-            try {
-                if (l.getId() == id) {
-                    if (l.getStatus()) {
-                        return true;
-                    }
-                }
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
+        try {
+            return lobbyList.get(id).getStatus();
+        } catch (RemoteException e) {
+            e.printStackTrace();
         }
         return false;
     }
 
     @Override
     public void setStatus(boolean b,int id) {
-        for (ILobby l:lobbyList) {
-            try {
-                if (l.getId() == id) {
-                   l.setStatus(b);
-                }
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
+        try {
+            lobbyList.get(id).setStatus(b);
+        } catch (RemoteException e) {
+            e.printStackTrace();
         }
     }
 
     @Override
     public void updateDirection(Direction currentDirection, int id, int userID) throws RemoteException {
-        for (ILobby l:lobbyList) {
-            try {
-                if (l.getId() == id) {
-                    l.updateDirection(userID,currentDirection);
-                    for (IListener client:clients)
-                        if (client.getLobbyID() == id && client.getUserID() != userID)
-                            client.setDirectionOtherPlayer(currentDirection);
-                }
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
-        }
+        ILobby lobby = lobbyList.get(id);
+        lobby.updateDirection(userID,currentDirection);
+
+        for (IListener client:clients.values())
+            if (client.getLobbyID() == id && client.getUserID() != userID)
+                client.setDirectionOtherPlayer(currentDirection);
     }
 
     @Override
     public Direction getDirection(int userID, int id) {
-        for (ILobby l:lobbyList) {
-            try {
-                if (l.getId() == id)
-                    return l.getDirection(userID);
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
+        try {
+            return lobbyList.get(id).getDirection(userID);
+        } catch (RemoteException e) {
+            e.printStackTrace();
         }
         return null;
     }
 
     @Override
     public List<User> getUsers(int id) {
-        for (ILobby l:lobbyList) {
-            try {
-                if (l.getId() == id) {
-                    return l.getUsers();
-                }
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
+        try {
+            return getLobby(id).getUsers();
+        } catch (RemoteException e) {
+            e.printStackTrace();
         }
         return null;
     }
@@ -148,7 +115,7 @@ public class ServerManager extends UnicastRemoteObject implements IServerManager
     @Override
     public List<ILobby> getAvailableLobbies() throws RemoteException {
         List<ILobby> availableLobbies = new ArrayList<>();
-        for (ILobby l:lobbyList)
+        for (ILobby l:lobbyList.values())
             if (l.getCount() < 2)
                 availableLobbies.add(l);
         return availableLobbies;
@@ -156,17 +123,12 @@ public class ServerManager extends UnicastRemoteObject implements IServerManager
 
     @Override
     public void setCosmetics(int playerNumber, int lobbyID, int headID, int tailID) throws RemoteException {
-        for (ILobby l:lobbyList)
-            if (l.getId() == lobbyID)
-                l.setCosmetics(playerNumber,headID,tailID);
+        lobbyList.get(lobbyID).setCosmetics(playerNumber, headID, tailID);
     }
 
     @Override
     public IPlayer getPlayer(int lobbyID, int playerNumber) throws RemoteException {
-        for (ILobby l:lobbyList)
-            if (l.getId() == lobbyID)
-                return l.getPlayer(playerNumber);
-        return null;
+        return lobbyList.get(lobbyID).getPlayer(playerNumber);
     }
 
     @Override
@@ -215,11 +177,11 @@ public class ServerManager extends UnicastRemoteObject implements IServerManager
 
     @Override
     public void addListener(IListener listener) throws RemoteException {
-        this.clients.add(listener);
+        this.clients.put(listener.getUserID(), listener);
     }
 
     @Override
     public void removeListener(IListener listener) throws RemoteException {
-        this.clients.remove(listener);
+        this.clients.remove(listener.getUserID());
     }
 }
