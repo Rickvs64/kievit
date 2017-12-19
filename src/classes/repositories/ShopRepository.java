@@ -35,6 +35,19 @@ public class ShopRepository implements IShopRepository {
         preparedStmt2.setInt (2, itemid);
         preparedStmt2.execute();
         conn.close();
+        changeCurrency(itemid, userid);
+    }
+
+    private void changeCurrency(int itemid, int userid) throws SQLException, IOException, ClassNotFoundException {
+        String changeCurrency = "UPDATE player p, item i SET credits = credits - i.price WHERE i.ID = ? AND p.ID = ?;";
+        IConnection connection = new ConnectionManager();
+        Connection conn = connection.getConnection();
+        PreparedStatement preparedStatement = conn.prepareStatement(changeCurrency);
+        preparedStatement.setInt(1, itemid);
+        preparedStatement.setInt(2, userid);
+        preparedStatement.execute();
+        conn.close();
+
     }
 
     public List<Item> getOwnedItems(int userID, String type) throws SQLException, IOException, ClassNotFoundException {
