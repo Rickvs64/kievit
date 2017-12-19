@@ -100,6 +100,8 @@ public class ShopController {
             if (item.getPrice() <= user.getCredits())
             {
                 server.buyItem(user.getId(),item.getID());
+                this.user.setCredits(this.user.getCredits()-item.getPrice());
+                updateUserInfo();
             }
             getItems();
             selectedItem();
