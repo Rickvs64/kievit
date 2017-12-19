@@ -46,7 +46,7 @@ public class LoginController {
 
     public LoginController() throws SQLException, IOException, ClassNotFoundException, NotBoundException {
         //server push ip config because of VPN problems
-        System.setProperty("java.rmi.server.hostname","127.0.0.1");
+        System.setProperty("java.rmi.server.hostname","192.168.43.24");
         setup();
     }
     //setup for java RMI connection
