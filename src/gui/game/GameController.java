@@ -104,7 +104,7 @@ public class GameController extends UnicastRemoteObject implements IListener{
                     e.printStackTrace();
                 }
             }
-        }, 3000 , 50);
+        }, 3000 , 100);
 
     }
     private void UpdatePlayerServer() {
@@ -396,6 +396,10 @@ public class GameController extends UnicastRemoteObject implements IListener{
     @Override
     public int getUserID() throws RemoteException {
         return playerNumber;
+    }
+
+    public void setLocal() {
+        this.local = true;
     }
 }
 

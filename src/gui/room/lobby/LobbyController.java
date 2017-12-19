@@ -46,7 +46,7 @@ public class LobbyController {
     private int playerNr;
     private int head_id;
     private int tail_id;
-
+    private boolean allReady = false;
     @FXML
     private Label lbl_username;
     @FXML
@@ -143,14 +143,35 @@ public class LobbyController {
     }
 
     public void UpdateLobby() throws SQLException, IOException, ClassNotFoundException {
+        int unreadyPlayers = 0;
         List<User> users = server.getUsers(lobby.getId());
         StringBuilder msg = new StringBuilder();
         for (User u:users
              ) {
-            msg.append(u.getUsername() + " Credits: " + u.getCredits());
+            System.out.println("status: " + u.getStatus());
+            if (!u.getStatus())
+            {
+                unreadyPlayers++;
+            }
+            msg.append(u.getUsername() + " Credits: " + u.getCredits() + " ready: " + u.getStatus());
             msg.append("\n");
         }
+        System.out.println("unready : " + unreadyPlayers);
+        if (unreadyPlayers == 0)
+        {
+            allReady = true;
+        }
+
         Platform.runLater(() -> playerList.setText(msg.toString()));
+    }
+    @FXML
+    private void updateStatus()
+    {
+        try {
+            server.updateStatus(user.getId(),lobbyID);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -162,6 +183,7 @@ public class LobbyController {
                 player2login.setVisible(false);
                 player2stats.setVisible(true);
                 login = true;
+                user2.setStatus(true);
                 server.joinLobby(lobby.getId(),user2);
             } else {
                 System.out.println("Wrong user credentials, mate.");
@@ -180,6 +202,7 @@ public class LobbyController {
             guestName = playerName.getText();
         }
         setUser2(new User(0,guestName,0));
+        user2.setStatus(true);
         server.joinLobby(lobby.getId(),user2);
         player2login.setVisible(false);
         player2stats.setVisible(true);
@@ -187,46 +210,50 @@ public class LobbyController {
 
     }
     public void startGame() throws IOException {
+        if (allReady) {
+            if (server.getStatus(lobby.getId()) == false) {
 
-        if (server.getStatus(lobby.getId()) == false)
-        {
+                server.setStatus(true, lobby.getId());
+            }
 
-            server.setStatus(true,lobby.getId());
+            if (cbHeadEquip.getSelectionModel().getSelectedItem() != null) {
+                Item head = (Item) cbHeadEquip.getSelectionModel().getSelectedItem();
+                this.head_id = head.getID();
+            } else {
+                this.head_id = 3;
+            }
+
+            if (cbTailEquip.getSelectionModel().getSelectedItem() != null) {
+                Item tail = (Item) cbTailEquip.getSelectionModel().getSelectedItem();
+                this.tail_id = tail.getID();
+            } else {
+                this.tail_id = 8;
+            }
+
+            server.setCosmetics(playerNr, lobby.getId(), head_id, tail_id);
+
+            timer.cancel();
+            // Set the next "page" (scene) to display.
+            // Note that an incorrect path will result in unexpected NullPointer exceptions!
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../../game/Game.fxml"));
+            Parent root = fxmlLoader.load();
+            GameController controller = fxmlLoader.<GameController>getController();
+            // Run the setUser() method in HomeController.
+            // This is the JavaFX equivalent of sending data from one form to another in C#.
+            controller.setUsers(user, user2);
+            controller.setupMulti(playerNr, lobby, server);
+            if (guest | login)
+            {
+                controller.setLocal();
+            }
+
+            Scene homeScreen = new Scene(root);
+            Stage stage;
+            stage = (Stage) lbl_username.getScene().getWindow(); // Weird backwards logic trick to get the current scene window.
+
+            stage.setScene(homeScreen);
+            stage.show();
         }
-
-        if(cbHeadEquip.getSelectionModel().getSelectedItem() != null){
-            Item head = (Item)cbHeadEquip.getSelectionModel().getSelectedItem();
-            this.head_id = head.getID();
-        }else{
-            this.head_id = 3;
-        }
-
-        if(cbTailEquip.getSelectionModel().getSelectedItem() != null){
-            Item tail = (Item)cbTailEquip.getSelectionModel().getSelectedItem();
-            this.tail_id = tail.getID();
-        }else{
-            this.tail_id = 8;
-        }
-
-        server.setCosmetics(playerNr, lobby.getId(), head_id, tail_id);
-
-        timer.cancel();
-        // Set the next "page" (scene) to display.
-        // Note that an incorrect path will result in unexpected NullPointer exceptions!
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../../game/Game.fxml"));
-        Parent root = fxmlLoader.load();
-        GameController controller = fxmlLoader.<GameController>getController();
-        // Run the setUser() method in HomeController.
-        // This is the JavaFX equivalent of sending data from one form to another in C#.
-        controller.setUsers(user,user2);
-        controller.setupMulti(playerNr,lobby,server);
-
-        Scene homeScreen = new Scene(root);
-        Stage stage;
-        stage = (Stage) lbl_username.getScene().getWindow(); // Weird backwards logic trick to get the current scene window.
-
-        stage.setScene(homeScreen);
-        stage.show();
     }
 
     @FXML
