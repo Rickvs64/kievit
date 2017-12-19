@@ -118,4 +118,16 @@ public class SQLUserRepository implements IUserRepository {
         conn.close();
         return user;
     }
+
+    @Override
+    public void updateCurrency(int userid, int amount) throws SQLException, IOException, ClassNotFoundException {
+        String changeCurrency = "UPDATE player p SET credits = credits + ? WHERE p.ID = ?";
+        IConnection connection = new ConnectionManager();
+        Connection conn = connection.getConnection();
+        PreparedStatement preparedStmt2 = conn.prepareStatement(changeCurrency);
+        preparedStmt2.setInt (1, amount);
+        preparedStmt2.setInt (2, userid);
+        preparedStmt2.execute();
+        conn.close();
+    }
 }

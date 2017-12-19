@@ -20,6 +20,7 @@ import shared.ILobby;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.SQLException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -70,8 +71,10 @@ public class GameController extends UnicastRemoteObject implements IListener{
                         playerTimer.cancel();
                         txtPoints.setText("Player 2 wint! Aantal punten: " + points / 40 + "\n Press the enter key to go back");
                         gameOver = true;
-                        if(opponementId == 1){
+                        if(opponentId == 1){
+                            server.updateCurrency(user.getId());
                             server.updateHighscore(user.getId(), points/40);
+
                         }
                     }
                     else if(player2.intersects(player1) || player2.hitsGrid()) {
