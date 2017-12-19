@@ -6,6 +6,7 @@ public class User implements Serializable{
     private int id;
     private String username;
     private String password;
+    private boolean status;
     private Integer credits;
 
 
@@ -18,6 +19,7 @@ public class User implements Serializable{
         this.id = id;
         this.username = username;
         this.credits = credits;
+        this.status = false;
     }
 
     public User(String username, String password) {
@@ -48,4 +50,13 @@ public class User implements Serializable{
     }
 
     public void setPassword(String password) { this.password = password; }
+
+    public void setStatus(boolean status)
+    {
+        this.status = status;
+    }
+
+    public boolean getStatus() {
+        return status;
+    }
 }

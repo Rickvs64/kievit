@@ -17,7 +17,7 @@ import java.rmi.registry.Registry;
 public class RMIServer {
     // Set port number
     private static int portNumber = 1099;
-    private static String ip = "127.0.0.1";
+    private static String ip = "192.168.43.24";
     // Set binding name for student administration
     private String bindingName = "serverManager";
 

@@ -176,6 +176,19 @@ public class ServerManager extends UnicastRemoteObject implements IServerManager
     }
 
     @Override
+    public void updateStatus(int userID, int lobbyID) throws RemoteException {
+        ILobby lobby = lobbyList.getOrDefault(lobbyID, null);
+        if (lobby == null)
+            return;
+        for (User user: lobby.getUsers()) {
+            if (user.getId() == userID) {
+                System.out.println("gebruiker gevonden");
+                user.setStatus(true);
+            }
+        }
+    }
+
+    @Override
     public void addListener(IListener listener) throws RemoteException {
         this.clients.put(listener.getUserID(), listener);
     }

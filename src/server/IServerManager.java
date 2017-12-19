@@ -32,4 +32,5 @@ public interface IServerManager extends Remote, IRemotePublisher {
     int getNewLobbyID() throws RemoteException;
     boolean checkUsernameExists(String username) throws RemoteException;
     boolean createUser(User user) throws RemoteException;
+    void updateStatus(int userID, int lobbyID) throws RemoteException;
 }
