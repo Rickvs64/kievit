@@ -5,6 +5,7 @@ import classes.domains.Item;
 import classes.domains.User;
 
 import javax.jws.soap.SOAPBinding;
+import javax.swing.plaf.nimbus.State;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -69,6 +70,8 @@ public class SQLUserRepository implements IUserRepository {
 
             Statement statement = connection.createStatement();
             statement.executeUpdate("INSERT INTO player (username, password) VALUES ('" + user.getUsername() + "', '" + user.getPassword() + "')");
+            Statement highscorecreate = connection.createStatement();
+            highscorecreate.execute("INSERT  into Highscores (player_id, score) VALUES ((SELECT ID FROM player where username =" + user.getUsername()+"),0)");
             return true;
         }
         catch (Exception ex) {
