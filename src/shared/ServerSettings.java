@@ -22,7 +22,7 @@ public class ServerSettings implements IServerSettings {
         //}
         //conn.close();
         //return ip;
-        return "192.168.43.24";
+        return "127.0.0.1";
     }
 
     @Override
