@@ -187,6 +187,19 @@ public class ServerManager extends UnicastRemoteObject implements IServerManager
     }
 
     @Override
+    public void updateCurrency(int id) throws RemoteException {
+        try {
+            this.userRepo.updateCurrency(id, 100);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void addListener(IListener listener) throws RemoteException {
         this.clients.put(listener.getUserID(), listener);
     }

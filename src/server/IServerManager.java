@@ -36,4 +36,6 @@ public interface IServerManager extends Remote, IRemotePublisher {
     boolean createUser(User user) throws RemoteException;
     void updateHighscore(int userID, int score) throws IOException, SQLException, ClassNotFoundException;
     void updateStatus(int userID, int lobbyID) throws RemoteException;
+
+    void updateCurrency(int id)throws RemoteException;
 }

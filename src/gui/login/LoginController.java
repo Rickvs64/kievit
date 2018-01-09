@@ -116,19 +116,14 @@ public class LoginController {
      * @throws IOException
      */
     private void toRegisterScreen() throws IOException {
-        // Set the next "page" (scene) to display.
-        // Note that an incorrect path will result in unexpected NullPointer exceptions!
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../register/register.fxml"));
-
-        Parent root = fxmlLoader.load();
-
-        // There's no additional data required by the newly opened form.
-        Scene registerScreen = new Scene(root);
-
+        Parent root = (Parent)fxmlLoader.load();
+        RegisterController controller = fxmlLoader.<RegisterController>getController();
+        controller.setup(server);
+        Scene Screen = new Scene(root);
         Stage stage;
-        stage = (Stage) txt_username.getScene().getWindow(); // Weird backwards logic trick to get the current scene window.
-
-        stage.setScene(registerScreen);
+        stage = (Stage) txt_username.getScene().getWindow();
+        stage.setScene(Screen);
         stage.show();
     }
 
