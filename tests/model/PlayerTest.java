@@ -111,32 +111,37 @@ public class PlayerTest {
     public void hitsGrid() throws RemoteException {
         Player player = new Player(11, 9, Direction.RIGHT, 3, 1);
 
-        Assert.assertEquals(player.hitsGrid(), true);
+        Assert.assertEquals(true, player.hitsGrid());
     }
 
     @Test
     public void playerIntersectsWithOtherPlayer()throws RemoteException
     {
         Player player = new Player(11, 9, Direction.LEFT, 3, 1);
-        Player player2 = new Player(11, 9, Direction.LEFT, 3, 1);
+        Player player2 = new Player(4, 15, Direction.UP, 3, 1);
 
-        Assert.assertEquals(player.intersects(player2), true);
+        player.move();
+        player2.move();
+
+        Assert.assertEquals(true, player.intersects(player2));
     }
 
     @Test
-    public void playerIntersectsHisself()throws RemoteException
+    public void playerIntersectsHimself()throws RemoteException
     {
-        Player player2 = new Player(99999, 9999, Direction.LEFT, 3, 1);
-       Player player = new Player(20,20,Direction.RIGHT,1,1);
-       player.move();
-       player.setCurrentDirection(Direction.DOWN);
-       player.move();
-       player.setCurrentDirection(Direction.LEFT);
-       player.move();
-       player.setCurrentDirection(Direction.UP);
-       player.move();
+        Player player2 = new Player(999, 999, Direction.LEFT, 3, 1);
+        Player player = new Player(20,20,Direction.RIGHT,1,1);
 
-        Assert.assertEquals(player.intersects(player2), true);
+        player.move();
+        player.move();
+        player.setCurrentDirection(Direction.DOWN);
+        player.move();
+        player.setCurrentDirection(Direction.LEFT);
+        player.move();
+        player.setCurrentDirection(Direction.UP);
+        player.move();
+
+        Assert.assertEquals(true, player.intersects(player2));
     }
 
     @Test

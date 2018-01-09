@@ -20,6 +20,7 @@ import shared.ILobby;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.SQLException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -70,7 +71,7 @@ public class GameController extends UnicastRemoteObject implements IListener{
                         playerTimer.cancel();
                         txtPoints.setText("Player 2 wint! Aantal punten: " + points / 40 + "\n Press the enter key to go back");
                         gameOver = true;
-                        if(opponementId == 1){
+                        if(opponentId == 1){
                             server.updateHighscore(user.getId(), points/40);
                         }
                     }
@@ -81,13 +82,7 @@ public class GameController extends UnicastRemoteObject implements IListener{
                         txtPoints.setText("Player 1 wint! Aantal punten: " + points / 40 + "\n Press the enter to go back");
                         gameOver = true;
                     }
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
+                } catch (ClassNotFoundException | IOException | SQLException e) {
                     e.printStackTrace();
                 }
 
@@ -112,7 +107,6 @@ public class GameController extends UnicastRemoteObject implements IListener{
         if (playerNumber == 1)
         {
             try {
-
                 server.updateDirection(player1.getCurrentDirection(),lobby.getId(),playerNumber);
             } catch (RemoteException e) {
                 e.printStackTrace();

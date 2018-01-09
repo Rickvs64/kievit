@@ -64,11 +64,10 @@ public class Player extends UnicastRemoteObject implements IPlayer,Serializable{
         }
     }
 
-    public boolean intersects(IPlayer other) throws RemoteException {
-        if (coordinates.size() <= 1)
+    public boolean intersects(IPlayer other, boolean checkSelf) throws RemoteException {
+        if (coordinates.size() <= 3 && other.getCoordinates().size() <= 1)
             return false;
-        if (other.getCoordinates().size() <= 1)
-            return false;
+
         Coordinate head = coordinates.get(0);
         Coordinate previous = coordinates.get(1);
 
@@ -82,6 +81,9 @@ public class Player extends UnicastRemoteObject implements IPlayer,Serializable{
 
             previousOther = c;
         }
+
+        if (!checkSelf)
+            return false;
 
         List<Coordinate> coordinates1 = getCoordinates();
         for (int i = 0, coordinates1Size = coordinates1.size(); i < coordinates1Size; i++) {
@@ -99,6 +101,10 @@ public class Player extends UnicastRemoteObject implements IPlayer,Serializable{
         }
 
         return false;
+    }
+
+    public boolean intersects(IPlayer other) throws RemoteException {
+        return intersects(other, true);
     }
 
     public boolean hitsGrid()
