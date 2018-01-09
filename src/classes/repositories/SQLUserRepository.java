@@ -71,11 +71,12 @@ public class SQLUserRepository implements IUserRepository {
             Statement statement = connection.createStatement();
             statement.executeUpdate("INSERT INTO player (username, password) VALUES ('" + user.getUsername() + "', '" + user.getPassword() + "')");
             Statement highscorecreate = connection.createStatement();
-            highscorecreate.execute("INSERT  into Highscores (player_id, score) VALUES ((SELECT ID FROM player where username =" + user.getUsername()+"),0)");
+            highscorecreate.execute("INSERT  into Highscore (player_id, score) VALUES ((SELECT ID FROM player where username ='" + user.getUsername()+"'),0)");
             return true;
         }
         catch (Exception ex) {
             // Fuck it.
+            System.out.println(ex.toString());
             System.out.println("Something broke, try again later.");
             return false;
         }
