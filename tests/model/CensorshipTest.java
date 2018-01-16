@@ -17,7 +17,6 @@ public class CensorshipTest {
     @Test
     public void getBadWords()
     {
-
         Assert.assertEquals(false,censorship.getBannedTerms().isEmpty());
     }
 }

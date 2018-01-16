@@ -60,7 +60,7 @@
             <Font size="26.0" />
          </font>
       </Label>
-      <Label layoutX="751.0" layoutY="252.0" prefHeight="152.0" prefWidth="104.0" text="Open settings" textAlignment="CENTER" wrapText="true">
+      <Label layoutX="751.0" layoutY="252.0" onMouseClicked="#openHighscoreScreen" prefHeight="152.0" prefWidth="104.0" text="Open highscore" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="26.0" />
          </font>

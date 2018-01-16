@@ -1,6 +1,7 @@
 package gui.home;
 
 import classes.domains.User;
+import gui.Highscores.HighscoreController;
 import gui.Shop.ShopController;
 import gui.room.create.RoomController;
 import gui.room.lobby.LobbyController;
@@ -75,13 +76,27 @@ public class HomeController {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../shop/Shop.fxml"));
         Parent root = fxmlLoader.load();
         ShopController shopController = fxmlLoader.getController();
+        Scene homeScreen = new Scene(root);
+        Stage stage;
+        stage = (Stage) lbl_username.getScene().getWindow(); // Weird backwards logic trick to get the current scene window.
+        stage.setScene(homeScreen);
+        shopController.setup(user,server);
+        stage.show();
+    }
+    @FXML
+    private void openHighscoreScreen() throws IOException, SQLException, ClassNotFoundException {
+        // Set the next "page" (scene) to display.
+        // Note that an incorrect path will result in unexpected NullPointer exceptions!
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../Highscores/Highscore.fxml"));
+        Parent root = fxmlLoader.load();
+        HighscoreController highscoreController = fxmlLoader.getController();
         // Run the setUser() method in HomeController.
         // This is the JavaFX equivalent of sending data from one form to another in C#.
         Scene homeScreen = new Scene(root);
         Stage stage;
         stage = (Stage) lbl_username.getScene().getWindow(); // Weird backwards logic trick to get the current scene window.
         stage.setScene(homeScreen);
-        shopController.setup(user,server);
+        highscoreController.setup(user,server);
         stage.show();
     }
 

@@ -81,7 +81,7 @@ public class GameController extends UnicastRemoteObject implements IListener{
 
                         animationTimer.stop();
                         playerTimer.cancel();
-                        txtPoints.setText("Player 1 wint! Aantal punten: " + points / 40 + "\n Press the enter to go back");
+                        txtPoints.setText("Player 1 wint! Aantal punten: " + points / 40 + "\n Press the enter key to go back");
                         gameOver = true;
                     }
                 } catch (ClassNotFoundException | IOException | SQLException e) {
