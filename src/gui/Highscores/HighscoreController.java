@@ -5,6 +5,7 @@ import classes.domains.User;
 import classes.repositories.HighscoreRepository;
 import classes.repositories.IHighscoreRepository;
 import gui.home.HomeController;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -26,7 +27,7 @@ import java.util.ResourceBundle;
 public class HighscoreController implements Initializable {
     private User user;
     @FXML
-    private TableView<HighscoreEntry> HighscoreTable;
+    private TableView<HighscoreEntry> highscoreTable;
 
     @FXML
     private TableColumn<HighscoreEntry, Integer> userid;
@@ -52,6 +53,13 @@ public class HighscoreController implements Initializable {
         IHighscoreRepository HighscoreController = new HighscoreRepository();
         data.clear();
         data.addAll(HighscoreController.getHighscores());
+        Platform.runLater(new Runnable() {
+            @Override public void run() {
+                TableColumn<HighscoreEntry, ?> highscoreEntryTableColumn = highscoreTable.getColumns().get(2);
+                highscoreEntryTableColumn.setSortType(TableColumn.SortType.DESCENDING);
+                highscoreTable.getSortOrder().add(highscoreEntryTableColumn);
+            }
+        });
     }
     public void toHomeScreen() throws IOException {
         // Set the next "page" (scene) to display.
@@ -65,7 +73,7 @@ public class HighscoreController implements Initializable {
         Scene homeScreen = new Scene(root);
 
         Stage stage;
-        stage = (Stage) HighscoreTable.getScene().getWindow(); // Weird backwards logic trick to get the current scene window.
+        stage = (Stage) highscoreTable.getScene().getWindow(); // Weird backwards logic trick to get the current scene window.
 
         stage.setScene(homeScreen);
         stage.show();
@@ -76,7 +84,7 @@ public class HighscoreController implements Initializable {
         userid.setCellValueFactory(new PropertyValueFactory<>("userid"));
         username.setCellValueFactory(new PropertyValueFactory<>("username"));
         score.setCellValueFactory(new PropertyValueFactory<>("score"));
-        HighscoreTable.setItems(data);
+        highscoreTable.setItems(data);
 
     }
 }

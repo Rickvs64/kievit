@@ -9,7 +9,7 @@
     <children>
 
         <Canvas fx:id="grid" height="800.0" layoutX="14.0" layoutY="14.0" width="1014.0" />
-      <TableView id="HighscoreTable" fx:id="HighscoreTable" prefHeight="700" prefWidth="1014">
+      <TableView id="HighscoreTable" fx:id="highscoreTable" prefHeight="700" prefWidth="1014">
         <columns>
           <TableColumn id="userid" fx:id="userid" prefWidth="150" text="Userid" />
           <TableColumn id="username" fx:id="username" prefWidth="300" text="Username" />

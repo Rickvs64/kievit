@@ -154,7 +154,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void playerHitsGrind() throws RemoteException {
+    public void playerHitsGrid() throws RemoteException {
         Player player = new Player(11, 9, Direction.LEFT, 3, 1);
         Assert.assertEquals(player.hitsGrid(),true);
     }
