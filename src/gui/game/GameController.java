@@ -128,9 +128,10 @@ public class GameController extends UnicastRemoteObject implements IListener{
         this.user = user;
         this.user2 = user2;
     }
-    public void setupMulti(int playerNumber,ILobby lobby, IServerManager server)
+    public void setupMulti(int playerNumber,ILobby lobby, IServerManager server,boolean local)
     {
         this.server = server;
+        this.local = local;
         try {
             server.addListener(this);
         } catch (RemoteException e) {
@@ -140,20 +141,24 @@ public class GameController extends UnicastRemoteObject implements IListener{
         this.lobby = lobby;
         if (playerNumber == 1)  {
             opponentId = 2;
-            try {
-                this.player2.setHeadID(server.getCosmetics(opponentId,lobby.getId()).getHeadID());
-                this.player2.setTailID(server.getCosmetics(opponentId,lobby.getId()).getTailID());
-            } catch (RemoteException e) {
-                e.printStackTrace();
+            if (!local) {
+                try {
+                    this.player2.setHeadID(server.getCosmetics(opponentId, lobby.getId()).getHeadID());
+                    this.player2.setTailID(server.getCosmetics(opponentId, lobby.getId()).getTailID());
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
             }
         }
         else {
             opponentId = 1;
-            try {
-                this.player1.setHeadID(server.getCosmetics(opponentId,lobby.getId()).getHeadID());
-                this.player1.setTailID(server.getCosmetics(opponentId,lobby.getId()).getTailID());
-            } catch (RemoteException e) {
-                e.printStackTrace();
+            if (!local) {
+                try {
+                    this.player1.setHeadID(server.getCosmetics(opponentId, lobby.getId()).getHeadID());
+                    this.player1.setTailID(server.getCosmetics(opponentId, lobby.getId()).getTailID());
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

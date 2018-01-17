@@ -38,6 +38,7 @@ public class LobbyController {
     private boolean allReady = false;
     private boolean guest = false;
     private boolean login = false;
+    private boolean local = false;
     @FXML
     private Label lbl_username;
     @FXML
@@ -169,6 +170,7 @@ public class LobbyController {
                 player2login.setVisible(false);
                 player2stats.setVisible(true);
                 login = true;
+                local = true;
                 user2.setStatus(true);
                 server.joinLobby(lobby.getId(),user2);
             } else {
@@ -196,6 +198,7 @@ public class LobbyController {
         player2login.setVisible(false);
         player2stats.setVisible(true);
         guest = true;
+        local = true;
 
     }
     public void startGame() throws IOException {
@@ -230,7 +233,7 @@ public class LobbyController {
             // Run the setUser() method in HomeController.
             // This is the JavaFX equivalent of sending data from one form to another in C#.
             controller.setUsers(user, user2);
-            controller.setupMulti(playerNr, lobby, server);
+            controller.setupMulti(playerNr, lobby, server,local);
             if (guest | login) {
                 controller.setLocal();
             }
