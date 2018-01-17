@@ -3,6 +3,7 @@ package server;
 import classes.domains.*;
 
 import classes.repositories.*;
+import javafx.application.Platform;
 import shared.IListener;
 import shared.ILobby;
 import shared.Lobby;
@@ -122,6 +123,10 @@ public class ServerManager extends UnicastRemoteObject implements IServerManager
     @Override
     public void setCosmetics(int playerNumber, int lobbyID, int headID, int tailID) throws RemoteException {
         lobbyList.get(lobbyID).setCosmetics(playerNumber, headID, tailID);
+    }
+    @Override
+    public Player getCosmetics(int playerNumber, int lobbyID) throws RemoteException {
+        return lobbyList.get(lobbyID).getCosmetics(playerNumber);
     }
 
     @Override

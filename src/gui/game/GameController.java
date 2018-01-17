@@ -140,9 +140,21 @@ public class GameController extends UnicastRemoteObject implements IListener{
         this.lobby = lobby;
         if (playerNumber == 1)  {
             opponentId = 2;
+            try {
+                this.player2.setHeadID(server.getCosmetics(opponentId,lobby.getId()).getHeadID());
+                this.player2.setTailID(server.getCosmetics(opponentId,lobby.getId()).getTailID());
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
         }
         else {
             opponentId = 1;
+            try {
+                this.player1.setHeadID(server.getCosmetics(opponentId,lobby.getId()).getHeadID());
+                this.player1.setTailID(server.getCosmetics(opponentId,lobby.getId()).getTailID());
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
         }
     }
     @FXML

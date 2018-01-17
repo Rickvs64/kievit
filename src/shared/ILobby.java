@@ -2,6 +2,7 @@ package shared;
 
 import classes.domains.Direction;
 import classes.domains.IPlayer;
+import classes.domains.Player;
 import classes.domains.User;
 
 import java.rmi.Remote;
@@ -25,5 +26,5 @@ public interface ILobby extends Remote{
     String getUser() throws RemoteException;
     String getPlayername() throws  RemoteException;
     void setCosmetics(int playerNumber, int headID, int tailID) throws  RemoteException;
-
+   Player getCosmetics(int playerNumber) throws RemoteException;
 }

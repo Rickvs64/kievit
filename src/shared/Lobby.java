@@ -88,8 +88,23 @@ public class Lobby extends UnicastRemoteObject implements ILobby, Serializable {
             }
         }
     }
+    @Override
+    public Player getCosmetics(int playerNumber) {
+        Player player = null;
 
-
+        for (Player p:players) {
+            if (p.getUserID() == playerNumber) {
+                try {
+                    player = new Player(50,50,Direction.LEFT,1,1);
+                    player.setHeadID(p.getHeadID());
+                    player.setTailID(p.getTailID());
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return player;
+    }
     @Override
     public synchronized void update(IPlayer player) {
         for (IPlayer p : players) {
