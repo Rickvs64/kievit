@@ -192,6 +192,11 @@ public class ServerManager extends UnicastRemoteObject implements IServerManager
     }
 
     @Override
+    public User getUser(int id) throws RemoteException {
+        return userRepo.getUser(id);
+    }
+
+    @Override
     public void updateCurrency(int id) throws RemoteException {
         try {
             this.userRepo.updateCurrency(id, 100);

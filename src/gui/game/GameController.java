@@ -318,7 +318,7 @@ public class GameController extends UnicastRemoteObject implements IListener{
 
         Parent root = fxmlLoader.load();
         HomeController controller = fxmlLoader.getController();
-
+        this.user = server.getUser(user.getId());
         // Run the setUser() method in HomeController.
         // This is the JavaFX equivalent of sending data from one form to another in C#.
         controller.setup(user,server);

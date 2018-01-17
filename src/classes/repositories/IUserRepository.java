@@ -41,4 +41,6 @@ public interface IUserRepository {
     User login(String username,String password) throws SQLException, IOException, ClassNotFoundException;
 
     void updateCurrency(int userid, int amount) throws SQLException, IOException, ClassNotFoundException;
+
+    User getUser(int id);
 }

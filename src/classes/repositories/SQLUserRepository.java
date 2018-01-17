@@ -131,4 +131,26 @@ public class SQLUserRepository implements IUserRepository {
         preparedStmt2.execute();
         conn.close();
     }
+
+    @Override
+    public User getUser(int id) {
+        String query = "SELECT * FROM player WHERE id = ?;";
+        User user = null;
+        try {
+            IConnection connection = new ConnectionManager();
+            Connection conn = connection.getConnection();
+            PreparedStatement preparedStmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            preparedStmt.setInt(1,id);
+            ResultSet rs = preparedStmt.executeQuery();
+            if (rs.next()) {
+                user = new User(rs.getInt("id"),rs.getString("username"),rs.getInt("credits"));
+            }
+            conn.close();
+        }
+        catch (SQLException| IOException| ClassNotFoundException e)
+        {
+
+        }
+        return user;
+    }
 }
