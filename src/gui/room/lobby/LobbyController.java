@@ -1,6 +1,8 @@
 package gui.room.lobby;
 
+import classes.domains.IPlayer;
 import classes.domains.Item;
+import classes.domains.Player;
 import classes.domains.User;
 import gui.game.GameController;
 import gui.home.HomeController;
@@ -97,10 +99,12 @@ public class LobbyController {
         if (server.getLobby(lobbyID) == null) {
             this.lobby = server.addLobby(lobbyID,user.getUsername(),roomName,roomPassword);
             server.joinLobby(this.lobby.getId(),user);
+            playerNr = 1;
         }
         else {
             lobby = server.getLobby(lobbyID);
             server.joinLobby(this.lobby.getId(),user);
+            playerNr = 2;
         }
     }
 
@@ -133,7 +137,7 @@ public class LobbyController {
         List<User> users = server.getUsers(lobby.getId());
         StringBuilder msg = new StringBuilder();
         for (User u:users) {
-            System.out.println("status: " + u.getStatus());
+
             if (!u.getStatus()) {
                 unreadyPlayers++;
             }
@@ -144,7 +148,6 @@ public class LobbyController {
                .append(u.getStatus())
                .append("\n");
         }
-        System.out.println("unready : " + unreadyPlayers);
         if (unreadyPlayers == 0) {
             allReady = true;
         }
@@ -156,6 +159,22 @@ public class LobbyController {
     {
         try {
             server.updateStatus(user.getId(),lobbyID);
+            if (cbHeadEquip.getSelectionModel().getSelectedItem() != null) {
+                Item head = cbHeadEquip.getSelectionModel().getSelectedItem();
+                this.head_id = head.getID();
+            } else {
+                this.head_id = 3;
+            }
+
+            if (cbTailEquip.getSelectionModel().getSelectedItem() != null) {
+                Item tail = cbTailEquip.getSelectionModel().getSelectedItem();
+                this.tail_id = tail.getID();
+            } else {
+                this.tail_id = 8;
+            }
+
+            server.setCosmetics(playerNr, lobby.getId(), head_id, tail_id);
+
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -207,23 +226,30 @@ public class LobbyController {
 
                 server.setStatus(true, lobby.getId());
             }
-
-            if (cbHeadEquip.getSelectionModel().getSelectedItem() != null) {
-                Item head = cbHeadEquip.getSelectionModel().getSelectedItem();
-                this.head_id = head.getID();
-            } else {
-                this.head_id = 3;
+            int headIDPlayer1 = 3;
+            int tailIDPlayer1 = 8;
+            int headIDPlayer2 = 3;
+            int tailIDPlayer2 = 8;
+            if (playerNr == 1)  {
+                if (!local) {
+                    try {
+                        List<Integer> player1 = server.getCosmetics(1,lobby.getId());
+                        if (player1.size() == 2)
+                        {
+                            headIDPlayer1 = player1.get(0);
+                            tailIDPlayer1 = player1.get(1);
+                        }
+                        List<Integer> player2 = server.getCosmetics(2,lobby.getId());
+                        if (player2.size() == 2)
+                        {
+                            headIDPlayer2 = player2.get(0);
+                            tailIDPlayer2 = player2.get(1);
+                        }
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
-
-            if (cbTailEquip.getSelectionModel().getSelectedItem() != null) {
-                Item tail = cbTailEquip.getSelectionModel().getSelectedItem();
-                this.tail_id = tail.getID();
-            } else {
-                this.tail_id = 8;
-            }
-
-            server.setCosmetics(playerNr, lobby.getId(), head_id, tail_id);
-
             timer.cancel();
             // Set the next "page" (scene) to display.
             // Note that an incorrect path will result in unexpected NullPointer exceptions!
@@ -233,6 +259,7 @@ public class LobbyController {
             // Run the setUser() method in HomeController.
             // This is the JavaFX equivalent of sending data from one form to another in C#.
             controller.setUsers(user, user2);
+            controller.setCosmetics(headIDPlayer1,tailIDPlayer1,headIDPlayer2,tailIDPlayer2);
             controller.setupMulti(playerNr, lobby, server,local);
             if (guest | login) {
                 controller.setLocal();

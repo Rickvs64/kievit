@@ -26,7 +26,7 @@ import java.util.TimerTask;
 
 
 public class GameController extends UnicastRemoteObject implements IListener{
-    private IPlayer player1;
+    private IPlayer player1 ;
     private IPlayer player2;
     private User user;
     private User user2;
@@ -141,25 +141,9 @@ public class GameController extends UnicastRemoteObject implements IListener{
         this.lobby = lobby;
         if (playerNumber == 1)  {
             opponentId = 2;
-            if (!local) {
-                try {
-                    this.player2.setHeadID(server.getCosmetics(opponentId, lobby.getId()).getHeadID());
-                    this.player2.setTailID(server.getCosmetics(opponentId, lobby.getId()).getTailID());
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
-            }
         }
         else {
             opponentId = 1;
-            if (!local) {
-                try {
-                    this.player1.setHeadID(server.getCosmetics(opponentId, lobby.getId()).getHeadID());
-                    this.player1.setTailID(server.getCosmetics(opponentId, lobby.getId()).getTailID());
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
     @FXML
@@ -342,12 +326,13 @@ public class GameController extends UnicastRemoteObject implements IListener{
     }
 
     private void UpdatePlayer() throws RemoteException {
-        Direction dir = server.getDirection(opponentId,lobby.getId());
-        if (playerNumber == 1) {
-            player2.setCurrentDirection(dir);
-        }
-        else {
-            player1.setCurrentDirection(dir);
+        if (!local) {
+            Direction dir = server.getDirection(opponentId, lobby.getId());
+            if (playerNumber == 1) {
+                player2.setCurrentDirection(dir);
+            } else {
+                player1.setCurrentDirection(dir);
+            }
         }
         player1.move();
         player2.move();
@@ -375,6 +360,18 @@ public class GameController extends UnicastRemoteObject implements IListener{
 
     public void setLocal() {
         this.local = true;
+    }
+
+    public void setCosmetics(int headIDPlayer1, int tailIDPlayer1, int headIDPlayer2, int tailIDPlayer2) {
+        try {
+            this.player1.setHeadID(headIDPlayer1);
+            this.player2.setHeadID(headIDPlayer2);
+            this.player1.setTailID(tailIDPlayer1);
+            this.player2.setTailID(tailIDPlayer2);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
     }
 }
 

@@ -125,7 +125,7 @@ public class ServerManager extends UnicastRemoteObject implements IServerManager
         lobbyList.get(lobbyID).setCosmetics(playerNumber, headID, tailID);
     }
     @Override
-    public Player getCosmetics(int playerNumber, int lobbyID) throws RemoteException {
+    public List<Integer> getCosmetics(int playerNumber, int lobbyID) throws RemoteException {
         return lobbyList.get(lobbyID).getCosmetics(playerNumber);
     }
 
