@@ -84,6 +84,7 @@ public class LoginController {
         }
         else
         {
+            showMessageDialog(null, "Password or/and Username don't match.");
             System.out.println("Wrong user credentials, mate.");
         }
 
